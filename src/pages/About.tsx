@@ -29,13 +29,13 @@ const About = () => {
   const team = [
     {
       name: "Штефан Мюллер",
-      position: "Владелец и шеф-повар",
-      description: "Родом из Баварии, Штефан привез в Берлин лучшие рецепты традиционной немецкой кухни"
+      position: "Владелец и управляющий",
+      description: "Родом из Баварии, Штефан привез в Берлин лучшие традиции немецкой пивной культуры"
     },
     {
       name: "Анна Шмидт",
       position: "Менеджер и сомелье",
-      description: "Эксперт по немецким винам и пиву, создает идеальные сочетания для каждого блюда"
+      description: "Эксперт по немецким винам и пиву, создает идеальные сочетания напитков"
     },
     {
       name: "Маркус Вагнер",
@@ -143,10 +143,10 @@ const About = () => {
         {/* Mission Section */}
         <section className="pub-gradient-warm rounded-2xl p-12 text-center">
           <h2 className="text-3xl font-bold mb-6">Наша миссия</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
+          <div className="text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
             Мы стремимся создать место, где каждый посетитель почувствует себя частью большой семьи. 
-            Berliner Pub — это не просто ресторан, это место встреч, традиций и новых открытий.
-          </p>
+            Berliner Pub — это не просто паб, это место встреч, традиций и новых открытий.
+          </div>
           <div className="flex flex-wrap justify-center gap-4">
             <Badge variant="outline" className="text-lg px-4 py-2">Аутентичность</Badge>
             <Badge variant="outline" className="text-lg px-4 py-2">Качество</Badge>

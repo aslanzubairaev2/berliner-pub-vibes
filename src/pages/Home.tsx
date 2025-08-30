@@ -4,16 +4,13 @@ import { Badge } from "@/components/ui/badge";
 import { NavLink } from "react-router-dom";
 import { 
   Beer, 
-  Utensils, 
   Users, 
   MapPin, 
   Star,
   Clock,
-  ChefHat,
   Calendar
 } from "lucide-react";
 import pubHero from "@/assets/pub-hero.jpg";
-import pubFood from "@/assets/pub-food.jpg";
 
 const Home = () => {
   const features = [
@@ -21,11 +18,6 @@ const Home = () => {
       icon: <Beer className="h-8 w-8 text-accent" />,
       title: "Лучшее пиво",
       description: "Широкий выбор немецкого и крафтового пива"
-    },
-    {
-      icon: <ChefHat className="h-8 w-8 text-accent" />,
-      title: "Аутентичная кухня",
-      description: "Традиционные немецкие блюда от шеф-повара"
     },
     {
       icon: <Users className="h-8 w-8 text-accent" />,
@@ -36,6 +28,11 @@ const Home = () => {
       icon: <Calendar className="h-8 w-8 text-accent" />,
       title: "События",
       description: "Регулярные мероприятия и живая музыка"
+    },
+    {
+      icon: <Clock className="h-8 w-8 text-accent" />,
+      title: "Удобные часы",
+      description: "Открыты каждый день с 12:00"
     }
   ];
 
@@ -47,7 +44,7 @@ const Home = () => {
     },
     {
       name: "Anna S.",
-      text: "Обожаю это место! Шницель просто восхитительный.",
+      text: "Обожаю это место! Прекрасный выбор напитков и уютная обстановка.",
       rating: 5
     },
     {
@@ -128,9 +125,8 @@ const Home = () => {
                 гость чувствует себя как дома.
               </p>
               <p className="text-lg text-muted-foreground mb-8">
-                Наша кухня предлагает лучшие традиционные немецкие блюда, приготовленные 
-                по старинным рецептам, а наш бар может похвастаться широким выбором 
-                местного и крафтового пива.
+                Мы специализируемся на лучших немецких напитках и создаем
+                неповторимую атмосферу традиционного паба в центре Берлина.
               </p>
               <Button size="lg" asChild>
                 <NavLink to="/about">Узнать больше</NavLink>
@@ -138,8 +134,8 @@ const Home = () => {
             </div>
             <div className="relative">
               <img 
-                src={pubFood} 
-                alt="Немецкая кухня в Berliner Pub" 
+                src={pubHero} 
+                alt="Атмосфера Berliner Pub" 
                 className="rounded-2xl shadow-2xl"
               />
               <div className="absolute -bottom-6 -left-6 bg-accent text-accent-foreground p-6 rounded-xl shadow-lg">
@@ -147,7 +143,7 @@ const Home = () => {
                   <Clock className="h-5 w-5" />
                   <span className="font-semibold">Открыто сегодня</span>
                 </div>
-                <p className="text-sm">16:00 - 01:00</p>
+                <p className="text-sm">12:00 - 02:00</p>
               </div>
             </div>
           </div>

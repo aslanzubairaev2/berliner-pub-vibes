@@ -21,7 +21,7 @@ const Reviews = () => {
       date: "2024-03-10",
       rating: 5,
       title: "Лучший паб в Берлине!",
-      comment: "Невероятная атмосфера! Чувствуешь себя как дома. Пиво отличное, шницель просто превосходный. Персонал очень дружелюбный и всегда готов помочь. Обязательно вернусь сюда снова!",
+      comment: "Невероятная атмосфера! Чувствуешь себя как дома. Пиво отличное, выбор напитков просто превосходный. Персонал очень дружелюбный и всегда готов помочь. Обязательно вернусь сюда снова!",
       verified: true
     },
     {
@@ -30,8 +30,8 @@ const Reviews = () => {
       location: "Berlin",
       date: "2024-03-08",
       rating: 5,
-      title: "Authentische deutsche Küche",
-      comment: "Endlich ein Ort in Berlin, wo man echte deutsche Küche bekommt! Die Sauerbraten war perfekt zubereitet und das Personal ist sehr aufmerksam. Die Atmosphäre ist gemütlich und einladend.",
+      title: "Authentisches deutsches Pub",
+      comment: "Endlich ein Ort in Berlin, wo man echte deutsche Pub-Atmosphäre erleben kann! Die Bierauswahl ist perfekt und das Personal ist sehr aufmerksam. Die Atmosphäre ist gemütlich und einladend.",
       verified: true
     },
     {
@@ -50,8 +50,8 @@ const Reviews = () => {
       location: "St. Petersburg",
       date: "2024-03-02",
       rating: 5,
-      title: "Романтический ужин удался!",
-      comment: "Прекрасное место для романтического ужина. Тихие уголки, приглушенное освещение, изысканные блюда. Официанты дискретные и профессиональные. Винная карта впечатляет!",
+      title: "Отличная атмосфера!",
+      comment: "Прекрасное место для вечера с друзьями. Тихие уголки, приглушенное освещение, отличные напитки. Официанты дискретные и профессиональные. Винная карта впечатляет!",
       verified: true
     },
     {
@@ -61,7 +61,7 @@ const Reviews = () => {
       date: "2024-02-28",
       rating: 5,
       title: "Amazing German experience",
-      comment: "As a tourist, I was looking for an authentic German pub experience and found exactly that here. The staff spoke excellent English and helped me choose the perfect beer and meal. Highly recommended!",
+      comment: "As a tourist, I was looking for an authentic German pub experience and found exactly that here. The staff spoke excellent English and helped me choose the perfect beer. Highly recommended!",
       verified: true
     },
     {
@@ -70,8 +70,8 @@ const Reviews = () => {
       location: "Paris",
       date: "2024-02-25",
       rating: 4,
-      title: "Très bonne cuisine allemande",
-      comment: "Excellent restaurant avec une atmosphère chaleureuse. Les plats sont copieux et savoureux. Le personnel est accueillant. Un petit bémol sur le temps d'attente, mais cela en vaut la peine.",
+      title: "Très bonne ambiance allemande",
+      comment: "Excellent pub avec une atmosphère chaleureuse. La sélection de bières est impressionnante. Le personnel est accueillant. Un petit bémol sur le temps d'attente, mais cela en vaut la peine.",
       verified: true
     }
   ];

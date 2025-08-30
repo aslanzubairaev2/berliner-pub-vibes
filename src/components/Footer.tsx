@@ -34,9 +34,8 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <Clock className="h-5 w-5 text-accent" />
                 <div>
-                  <p className="font-medium">Пн - Чт: 16:00 - 01:00</p>
-                  <p className="font-medium">Пт - Сб: 16:00 - 03:00</p>
-                  <p className="font-medium">Вс: 14:00 - 24:00</p>
+                  <p className="font-medium">Пн - Пт: 12:00 - 02:00</p>
+                  <p className="font-medium">Сб - Вс: 12:00 - 06:00</p>
                 </div>
               </div>
             </div>
@@ -46,8 +45,8 @@ const Footer = () => {
           <div>
             <h3 className="text-xl font-bold mb-4">Berliner Pub</h3>
             <p className="text-primary-foreground/80 mb-4">
-              Традиционный немецкий паб в сердце Берлина. Лучшее пиво, 
-              аутентичная кухня и уютная атмосфера для незабываемых вечеров.
+              Традиционный немецкий паб в сердце Берлина. Лучшее пиво 
+              и уютная атмосфера для незабываемых вечеров.
             </p>
             <p className="text-sm text-primary-foreground/60">
               © 2024 Berliner Pub. Все права защищены.
