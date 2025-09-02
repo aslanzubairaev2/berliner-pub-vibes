@@ -5,81 +5,81 @@ import { Beer, Coffee } from "lucide-react";
 const Menu = () => {
   const drinkMenu = [
     {
-      category: "Пиво",
+      category: "Bier",
       items: [
         {
           name: "Berliner Weisse",
-          description: "Традиционное берлинское пшеничное пиво с сиропом",
+          description: "Traditionelles Berliner Weizenbier mit Sirup",
           price: "€4.50"
         },
         {
           name: "Augustiner Lagerbier Hell",
-          description: "Классический мюнхенский лагер",
+          description: "Klassisches Münchner Lager",
           price: "€5.00"
         },
         {
           name: "Erdinger Weissbier",
-          description: "Баварское пшеничное пиво",
+          description: "Bayerisches Weizenbier",
           price: "€5.50"
         },
         {
           name: "Köstritzer Schwarzbier",
-          description: "Темное пиво из Тюрингии",
+          description: "Dunkles Bier aus Thüringen",
           price: "€5.20"
         },
         {
-          name: "Craft Beer Selection",
-          description: "Ротация крафтового пива от местных пивоварен",
+          name: "Craft Beer Auswahl",
+          description: "Wechselnde Craft-Biere von lokalen Brauereien",
           price: "€6.50"
         }
       ]
     },
     {
-      category: "Алкогольные напитки",
+      category: "Alkoholische Getränke",
       items: [
         {
-          name: "Schnapps Selection",
-          description: "Выбор традиционных немецких шнапсов",
+          name: "Schnapps Auswahl",
+          description: "Auswahl traditioneller deutscher Schnäpse",
           price: "€4.00"
         },
         {
           name: "Jägermeister",
-          description: "Классический травяной ликер",
+          description: "Klassischer Kräuterlikör",
           price: "€4.50"
         },
         {
           name: "Riesling",
-          description: "Немецкое белое вино из долины Рейна",
+          description: "Deutscher Weißwein aus dem Rheintal",
           price: "€6.00"
         },
         {
-          name: "Glühwein (зимой)",
-          description: "Горячее глинтвейн с пряностями",
+          name: "Glühwein (Winter)",
+          description: "Heißer Glühwein mit Gewürzen",
           price: "€5.50"
         }
       ]
     },
     {
-      category: "Безалкогольные напитки",
+      category: "Alkoholfreie Getränke",
       items: [
         {
           name: "Apfelschorle",
-          description: "Яблочный сок с газированной водой",
+          description: "Apfelsaft mit Mineralwasser",
           price: "€3.50"
         },
         {
           name: "Fassbrause",
-          description: "Традиционный немецкий лимонад",
+          description: "Traditionelle deutsche Limonade",
           price: "€3.80"
         },
         {
           name: "Kaffee",
-          description: "Свежесваренный кофе",
+          description: "Frisch gebrühter Kaffee",
           price: "€2.50"
         },
         {
           name: "Heisse Schokolade",
-          description: "Горячий шоколад с взбитыми сливками",
+          description: "Heiße Schokolade mit Sahne",
           price: "€4.20"
         }
       ]
@@ -91,10 +91,10 @@ const Menu = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Меню напитков</Badge>
-          <h1 className="text-5xl font-bold mb-6">Наши напитки</h1>
+          <Badge variant="outline" className="mb-4">Getränkekarte</Badge>
+          <h1 className="text-5xl font-bold mb-6">Unsere Getränke</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Лучшие немецкие напитки и пиво в сердце Берлина
+            Beste deutsche Getränke und Biere im Herzen Berlins
           </p>
         </div>
 
@@ -127,10 +127,10 @@ const Menu = () => {
           <Card className="max-w-2xl mx-auto bg-muted/30 border-0">
             <CardContent className="p-8">
               <Coffee className="h-8 w-8 text-accent mx-auto mb-4" />
-              <h3 className="text-xl font-semibold mb-3">Особое предложение</h3>
+              <h3 className="text-xl font-semibold mb-3">Besonderes Angebot</h3>
               <p className="text-muted-foreground">
-                Каждый четверг у нас проходит дегустация крафтового пива. 
-                Приходите и откройте для себя новые вкусы!
+                Jeden Donnerstag findet bei uns eine Craft-Bier-Verkostung statt. 
+                Kommen Sie vorbei und entdecken Sie neue Geschmäcker!
               </p>
             </CardContent>
           </Card>

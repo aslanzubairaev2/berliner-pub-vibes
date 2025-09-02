@@ -7,12 +7,12 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const navigationItems = [
-    { name: "Главная", path: "/" },
-    { name: "Меню", path: "/menu" },
-    { name: "О нас", path: "/about" },
-    { name: "Новости", path: "/news" },
-    { name: "Отзывы", path: "/reviews" },
-    { name: "Контакты", path: "/contact" },
+    { name: "Startseite", path: "/" },
+    { name: "Getränke", path: "/menu" },
+    { name: "Über uns", path: "/about" },
+    { name: "News", path: "/news" },
+    { name: "Bewertungen", path: "/reviews" },
+    { name: "Kontakt", path: "/contact" },
   ];
 
   return (

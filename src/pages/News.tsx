@@ -6,58 +6,58 @@ const News = () => {
   const newsArticles = [
     {
       id: 1,
-      title: "Новое крафтовое пиво от берлинской пивоварни Zur Letzten Instanz",
-      excerpt: "Мы рады представить эксклюзивное крафтовое пиво, сваренное специально для Berliner Pub совместно с исторической пивоварней...",
+      title: "Neues Craft-Bier von der Berliner Brauerei Zur Letzten Instanz",
+      excerpt: "Wir freuen uns, ein exklusives Craft-Bier zu präsentieren, das speziell für das Berliner Pub in Zusammenarbeit mit der historischen Brauerei gebraut wurde...",
       date: "2024-03-15",
-      author: "Штефан Мюллер",
-      category: "Пиво",
-      readTime: "3 мин"
+      author: "Stefan Müller",
+      category: "Bier",
+      readTime: "3 Min"
     },
     {
       id: 2,
-      title: "Живая музыка каждую пятницу",
-      excerpt: "Теперь каждую пятницу в Berliner Pub выступают местные музыканты. Фолк, блюз и традиционная немецкая музыка...",
+      title: "Live-Musik jeden Freitag",
+      excerpt: "Ab sofort treten jeden Freitag lokale Musiker im Berliner Pub auf. Folk, Blues und traditionelle deutsche Musik...",
       date: "2024-03-05",
-      author: "Маркус Вагнер",
-      category: "Музыка",
-      readTime: "4 мин"
+      author: "Markus Wagner",
+      category: "Musik",
+      readTime: "4 Min"
     },
     {
       id: 3,
-      title: "Обновленное винное меню",
-      excerpt: "Мы расширили нашу винную карту лучшими немецкими винами из долины Рейна и Мозеля. Каждое вино тщательно отобрано...",
+      title: "Erweiterte Weinkarte",
+      excerpt: "Wir haben unsere Weinkarte mit den besten deutschen Weinen aus dem Rhein- und Moseltal erweitert. Jeder Wein wurde sorgfältig ausgewählt...",
       date: "2024-02-28",
-      author: "Анна Шмидт",
-      category: "Вино",
-      readTime: "3 мин"
+      author: "Anna Schmidt",
+      category: "Wein",
+      readTime: "3 Min"
     },
     {
       id: 4,
-      title: "Празднование 23-летия Berliner Pub",
-      excerpt: "В этом году наш паб отмечает 23 года! Присоединяйтесь к нам 15 апреля для особого празднования с сюрпризами...",
+      title: "23-jähriges Jubiläum des Berliner Pub",
+      excerpt: "Dieses Jahr feiert unser Pub 23 Jahre! Schließen Sie sich uns am 15. April für eine besondere Feier mit Überraschungen an...",
       date: "2024-02-20",
-      author: "Штефан Мюллер",
-      category: "События",
-      readTime: "2 мин"
+      author: "Stefan Müller",
+      category: "Veranstaltungen",
+      readTime: "2 Min"
     },
     {
       id: 5,
-      title: "Расширение коллекции немецких шнапсов",
-      excerpt: "Добавили в нашу коллекцию редкие сорта немецких шнапсов от частных винокурен. Попробуйте уникальные вкусы...",
+      title: "Erweiterte Sammlung deutscher Schnäpse",
+      excerpt: "Wir haben unserer Sammlung seltene deutsche Schnäpse von privaten Destillerien hinzugefügt. Probieren Sie einzigartige Geschmäcker...",
       date: "2024-02-15",
-      author: "Анна Шмидт",
-      category: "Напитки",
-      readTime: "3 мин"
+      author: "Anna Schmidt",
+      category: "Getränke",
+      readTime: "3 Min"
     }
   ];
 
   const getCategoryColor = (category: string) => {
     const colors = {
-      "Пиво": "bg-accent/20 text-accent-foreground",
-      "События": "bg-pub-red/20 text-red-800",
-      "Музыка": "bg-blue-100 text-blue-800",
-      "Вино": "bg-purple-100 text-purple-800",
-      "Напитки": "bg-green-100 text-green-800"
+      "Bier": "bg-accent/20 text-accent-foreground",
+      "Veranstaltungen": "bg-pub-red/20 text-red-800",
+      "Musik": "bg-blue-100 text-blue-800",
+      "Wein": "bg-purple-100 text-purple-800",
+      "Getränke": "bg-green-100 text-green-800"
     };
     return colors[category as keyof typeof colors] || "bg-muted text-muted-foreground";
   };
@@ -67,10 +67,10 @@ const News = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Новости</Badge>
-          <h1 className="text-5xl font-bold mb-6">Блог Berliner Pub</h1>
+          <Badge variant="outline" className="mb-4">News</Badge>
+          <h1 className="text-5xl font-bold mb-6">Berliner Pub Blog</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Последие новости, события и истории из жизни нашего паба
+            Neueste Nachrichten, Veranstaltungen und Geschichten aus dem Leben unserer Kneipe
           </p>
         </div>
 
@@ -88,7 +88,7 @@ const News = () => {
               <div className="flex items-center space-x-6 text-sm text-muted-foreground">
                 <div className="flex items-center space-x-2">
                   <CalendarDays className="h-4 w-4" />
-                  <span>{new Date(newsArticles[0].date).toLocaleDateString('ru-RU', { 
+                  <span>{new Date(newsArticles[0].date).toLocaleDateString('de-DE', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: 'numeric' 
@@ -135,7 +135,7 @@ const News = () => {
                   </div>
                   <div className="flex items-center space-x-2">
                     <CalendarDays className="h-4 w-4" />
-                    <span>{new Date(article.date).toLocaleDateString('ru-RU', { 
+                    <span>{new Date(article.date).toLocaleDateString('de-DE', { 
                       month: 'short', 
                       day: 'numeric' 
                     })}</span>
@@ -150,19 +150,19 @@ const News = () => {
         <div className="mt-20">
           <Card className="max-w-2xl mx-auto text-center pub-gradient-warm border-0">
             <CardContent className="p-12">
-              <h3 className="text-2xl font-bold mb-4">Подпишитесь на новости</h3>
+              <h3 className="text-2xl font-bold mb-4">Newsletter abonnieren</h3>
               <p className="text-muted-foreground mb-6">
-                Получайте уведомления о новых событиях, специальных предложениях 
-                и интересных историях из жизни нашего паба
+                Erhalten Sie Benachrichtigungen über neue Veranstaltungen, Sonderangebote 
+                und interessante Geschichten aus dem Leben unserer Kneipe
               </p>
               <div className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
                 <input 
                   type="email" 
-                  placeholder="Ваш email" 
+                  placeholder="Ihre E-Mail" 
                   className="flex-1 px-4 py-2 rounded-lg border border-border bg-background text-foreground"
                 />
                 <button className="px-6 py-2 bg-accent text-accent-foreground rounded-lg font-medium hover:bg-accent/90 transition-colors">
-                  Подписаться
+                  Abonnieren
                 </button>
               </div>
             </CardContent>

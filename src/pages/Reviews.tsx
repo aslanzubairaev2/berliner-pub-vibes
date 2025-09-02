@@ -16,12 +16,12 @@ const Reviews = () => {
   const reviews = [
     {
       id: 1,
-      name: "Михаил Козлов",
-      location: "Москва",
+      name: "Michael Kozlov",
+      location: "Moskau",
       date: "2024-03-10",
       rating: 5,
-      title: "Лучший паб в Берлине!",
-      comment: "Невероятная атмосфера! Чувствуешь себя как дома. Пиво отличное, выбор напитков просто превосходный. Персонал очень дружелюбный и всегда готов помочь. Обязательно вернусь сюда снова!",
+      title: "Beste Kneipe in Berlin!",
+      comment: "Unglaubliche Atmosphäre! Man fühlt sich wie zu Hause. Das Bier ist ausgezeichnet, die Getränkeauswahl einfach hervorragend. Das Personal ist sehr freundlich und immer hilfsbereit. Komme definitiv wieder!",
       verified: true
     },
     {
@@ -30,8 +30,8 @@ const Reviews = () => {
       location: "Berlin",
       date: "2024-03-08",
       rating: 5,
-      title: "Authentisches deutsches Pub",
-      comment: "Endlich ein Ort in Berlin, wo man echte deutsche Pub-Atmosphäre erleben kann! Die Bierauswahl ist perfekt und das Personal ist sehr aufmerksam. Die Atmosphäre ist gemütlich und einladend.",
+      title: "Authentische deutsche Kneipe",
+      comment: "Endlich ein Ort in Berlin, wo man echte deutsche Kneipenatmosphäre erleben kann! Die Bierauswahl ist perfekt und das Personal ist sehr aufmerksam. Die Atmosphäre ist gemütlich und einladend.",
       verified: true
     },
     {
@@ -40,8 +40,8 @@ const Reviews = () => {
       location: "München",
       date: "2024-03-05",
       rating: 4,
-      title: "Отличное место для встречи с друзьями",
-      comment: "Приходил сюда с коллегами после работы. Большой выбор пива, уютная обстановка. Единственный минус - иногда бывает довольно людно, но это скорее плюс, говорит о популярности заведения.",
+      title: "Toller Ort für Treffen mit Freunden",
+      comment: "Kam hier mit Kollegen nach der Arbeit hin. Große Bierauswahl, gemütliche Einrichtung. Einziger Minuspunkt - manchmal ist es ziemlich voll, aber das ist eher ein Plus, spricht für die Beliebtheit des Lokals.",
       verified: true
     },
     {
@@ -50,8 +50,8 @@ const Reviews = () => {
       location: "St. Petersburg",
       date: "2024-03-02",
       rating: 5,
-      title: "Отличная атмосфера!",
-      comment: "Прекрасное место для вечера с друзьями. Тихие уголки, приглушенное освещение, отличные напитки. Официанты дискретные и профессиональные. Винная карта впечатляет!",
+      title: "Tolle Atmosphäre!",
+      comment: "Wunderbarer Ort für einen Abend mit Freunden. Ruhige Ecken, gedämpftes Licht, ausgezeichnete Getränke. Die Kellner sind diskret und professionell. Die Weinkarte ist beeindruckend!",
       verified: true
     },
     {
@@ -61,7 +61,7 @@ const Reviews = () => {
       date: "2024-02-28",
       rating: 5,
       title: "Amazing German experience",
-      comment: "As a tourist, I was looking for an authentic German pub experience and found exactly that here. The staff spoke excellent English and helped me choose the perfect beer. Highly recommended!",
+      comment: "Als Tourist suchte ich nach einer authentischen deutschen Kneipenerfahrung und fand genau das hier. Das Personal sprach ausgezeichnetes Englisch und half mir, das perfekte Bier auszuwählen. Sehr empfehlenswert!",
       verified: true
     },
     {
@@ -71,7 +71,7 @@ const Reviews = () => {
       date: "2024-02-25",
       rating: 4,
       title: "Très bonne ambiance allemande",
-      comment: "Excellent pub avec une atmosphère chaleureuse. La sélection de bières est impressionnante. Le personnel est accueillant. Un petit bémol sur le temps d'attente, mais cela en vaut la peine.",
+      comment: "Ausgezeichnete Kneipe mit warmer Atmosphäre. Die Bierauswahl ist beeindruckend. Das Personal ist gastfreundlich. Kleiner Kritikpunkt bei der Wartezeit, aber es lohnt sich.",
       verified: true
     }
   ];
@@ -115,10 +115,10 @@ const Reviews = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Отзывы</Badge>
-          <h1 className="text-5xl font-bold mb-6">Отзывы наших гостей</h1>
+          <Badge variant="outline" className="mb-4">Bewertungen</Badge>
+          <h1 className="text-5xl font-bold mb-6">Bewertungen unserer Gäste</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Читайте что говорят о нас наши посетители и поделитесь своим опытом
+            Lesen Sie, was unsere Besucher über uns sagen und teilen Sie Ihre Erfahrungen
           </p>
         </div>
 
@@ -132,7 +132,7 @@ const Reviews = () => {
               <div className="flex justify-center mb-2">
                 {renderStars(Math.round(averageRating))}
               </div>
-              <p className="text-muted-foreground">Средняя оценка</p>
+              <p className="text-muted-foreground">Durchschnittsbewertung</p>
             </CardContent>
           </Card>
           
@@ -141,7 +141,7 @@ const Reviews = () => {
               <div className="text-4xl font-bold text-accent mb-2">
                 {reviews.length}
               </div>
-              <p className="text-muted-foreground">Всего отзывов</p>
+              <p className="text-muted-foreground">Gesamtbewertungen</p>
             </CardContent>
           </Card>
           
@@ -150,7 +150,7 @@ const Reviews = () => {
               <div className="text-4xl font-bold text-accent mb-2">
                 {Math.round((reviews.filter(r => r.rating >= 4).length / reviews.length) * 100)}%
               </div>
-              <p className="text-muted-foreground">Довольных гостей</p>
+              <p className="text-muted-foreground">Zufriedene Gäste</p>
             </CardContent>
           </Card>
         </div>
@@ -158,7 +158,7 @@ const Reviews = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Reviews List */}
           <div className="lg:col-span-2">
-            <h2 className="text-3xl font-bold mb-8">Отзывы посетителей</h2>
+            <h2 className="text-3xl font-bold mb-8">Gästebewertungen</h2>
             <div className="space-y-6">
               {reviews.map((review) => (
                 <Card key={review.id} className="pub-card-shadow border-0">
@@ -169,7 +169,7 @@ const Reviews = () => {
                           <h3 className="font-semibold text-lg">{review.name}</h3>
                           {review.verified && (
                             <Badge variant="secondary" className="text-xs">
-                              Проверено
+                              Verifiziert
                             </Badge>
                           )}
                         </div>
@@ -180,7 +180,7 @@ const Reviews = () => {
                           </div>
                           <div className="flex items-center space-x-1">
                             <Calendar className="h-4 w-4" />
-                            <span>{new Date(review.date).toLocaleDateString('ru-RU')}</span>
+                            <span>{new Date(review.date).toLocaleDateString('de-DE')}</span>
                           </div>
                         </div>
                       </div>
@@ -209,11 +209,11 @@ const Reviews = () => {
           <div>
             <Card className="sticky top-24 pub-card-shadow border-0">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold mb-6">Оставьте отзыв</h3>
+                <h3 className="text-2xl font-bold mb-6">Bewertung hinterlassen</h3>
                 <form onSubmit={handleSubmitReview} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Ваше имя *
+                      Ihr Name *
                     </label>
                     <input
                       type="text"
@@ -226,7 +226,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Email *
+                      E-Mail *
                     </label>
                     <input
                       type="email"
@@ -239,7 +239,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Оценка *
+                      Bewertung *
                     </label>
                     {renderStars(newReview.rating, true, (rating) => 
                       setNewReview({ ...newReview, rating }))}
@@ -247,7 +247,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Заголовок отзыва *
+                      Titel der Bewertung *
                     </label>
                     <input
                       type="text"
@@ -260,7 +260,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Ваш отзыв *
+                      Ihre Bewertung *
                     </label>
                     <textarea
                       required
@@ -272,7 +272,7 @@ const Reviews = () => {
                   </div>
                   
                   <Button type="submit" className="w-full">
-                    Отправить отзыв
+                    Bewertung senden
                   </Button>
                 </form>
               </CardContent>
