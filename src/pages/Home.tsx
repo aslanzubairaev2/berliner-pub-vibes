@@ -80,7 +80,7 @@ const Home = () => {
             <Button size="lg" asChild className="pub-gradient-accent text-primary font-semibold">
               <NavLink to="/menu">Getränkekarte</NavLink>
             </Button>
-            <Button size="lg" variant="outline" asChild className="border-white text-white hover:bg-white hover:text-primary">
+            <Button size="lg" variant="outline" asChild className="border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-primary">
               <NavLink to="/contact">Kontaktieren Sie uns</NavLink>
             </Button>
           </div>
