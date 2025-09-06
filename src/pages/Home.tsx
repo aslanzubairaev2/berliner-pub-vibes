@@ -76,12 +76,9 @@ const Home = () => {
           <p className="text-xl md:text-2xl mb-8 pub-text-shadow max-w-2xl mx-auto">
             Willkommen in Berlins gemütlichstem Ort, wo Tradition auf Moderne trifft
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex justify-center">
             <Button size="lg" asChild className="pub-gradient-accent text-primary font-semibold">
               <NavLink to="/menu">Getränkekarte</NavLink>
-            </Button>
-            <Button size="lg" variant="outline" asChild className="border-white text-white bg-white/10 backdrop-blur-sm hover:bg-white hover:text-primary">
-              <NavLink to="/contact">Kontaktieren Sie uns</NavLink>
             </Button>
           </div>
         </div>
