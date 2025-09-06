@@ -368,11 +368,11 @@ const AdminDrinks = () => {
         ) : drinks.map((drink) => (
           <Card key={drink.id} className="pub-card-shadow border-0 overflow-hidden">
             {/* Drink Image */}
-            <div className="h-48 w-full bg-muted/10">
+            <div className="h-64 w-full bg-muted/10 flex items-center justify-center">
               <img 
                 src={drink.image_url || getImageForDrink(drink.name)} 
                 alt={drink.name}
-                className="w-full h-full object-cover"
+                className="h-full w-auto object-contain"
               />
             </div>
             
