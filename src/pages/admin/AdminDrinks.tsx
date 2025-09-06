@@ -163,7 +163,7 @@ const AdminDrinks = () => {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex justify-between items-center">
+      <div className="flex justify-center items-center">
         <div>
         </div>
         
