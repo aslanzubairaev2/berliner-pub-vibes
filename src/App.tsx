@@ -20,6 +20,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminDrinks from "./pages/admin/AdminDrinks";
 import AdminNews from "./pages/admin/AdminNews";
 import AdminSettings from "./pages/admin/AdminSettings";
+import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import { useAdminAuth } from "./contexts/AdminAuthContext";
 
 const queryClient = new QueryClient();
@@ -83,6 +84,11 @@ const App = () => (
             <Route path="/admin/settings" element={
               <ProtectedAdminRoute>
                 <AdminSettings />
+              </ProtectedAdminRoute>
+            } />
+            <Route path="/admin/analytics" element={
+              <ProtectedAdminRoute>
+                <AdminAnalytics />
               </ProtectedAdminRoute>
             } />
             
