@@ -8,9 +8,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Plus, Edit, Trash2, Upload } from "lucide-react";
+import { Plus, Edit, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 interface Drink {
   id: string;
@@ -273,20 +274,10 @@ const AdminDrinks = () => {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="image_url">URL изображения</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      id="image_url"
-                      value={formData.image_url || ''}
-                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                      placeholder="https://example.com/image.jpg"
-                    />
-                    <Button variant="outline" size="sm">
-                      <Upload className="h-4 w-4" />
-                    </Button>
-                  </div>
-                </div>
+              <ImageUpload
+                currentImageUrl={formData.image_url}
+                onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
+              />
                 <div>
                   <Label htmlFor="sort_order">Порядок сортировки</Label>
                   <Input
