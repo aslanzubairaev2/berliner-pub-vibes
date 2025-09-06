@@ -14,6 +14,74 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_sessions: {
+        Row: {
+          admin_user_id: string | null
+          created_at: string | null
+          expires_at: string
+          id: string
+          session_token: string
+        }
+        Insert: {
+          admin_user_id?: string | null
+          created_at?: string | null
+          expires_at: string
+          id?: string
+          session_token: string
+        }
+        Update: {
+          admin_user_id?: string | null
+          created_at?: string | null
+          expires_at?: string
+          id?: string
+          session_token?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "admin_sessions_admin_user_id_fkey"
+            columns: ["admin_user_id"]
+            isOneToOne: false
+            referencedRelation: "admin_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      admin_users: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: string
+          is_active: boolean | null
+          last_login: string | null
+          name: string
+          password_hash: string
+          role: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: string
+          is_active?: boolean | null
+          last_login?: string | null
+          name: string
+          password_hash: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: string
+          is_active?: boolean | null
+          last_login?: string | null
+          name?: string
+          password_hash?: string
+          role?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       drinks: {
         Row: {
           alcohol_content: string | null
@@ -157,7 +225,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      authenticate_admin: {
+        Args: { admin_email: string; admin_password: string }
+        Returns: {
+          session_token: string
+          user_id: string
+          user_name: string
+        }[]
+      }
+      generate_session_token: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      simple_hash: {
+        Args: { password: string }
+        Returns: string
+      }
+      verify_admin_session: {
+        Args: { token: string }
+        Returns: {
+          user_email: string
+          user_id: string
+          user_name: string
+        }[]
+      }
     }
     Enums: {
       drink_category: "beer" | "alcoholic" | "non_alcoholic"
