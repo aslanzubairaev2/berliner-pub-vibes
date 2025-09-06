@@ -113,7 +113,7 @@ const AdminDashboard = () => {
 
           return (
             <Link key={index} to={getCardLink(card.title)}>
-              <Card className="pub-card-shadow border-0 hover:bg-muted/50 transition-colors cursor-pointer">
+              <Card className="pub-card-shadow border-0 hover:bg-muted/50 transition-colors cursor-pointer h-32">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                   <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
                   <div className={`w-8 h-8 ${card.bgColor} rounded-full flex items-center justify-center`}>
