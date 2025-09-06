@@ -420,8 +420,7 @@ const AdminNews = () => {
                       size="sm"
                       onClick={() => handleEdit(newsItem)}
                     >
-                      <Edit className="h-4 w-4 mr-2" />
-                      Редактировать
+                      <Edit className="h-4 w-4" />
                     </Button>
                     <Button
                       variant="outline"
