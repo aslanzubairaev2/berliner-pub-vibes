@@ -23,7 +23,7 @@ import fassbrauseImg from "@/assets/fassbrause-transparent.png";
 import coffeeImg from "@/assets/coffee-transparent.png";
 import hotChocolateImg from "@/assets/hot-chocolate-transparent.png";
 import teaSelectionImg from "@/assets/tea-selection-transparent.png";
-import beerGlassPremiumImg from "@/assets/beer-glass-premium.png";
+import beerGlassUserImg from "@/assets/beer-glass-user.png";
 
 const Menu = () => {
   const { toast } = useToast();
@@ -36,7 +36,7 @@ const Menu = () => {
   const getImageForDrink = (drinkName: string) => {
     const imageMap: Record<string, string> = {
       'Berliner Weisse': berlinerWeisseImg,
-      'Augustiner Lagerbier Hell': beerGlassPremiumImg,
+      'Augustiner Lagerbier Hell': '/lovable-uploads/23fff502-778f-4c24-9cf5-900858649a7f.png',
       'Erdinger Weissbier': erdingerWeissbierImg,
       'Köstritzer Schwarzbier': kostritzerSchwarzbieerImg,
       'Craft Beer Auswahl': craftBeerImg,
