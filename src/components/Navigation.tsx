@@ -2,17 +2,20 @@ import { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useLanguage();
 
   const navigationItems = [
-    { name: "Startseite", path: "/" },
-    { name: "Getränke", path: "/menu" },
-    { name: "Über uns", path: "/about" },
-    { name: "News", path: "/news" },
-    { name: "Bewertungen", path: "/reviews" },
-    { name: "Kontakt", path: "/contact" },
+    { name: t('nav.home'), path: "/" },
+    { name: t('nav.menu'), path: "/menu" },
+    { name: t('nav.about'), path: "/about" },
+    { name: t('nav.news'), path: "/news" },
+    { name: t('nav.reviews'), path: "/reviews" },
+    { name: t('nav.contact'), path: "/contact" },
   ];
 
   return (
@@ -31,7 +34,7 @@ const Navigation = () => {
           <div className="hidden md:flex items-center space-x-8">
             {navigationItems.map((item) => (
               <NavLink
-                key={item.name}
+                key={item.path}
                 to={item.path}
                 className={({ isActive }) =>
                   `text-sm font-medium transition-all duration-200 hover:text-accent ${
@@ -44,6 +47,7 @@ const Navigation = () => {
                 {item.name}
               </NavLink>
             ))}
+            <LanguageSwitcher />
           </div>
 
           {/* Mobile menu button */}
@@ -63,7 +67,7 @@ const Navigation = () => {
             <div className="flex flex-col space-y-2">
               {navigationItems.map((item) => (
                 <NavLink
-                  key={item.name}
+                  key={item.path}
                   to={item.path}
                   className={({ isActive }) =>
                     `px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
@@ -77,6 +81,9 @@ const Navigation = () => {
                   {item.name}
                 </NavLink>
               ))}
+              <div className="px-4 py-2">
+                <LanguageSwitcher />
+              </div>
             </div>
           </div>
         )}
