@@ -53,13 +53,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
               <Link to="/">
-                <Home className="h-4 w-4 mr-2" />
-                Перейти на сайт
+                <Home className="h-4 w-4" />
               </Link>
             </Button>
             <Button variant="outline" size="sm" onClick={logout}>
-              <LogOut className="h-4 w-4 mr-2" />
-              Выход
+              <LogOut className="h-4 w-4" />
             </Button>
           </div>
         </header>
