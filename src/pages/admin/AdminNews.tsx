@@ -11,6 +11,7 @@ import { Switch } from "@/components/ui/switch";
 import { Plus, Edit, Trash2, Upload, Eye } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 
 interface News {
   id: string;
@@ -41,7 +42,6 @@ const AdminNews = () => {
     excerpt_en: '',
     content_de: '',
     content_en: '',
-    author_name: 'Berliner Pub',
     category: 'general',
     is_published: false,
     read_time: 5,
@@ -63,7 +63,7 @@ const AdminNews = () => {
       setNews(data || []);
     } catch (error) {
       console.error('Error fetching news:', error);
-      toast.error('Ошибка загрузки новостей');
+      toast.error('Error loading news');
     } finally {
       setLoading(false);
     }
@@ -83,7 +83,7 @@ const AdminNews = () => {
       // Validate required fields
       if (!formData.title_de || !formData.title_en || !formData.excerpt_de || !formData.excerpt_en || 
           !formData.content_de || !formData.content_en) {
-        toast.error('Пожалуйста, заполните все обязательные поля');
+        toast.error('Please fill in all required fields');
         return;
       }
 
@@ -95,7 +95,6 @@ const AdminNews = () => {
         excerpt_en: formData.excerpt_en,
         content_de: formData.content_de,
         content_en: formData.content_en,
-        author_name: formData.author_name || 'Berliner Pub',
         category: formData.category as 'menu' | 'events' | 'general',
         image_url: formData.image_url || null,
         is_published: formData.is_published ?? false,
@@ -111,14 +110,14 @@ const AdminNews = () => {
           .eq('id', editingNews.id);
 
         if (error) throw error;
-        toast.success('Новость обновлена');
+        toast.success('News updated');
       } else {
         const { error } = await supabase
           .from('news')
           .insert([dataToSave]);
 
         if (error) throw error;
-        toast.success('Новость добавлена');
+        toast.success('News added');
       }
 
       setIsModalOpen(false);
@@ -127,7 +126,7 @@ const AdminNews = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving news:', error);
-      toast.error('Ошибка сохранения новости');
+      toast.error('Error saving news');
     }
   };
 
@@ -138,7 +137,7 @@ const AdminNews = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Вы уверены, что хотите удалить эту новость?')) return;
+    if (!confirm('Are you sure you want to delete this news?')) return;
 
     try {
       const { error } = await supabase
@@ -147,11 +146,11 @@ const AdminNews = () => {
         .eq('id', id);
 
       if (error) throw error;
-      toast.success('Новость удалена');
+      toast.success('News deleted');
       fetchNews();
     } catch (error) {
       console.error('Error deleting news:', error);
-      toast.error('Ошибка удаления новости');
+      toast.error('Error deleting news');
     }
   };
 
@@ -171,11 +170,11 @@ const AdminNews = () => {
         .eq('id', id);
 
       if (error) throw error;
-      toast.success(isPublished ? 'Новость снята с публикации' : 'Новость опубликована');
+      toast.success(isPublished ? 'News unpublished' : 'News published');
       fetchNews();
     } catch (error) {
       console.error('Error updating news:', error);
-      toast.error('Ошибка обновления новости');
+      toast.error('Error updating news');
     }
   };
 
@@ -187,7 +186,6 @@ const AdminNews = () => {
       excerpt_en: '',
       content_de: '',
       content_en: '',
-      author_name: 'Berliner Pub',
       category: 'general',
       is_published: false,
       read_time: 5,
@@ -212,66 +210,57 @@ const AdminNews = () => {
           <DialogTrigger asChild>
             <Button onClick={handleAddNew}>
               <Plus className="h-4 w-4 mr-2" />
-              Добавить новость
+              Add News
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingNews ? 'Редактировать новость' : 'Добавить новую новость'}
+                {editingNews ? 'Edit News' : 'Add News'}
               </DialogTitle>
             </DialogHeader>
             
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="title_de">Заголовок (DE)</Label>
+                  <Label htmlFor="title_de">Title (DE)</Label>
                   <Input
                     id="title_de"
                     value={formData.title_de || ''}
                     onChange={(e) => setFormData({ ...formData, title_de: e.target.value })}
-                    placeholder="Заголовок на немецком"
+                    placeholder="German title"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="title_en">Заголовок (EN)</Label>
+                  <Label htmlFor="title_en">Title (EN)</Label>
                   <Input
                     id="title_en"
                     value={formData.title_en || ''}
                     onChange={(e) => setFormData({ ...formData, title_en: e.target.value })}
-                    placeholder="Заголовок на английском"
+                    placeholder="English title"
                   />
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="category">Категория</Label>
+                  <Label htmlFor="category">Category</Label>
                   <Select 
                     value={formData.category} 
                     onValueChange={(value: 'menu' | 'events' | 'general') => setFormData({ ...formData, category: value })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите категорию" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="general">Общие</SelectItem>
-                      <SelectItem value="events">События</SelectItem>
-                      <SelectItem value="menu">Меню</SelectItem>
+                      <SelectItem value="general">General</SelectItem>
+                      <SelectItem value="events">Events</SelectItem>
+                      <SelectItem value="menu">Menu</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="author_name">Автор</Label>
-                  <Input
-                    id="author_name"
-                    value={formData.author_name || ''}
-                    onChange={(e) => setFormData({ ...formData, author_name: e.target.value })}
-                    placeholder="Имя автора"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="read_time">Время чтения (мин)</Label>
+                  <Label htmlFor="read_time">Reading time (min)</Label>
                   <Input
                     id="read_time"
                     type="number"
@@ -291,39 +280,29 @@ const AdminNews = () => {
                 />
               </div>
 
-              <div>
-                <Label htmlFor="image_url">URL изображения</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="image_url"
-                    value={formData.image_url || ''}
-                    onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                    placeholder="https://example.com/image.jpg"
-                  />
-                  <Button variant="outline" size="sm">
-                    <Upload className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
+              <ImageUpload
+                currentImageUrl={formData.image_url}
+                onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
+              />
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="excerpt_de">Краткое содержание (DE)</Label>
+                  <Label htmlFor="excerpt_de">Excerpt (DE)</Label>
                   <Textarea
                     id="excerpt_de"
                     value={formData.excerpt_de || ''}
                     onChange={(e) => setFormData({ ...formData, excerpt_de: e.target.value })}
-                    placeholder="Краткое описание на немецком"
+                    placeholder="German excerpt"
                     rows={3}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="excerpt_en">Краткое содержание (EN)</Label>
+                  <Label htmlFor="excerpt_en">Excerpt (EN)</Label>
                   <Textarea
                     id="excerpt_en"
                     value={formData.excerpt_en || ''}
                     onChange={(e) => setFormData({ ...formData, excerpt_en: e.target.value })}
-                    placeholder="Краткое описание на английском"
+                    placeholder="English excerpt"
                     rows={3}
                   />
                 </div>
@@ -331,22 +310,22 @@ const AdminNews = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="content_de">Полное содержание (DE)</Label>
+                  <Label htmlFor="content_de">Content (DE)</Label>
                   <Textarea
                     id="content_de"
                     value={formData.content_de || ''}
                     onChange={(e) => setFormData({ ...formData, content_de: e.target.value })}
-                    placeholder="Полное содержание на немецком"
+                    placeholder="German content"
                     rows={6}
                   />
                 </div>
                 <div>
-                  <Label htmlFor="content_en">Полное содержание (EN)</Label>
+                  <Label htmlFor="content_en">Content (EN)</Label>
                   <Textarea
                     id="content_en"
                     value={formData.content_en || ''}
                     onChange={(e) => setFormData({ ...formData, content_en: e.target.value })}
-                    placeholder="Полное содержание на английском"
+                    placeholder="English content"
                     rows={6}
                   />
                 </div>
@@ -358,15 +337,15 @@ const AdminNews = () => {
                   checked={formData.is_published}
                   onCheckedChange={(checked) => setFormData({ ...formData, is_published: checked })}
                 />
-                <Label htmlFor="is_published">Опубликовать сразу</Label>
+                <Label htmlFor="is_published">Publish immediately</Label>
               </div>
 
               <div className="flex justify-end space-x-2 pt-4">
                 <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                  Отмена
+                  Cancel
                 </Button>
                 <Button onClick={handleSave}>
-                  {editingNews ? 'Обновить' : 'Добавить'}
+                  {editingNews ? 'Update' : 'Add'}
                 </Button>
               </div>
             </div>
@@ -398,15 +377,14 @@ const AdminNews = () => {
                 <CardTitle className="text-xl">{newsItem.title_de}</CardTitle>
                 <div className="flex flex-col items-end gap-2">
                   <Badge variant={newsItem.is_published ? "default" : "secondary"}>
-                    {newsItem.is_published ? 'Опубликована' : 'Черновик'}
+                    {newsItem.is_published ? 'Published' : 'Draft'}
                   </Badge>
                   <Badge variant="outline">{newsItem.category}</Badge>
                 </div>
               </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
-                <span>Автор: {newsItem.author_name}</span>
                 <div className="flex items-center gap-2">
-                  <span>Время чтения: {newsItem.read_time} мин</span>
+                  <span>Read time: {newsItem.read_time} min</span>
                   {newsItem.published_at && (
                     <span className="text-xs">
                       • {new Date(newsItem.published_at).toLocaleDateString()}
@@ -436,7 +414,7 @@ const AdminNews = () => {
                       onClick={() => togglePublished(newsItem.id, newsItem.is_published)}
                     >
                       <Eye className="h-4 w-4 mr-2" />
-                      {newsItem.is_published ? 'Снять' : 'Опубликовать'}
+                      {newsItem.is_published ? 'Unpublish' : 'Publish'}
                     </Button>
                   </div>
                   <Trash2 

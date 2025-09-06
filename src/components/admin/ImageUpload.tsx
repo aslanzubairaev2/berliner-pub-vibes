@@ -108,17 +108,17 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
     onImageUploaded(directUrl);
     setUrlInput('');
     setIsModalOpen(false);
-    toast.success('Изображение из Google Drive добавлено');
+    toast.success('Google Drive image added');
   };
 
   return (
     <div className="space-y-2">
-      <Label>Изображение</Label>
+      <Label>Image</Label>
       <div className="flex items-center gap-2">
         <Input
           value={currentImageUrl || ''}
           onChange={(e) => onImageUploaded(e.target.value)}
-          placeholder="URL изображения"
+          placeholder="Image URL"
           className="flex-1"
         />
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
@@ -133,19 +133,19 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
           </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
-              <DialogTitle>Загрузить изображение</DialogTitle>
+              <DialogTitle>Upload Image</DialogTitle>
             </DialogHeader>
             
             <Tabs defaultValue="local" className="w-full">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="local">С диска</TabsTrigger>
-                <TabsTrigger value="url">По URL</TabsTrigger>
+                <TabsTrigger value="local">From Disk</TabsTrigger>
+                <TabsTrigger value="url">By URL</TabsTrigger>
                 <TabsTrigger value="gdrive">Google Drive</TabsTrigger>
               </TabsList>
               
               <TabsContent value="local" className="space-y-4">
                 <div>
-                  <Label>Выберите файл изображения</Label>
+                  <Label>Select image file</Label>
                   <div className="mt-2">
                     <input
                       ref={fileInputRef}
@@ -163,25 +163,25 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
                       {isUploading ? (
                         <>
                           <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Загрузка...
+                          Uploading...
                         </>
                       ) : (
                         <>
                           <Image className="h-4 w-4 mr-2" />
-                          Выбрать файл
+                          Choose File
                         </>
                       )}
                     </Button>
                   </div>
                   <p className="text-xs text-muted-foreground mt-2">
-                    Поддерживаются: JPG, PNG, WebP (макс. 5MB)
+                    Supported: JPG, PNG, WebP (max 5MB)
                   </p>
                 </div>
               </TabsContent>
               
               <TabsContent value="url" className="space-y-4">
                 <div>
-                  <Label htmlFor="url-input">URL изображения</Label>
+                  <Label htmlFor="url-input">Image URL</Label>
                   <Input
                     id="url-input"
                     value={urlInput}
@@ -191,13 +191,13 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
                 </div>
                 <Button onClick={handleUrlSubmit} className="w-full">
                   <Link className="h-4 w-4 mr-2" />
-                  Добавить по URL
+                  Add by URL
                 </Button>
               </TabsContent>
               
               <TabsContent value="gdrive" className="space-y-4">
                 <div>
-                  <Label htmlFor="gdrive-input">Ссылка Google Drive</Label>
+                  <Label htmlFor="gdrive-input">Google Drive Link</Label>
                   <Input
                     id="gdrive-input"
                     value={urlInput}
@@ -207,15 +207,15 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
                 </div>
                 <Button onClick={handleGoogleDriveLink} className="w-full">
                   <Image className="h-4 w-4 mr-2" />
-                  Добавить из Google Drive
+                  Add from Google Drive
                 </Button>
                 <div className="text-xs text-muted-foreground space-y-2">
-                  <p><strong>Инструкция:</strong></p>
+                  <p><strong>Instructions:</strong></p>
                   <ol className="list-decimal list-inside space-y-1 text-xs">
-                    <li>Откройте файл в Google Drive</li>
-                    <li>Нажмите "Поделиться" → "Изменить доступ"</li>
-                    <li>Выберите "Всем, у кого есть ссылка"</li>
-                    <li>Скопируйте ссылку и вставьте сюда</li>
+                    <li>Open file in Google Drive</li>
+                    <li>Click "Share" → "Change access"</li>
+                    <li>Select "Anyone with the link"</li>
+                    <li>Copy link and paste here</li>
                   </ol>
                 </div>
               </TabsContent>

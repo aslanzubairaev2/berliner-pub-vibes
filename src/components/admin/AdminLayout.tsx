@@ -20,11 +20,11 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       case '/admin':
         return 'Dashboard';
       case '/admin/drinks':
-        return 'Напитки';
+        return 'Drinks';
       case '/admin/news':
-        return 'Новости';
+        return 'News';
       case '/admin/settings':
-        return 'Настройки';
+        return 'Settings';
       default:
         return 'Admin Panel';
     }

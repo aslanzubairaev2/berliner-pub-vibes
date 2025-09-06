@@ -61,7 +61,7 @@ const AdminDrinks = () => {
       setDrinks(data || []);
     } catch (error) {
       console.error('Error fetching drinks:', error);
-      toast.error('Ошибка загрузки напитков');
+      toast.error('Error loading drinks');
     } finally {
       setLoading(false);
     }
@@ -71,7 +71,7 @@ const AdminDrinks = () => {
     try {
       // Validate required fields
       if (!formData.name || !formData.description_de || !formData.description_en || !formData.price || !formData.category) {
-        toast.error('Пожалуйста, заполните все обязательные поля');
+        toast.error('Please fill in all required fields');
         return;
       }
 
@@ -96,14 +96,14 @@ const AdminDrinks = () => {
           .eq('id', editingDrink.id);
 
         if (error) throw error;
-        toast.success('Напиток обновлен');
+        toast.success('Drink updated');
       } else {
         const { error } = await supabase
           .from('drinks')
           .insert([dataToSave]);
 
         if (error) throw error;
-        toast.success('Напиток добавлен');
+        toast.success('Drink added');
       }
 
       setIsModalOpen(false);
@@ -112,7 +112,7 @@ const AdminDrinks = () => {
       resetForm();
     } catch (error) {
       console.error('Error saving drink:', error);
-      toast.error('Ошибка сохранения напитка');
+      toast.error('Error saving drink');
     }
   };
 
@@ -123,7 +123,7 @@ const AdminDrinks = () => {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm('Вы уверены, что хотите удалить этот напиток?')) return;
+    if (!confirm('Are you sure you want to delete this drink?')) return;
 
     try {
       const { error } = await supabase
@@ -132,11 +132,11 @@ const AdminDrinks = () => {
         .eq('id', id);
 
       if (error) throw error;
-      toast.success('Напиток удален');
+      toast.success('Drink deleted');
       fetchDrinks();
     } catch (error) {
       console.error('Error deleting drink:', error);
-      toast.error('Ошибка удаления напитка');
+      toast.error('Error deleting drink');
     }
   };
 
@@ -172,13 +172,13 @@ const AdminDrinks = () => {
           <DialogTrigger asChild>
             <Button onClick={handleAddNew}>
               <Plus className="h-4 w-4 mr-2" />
-              Добавить напиток
+              Add Drink
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>
-                {editingDrink ? 'Редактировать напиток' : 'Добавить новый напиток'}
+                {editingDrink ? 'Edit Drink' : 'Add New Drink'}
               </DialogTitle>
             </DialogHeader>
             
@@ -334,7 +334,7 @@ const AdminDrinks = () => {
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg">{drink.name}</CardTitle>
                 <Badge variant={drink.is_available ? "default" : "secondary"}>
-                  {drink.is_available ? 'Доступен' : 'Недоступен'}
+                  {drink.is_available ? 'Available' : 'Unavailable'}
                 </Badge>
               </div>
               <div className="flex justify-between items-center">
@@ -349,7 +349,7 @@ const AdminDrinks = () => {
                 </p>
                 {drink.alcohol_content && (
                   <p className="text-xs text-muted-foreground">
-                    Алкоголь: {drink.alcohol_content}
+                    Alcohol: {drink.alcohol_content}
                   </p>
                 )}
                 <div className="flex justify-between items-center pt-2">
@@ -359,7 +359,7 @@ const AdminDrinks = () => {
                     onClick={() => handleEdit(drink)}
                   >
                     <Edit className="h-4 w-4 mr-2" />
-                    Редактировать
+                    Edit
                   </Button>
                   <Button
                     variant="outline"
@@ -367,7 +367,7 @@ const AdminDrinks = () => {
                     onClick={() => handleDelete(drink.id)}
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
-                    Удалить
+                    Delete
                   </Button>
                 </div>
               </div>
