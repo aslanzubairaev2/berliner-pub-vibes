@@ -105,7 +105,7 @@ const Menu = () => {
               <h2 className="text-3xl font-bold mb-8 text-center">{category.category}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {category.items.map((item, itemIndex) => (
-                  <Card key={itemIndex} className="pub-hover-lift pub-card-shadow border-0">
+                  <Card key={itemIndex} className="pub-hover-lift pub-card-shadow border-0 cursor-pointer">
                     <CardContent className="p-6">
                       <div className="flex justify-between items-start mb-3">
                         <h3 className="text-xl font-semibold">{item.name}</h3>
