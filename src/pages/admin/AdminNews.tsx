@@ -421,7 +421,7 @@ const AdminNews = () => {
                   {newsItem.excerpt_de}
                 </p>
                 <div className="flex justify-between items-center w-full">
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center w-full">
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
