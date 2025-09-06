@@ -3,7 +3,7 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { Button } from "@/components/ui/button";
 import { Home, LogOut } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
 interface AdminLayoutProps {
@@ -12,6 +12,22 @@ interface AdminLayoutProps {
 
 export function AdminLayout({ children }: AdminLayoutProps) {
   const { logout } = useAdminAuth();
+  const location = useLocation();
+
+  const getPageTitle = (pathname: string) => {
+    switch (pathname) {
+      case '/admin':
+        return 'Dashboard';
+      case '/admin/drinks':
+        return 'Напитки';
+      case '/admin/news':
+        return 'Новости';
+      case '/admin/settings':
+        return 'Настройки';
+      default:
+        return 'Admin Panel';
+    }
+  };
 
   // Auto logout after 30 minutes of inactivity
   useEffect(() => {
@@ -47,6 +63,9 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <header className="fixed top-0 right-0 left-0 z-50 h-14 flex items-center justify-between bg-background border-b px-4">
           <div className="flex items-center gap-4">
             <SidebarTrigger />
+            <h2 className="text-lg font-semibold text-foreground">
+              {getPageTitle(location.pathname)}
+            </h2>
           </div>
           
           <div className="flex items-center gap-2">
