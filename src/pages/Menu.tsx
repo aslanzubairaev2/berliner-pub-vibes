@@ -9,11 +9,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useMenu, type Drink } from "@/hooks/useMenu";
 
 // Import all drink images for fallbacks
-import berlinerWeisseImg from "@/assets/berliner-weisse-new.jpg";
-import augustinerBeerImg from "@/assets/augustiner-beer-new.jpg";
-import erdingerWeissbierImg from "@/assets/erdinger-weissbier-new.jpg";
-import kostritzerSchwarzbieerImg from "@/assets/kostritzer-schwarzbier-transparent.png";
-import craftBeerImg from "@/assets/craft-beer-transparent.png";
+import berlinerWeisseGlassImg from "@/assets/berliner-weisse-glass.png";
+import augustinerGlassImg from "@/assets/augustiner-glass.png";
+import erdingerGlassImg from "@/assets/erdinger-glass.png";
+import schwarzbieerGlassImg from "@/assets/schwarzbier-glass.png";
+import craftBeerGlassImg from "@/assets/craft-beer-glass.png";
 import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
 import jagermeisterImg from "@/assets/jagermeister-transparent.png";
 import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
@@ -35,11 +35,11 @@ const Menu = () => {
   // Image mapping for fallbacks
   const getImageForDrink = (drinkName: string) => {
     const imageMap: Record<string, string> = {
-      'Berliner Weisse': berlinerWeisseImg,
-      'Augustiner Lagerbier Hell': '/lovable-uploads/23fff502-778f-4c24-9cf5-900858649a7f.png',
-      'Erdinger Weissbier': erdingerWeissbierImg,
-      'Köstritzer Schwarzbier': kostritzerSchwarzbieerImg,
-      'Craft Beer Auswahl': craftBeerImg,
+      'Berliner Weisse': berlinerWeisseGlassImg,
+      'Augustiner Lagerbier Hell': augustinerGlassImg,
+      'Erdinger Weissbier': erdingerGlassImg,
+      'Köstritzer Schwarzbier': schwarzbieerGlassImg,
+      'Craft Beer Auswahl': craftBeerGlassImg,
       'Schnapps Auswahl': germanSchnappsImg,
       'Jägermeister': jagermeisterImg,
       'Riesling': rieslingWineImg,
