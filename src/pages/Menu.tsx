@@ -7,20 +7,20 @@ import { Beer, Coffee, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Import all drink images
-import berlinerWeisseImg from "@/assets/berliner-weisse.jpg";
-import augustinerBeerImg from "@/assets/augustiner-beer.jpg";
-import erdingerWeissbierImg from "@/assets/erdinger-weissbier.jpg";
-import kostritzerSchwarzbieerImg from "@/assets/kostritzer-schwarzbier.jpg";
-import craftBeerImg from "@/assets/craft-beer.jpg";
-import germanSchnappsImg from "@/assets/german-schnapps.jpg";
-import jagermeisterImg from "@/assets/jagermeister.jpg";
-import rieslingWineImg from "@/assets/riesling-wine.jpg";
-import gluhweinImg from "@/assets/gluhwein.jpg";
-import apfelschorleImg from "@/assets/apfelschorle.jpg";
-import fassbrauseImg from "@/assets/fassbrause.jpg";
-import coffeeImg from "@/assets/coffee.jpg";
-import hotChocolateImg from "@/assets/hot-chocolate.jpg";
-import teaSelectionImg from "@/assets/tea-selection.jpg";
+import berlinerWeisseImg from "@/assets/berliner-weisse-transparent.png";
+import augustinerBeerImg from "@/assets/augustiner-beer-transparent.png";
+import erdingerWeissbierImg from "@/assets/erdinger-weissbier-transparent.png";
+import kostritzerSchwarzbieerImg from "@/assets/kostritzer-schwarzbier-transparent.png";
+import craftBeerImg from "@/assets/craft-beer-transparent.png";
+import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
+import jagermeisterImg from "@/assets/jagermeister-transparent.png";
+import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
+import gluhweinImg from "@/assets/gluhwein-transparent.png";
+import apfelschorleImg from "@/assets/apfelschorle-transparent.png";
+import fassbrauseImg from "@/assets/fassbrause-transparent.png";
+import coffeeImg from "@/assets/coffee-transparent.png";
+import hotChocolateImg from "@/assets/hot-chocolate-transparent.png";
+import teaSelectionImg from "@/assets/tea-selection-transparent.png";
 
 const Menu = () => {
   const { toast } = useToast();
