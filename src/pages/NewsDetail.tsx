@@ -1,17 +1,61 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock, ArrowLeft } from "lucide-react";
+import { CalendarDays, Clock, ArrowLeft, Loader2 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { newsArticles, getCategoryColor, getCategoryName } from "@/data/newsData";
+import { useNews } from "@/hooks/useNews";
 
 const NewsDetail = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { articles, loading, error, getArticleBySlug } = useNews();
   
-  const article = newsArticles.find(article => article.slug === slug);
+  const article = getArticleBySlug(slug || '');
   
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      'events': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      'menu': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      'general': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+    };
+    return colors[category] || colors['general'];
+  };
+
+  const getCategoryName = (category: string, lang: string) => {
+    const names: Record<string, { de: string; en: string }> = {
+      'events': { de: 'Veranstaltungen', en: 'Events' },
+      'menu': { de: 'Menü', en: 'Menu' },
+      'general': { de: 'Allgemein', en: 'General' }
+    };
+    return lang === 'de' ? names[category]?.de : names[category]?.en;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading article...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">Error loading article: {error}</p>
+          <Button onClick={() => navigate('/news')}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            {t('news.backToNews')}
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   if (!article) {
     return (
       <div className="min-h-screen py-20">
@@ -27,8 +71,8 @@ const NewsDetail = () => {
     );
   }
 
-  const title = language === 'de' ? article.titleDe : article.titleEn;
-  const content = language === 'de' ? article.contentDe : article.contentEn;
+  const title = language === 'de' ? article.title_de : article.title_en;
+  const content = language === 'de' ? article.content_de : article.content_en;
 
   return (
     <div className="min-h-screen py-20">
@@ -58,7 +102,7 @@ const NewsDetail = () => {
               <div className="flex items-center space-x-6 text-muted-foreground border-b border-border pb-6">
                 <div className="flex items-center space-x-2">
                   <CalendarDays className="h-5 w-5" />
-                  <span>{new Date(article.date).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
+                  <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
                     year: 'numeric', 
                     month: 'long', 
                     day: 'numeric' 
@@ -66,7 +110,7 @@ const NewsDetail = () => {
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="h-5 w-5" />
-                  <span>{article.readTime} {t('news.minRead')}</span>
+                  <span>{article.read_time} {t('news.minRead')}</span>
                 </div>
               </div>
             </div>

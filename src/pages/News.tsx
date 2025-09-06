@@ -1,18 +1,69 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CalendarDays, Clock } from "lucide-react";
+import { CalendarDays, Clock, Loader2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { newsArticles, getCategoryColor, getCategoryName } from "@/data/newsData";
+import { useNews } from "@/hooks/useNews";
 
 const News = () => {
   const navigate = useNavigate();
   const { language, t } = useLanguage();
+  const { articles, loading, error } = useNews();
 
   const handleArticleClick = (slug: string) => {
     navigate(`/news/${slug}`);
   };
+
+  const getCategoryColor = (category: string) => {
+    const colors: Record<string, string> = {
+      'events': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+      'menu': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      'general': 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+    };
+    return colors[category] || colors['general'];
+  };
+
+  const getCategoryName = (category: string, lang: string) => {
+    const names: Record<string, { de: string; en: string }> = {
+      'events': { de: 'Veranstaltungen', en: 'Events' },
+      'menu': { de: 'Menü', en: 'Menu' },
+      'general': { de: 'Allgemein', en: 'General' }
+    };
+    return lang === 'de' ? names[category]?.de : names[category]?.en;
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground">Loading news...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 mb-4">Error loading news: {error}</p>
+          <Button onClick={() => window.location.reload()}>Retry</Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (articles.length === 0) {
+    return (
+      <div className="min-h-screen py-20 flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-muted-foreground">No published articles found.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-20">
@@ -27,47 +78,49 @@ const News = () => {
         </div>
 
         {/* Featured Article */}
-        <div className="mb-16">
-          <Card 
-            className="pub-card-shadow border-0 overflow-hidden cursor-pointer pub-hover-lift"
-            onClick={() => handleArticleClick(newsArticles[0].slug)}
-          >
-            <div className="pub-gradient-warm p-8">
-              <Badge className={getCategoryColor(newsArticles[0].category) + " mb-4"}>
-                {getCategoryName(newsArticles[0].category, language)}
-              </Badge>
-              <h2 className="text-3xl font-bold mb-4">
-                {language === 'de' ? newsArticles[0].titleDe : newsArticles[0].titleEn}
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6">
-                {language === 'de' ? newsArticles[0].excerptDe : newsArticles[0].excerptEn}
-              </p>
-              <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-                <div className="flex items-center space-x-2">
-                  <CalendarDays className="h-4 w-4" />
-                  <span>{new Date(newsArticles[0].date).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
-                    year: 'numeric', 
-                    month: 'long', 
-                    day: 'numeric' 
-                  })}</span>
+        {articles.length > 0 && (
+          <div className="mb-16">
+            <Card 
+              className="pub-card-shadow border-0 overflow-hidden cursor-pointer pub-hover-lift"
+              onClick={() => handleArticleClick(articles[0].slug)}
+            >
+              <div className="pub-gradient-warm p-8">
+                <Badge className={getCategoryColor(articles[0].category) + " mb-4"}>
+                  {getCategoryName(articles[0].category, language)}
+                </Badge>
+                <h2 className="text-3xl font-bold mb-4">
+                  {language === 'de' ? articles[0].title_de : articles[0].title_en}
+                </h2>
+                <p className="text-lg text-muted-foreground mb-6">
+                  {language === 'de' ? articles[0].excerpt_de : articles[0].excerpt_en}
+                </p>
+                <div className="flex items-center space-x-6 text-sm text-muted-foreground">
+                  <div className="flex items-center space-x-2">
+                    <CalendarDays className="h-4 w-4" />
+                    <span>{new Date(articles[0].published_at || articles[0].created_at).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}</span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <Clock className="h-4 w-4" />
+                    <span>{articles[0].read_time} {t('news.minRead')}</span>
+                  </div>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span>{newsArticles[0].readTime} {t('news.minRead')}</span>
+                <div className="mt-6">
+                  <Button variant="secondary">
+                    {t('news.readMore')}
+                  </Button>
                 </div>
               </div>
-              <div className="mt-6">
-                <Button variant="secondary">
-                  {t('news.readMore')}
-                </Button>
-              </div>
-            </div>
-          </Card>
-        </div>
+            </Card>
+          </div>
+        )}
 
         {/* Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {newsArticles.slice(1).map((article) => (
+          {articles.slice(1).map((article) => (
             <Card 
               key={article.id} 
               className="pub-card-shadow pub-hover-lift border-0 cursor-pointer"
@@ -79,21 +132,21 @@ const News = () => {
                     {getCategoryName(article.category, language)}
                   </Badge>
                   <span className="text-sm text-muted-foreground">
-                    {article.readTime} {t('news.minRead')}
+                    {article.read_time} {t('news.minRead')}
                   </span>
                 </div>
                 <CardTitle className="text-xl leading-tight">
-                  {language === 'de' ? article.titleDe : article.titleEn}
+                  {language === 'de' ? article.title_de : article.title_en}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-muted-foreground mb-4 line-clamp-3">
-                  {language === 'de' ? article.excerptDe : article.excerptEn}
+                  {language === 'de' ? article.excerpt_de : article.excerpt_en}
                 </p>
                 <div className="flex items-center justify-between text-sm text-muted-foreground">
                   <div className="flex items-center space-x-2">
                     <CalendarDays className="h-4 w-4" />
-                    <span>{new Date(article.date).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
+                    <span>{new Date(article.published_at || article.created_at).toLocaleDateString(language === 'de' ? 'de-DE' : 'en-US', { 
                       month: 'short', 
                       day: 'numeric' 
                     })}</span>
