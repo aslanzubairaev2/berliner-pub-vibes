@@ -207,14 +207,14 @@ const AdminSettings = () => {
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   <Label htmlFor="value_de">Value (DE)</Label>
-                  {formData.setting_type === 'textarea' || (formData.value_de && formData.value_de.length > 100) ? (
+                  {formData.setting_type === 'text' || formData.setting_type === 'textarea' ? (
                     <Textarea
                       id="value_de"
                       value={formData.value_de || ''}
                       onChange={(e) => setFormData({ ...formData, value_de: e.target.value })}
                       placeholder="German value"
-                      rows={6}
-                      className="min-h-[120px]"
+                      rows={formData.setting_type === 'textarea' ? 6 : 4}
+                      className="min-h-[100px]"
                     />
                   ) : (
                     <Input
@@ -230,14 +230,14 @@ const AdminSettings = () => {
                 </div>
                 <div>
                   <Label htmlFor="value_en">Value (EN)</Label>
-                  {formData.setting_type === 'textarea' || (formData.value_en && formData.value_en.length > 100) ? (
+                  {formData.setting_type === 'text' || formData.setting_type === 'textarea' ? (
                     <Textarea
                       id="value_en"
                       value={formData.value_en || ''}
                       onChange={(e) => setFormData({ ...formData, value_en: e.target.value })}
                       placeholder="English value"
-                      rows={6}
-                      className="min-h-[120px]"
+                      rows={formData.setting_type === 'textarea' ? 6 : 4}
+                      className="min-h-[100px]"
                     />
                   ) : (
                     <Input
