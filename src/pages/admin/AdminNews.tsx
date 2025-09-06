@@ -421,30 +421,28 @@ const AdminNews = () => {
                   {newsItem.excerpt_de}
                 </p>
                 <div className="flex justify-between items-center">
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleEdit(newsItem)}
-                  >
-                    <Edit className="h-4 w-4" />
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => togglePublished(newsItem.id, newsItem.is_published)}
-                  >
-                    <Eye className="h-4 w-4 mr-2" />
-                    {newsItem.is_published ? 'Снять' : 'Опубликовать'}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => handleEdit(newsItem)}
+                    >
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => togglePublished(newsItem.id, newsItem.is_published)}
+                    >
+                      <Eye className="h-4 w-4 mr-2" />
+                      {newsItem.is_published ? 'Снять' : 'Опубликовать'}
+                    </Button>
+                  </div>
+                  <Trash2 
+                    className="h-5 w-5 text-red-500 hover:text-red-700 cursor-pointer transition-colors" 
                     onClick={() => handleDelete(newsItem.id)}
-                  >
-                    <Trash2 className="h-4 w-4 mr-2" />
-                    Удалить
-                  </Button>
+                  />
                 </div>
                 </div>
               </div>
