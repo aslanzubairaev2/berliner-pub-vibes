@@ -181,11 +181,12 @@ const Menu = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Product Image - Left Side */}
                 <div className="w-full">
-                  <div className="aspect-[3/4] rounded-lg overflow-hidden flex justify-start md:justify-start">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-muted/10">
                     <img 
                       src={selectedDrink.image_url || getImageForDrink(selectedDrink.name)} 
                       alt={selectedDrink.name}
-                      className="w-full md:h-full md:w-auto object-contain rounded-lg"
+                      className="w-full h-full object-cover rounded-lg hover:scale-105 transition-transform duration-300"
+                      loading="eager"
                     />
                   </div>
                 </div>
