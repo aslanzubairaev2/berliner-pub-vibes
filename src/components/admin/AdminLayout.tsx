@@ -2,8 +2,8 @@ import { ReactNode, useEffect } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AdminSidebar } from "./AdminSidebar";
 import { Button } from "@/components/ui/button";
-import { Home, LogOut } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Home, LogOut, ArrowLeft } from "lucide-react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
 interface AdminLayoutProps {
@@ -13,6 +13,7 @@ interface AdminLayoutProps {
 export function AdminLayout({ children }: AdminLayoutProps) {
   const { logout } = useAdminAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const getPageTitle = (pathname: string) => {
     switch (pathname) {
@@ -26,6 +27,16 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         return 'Настройки';
       default:
         return 'Admin Panel';
+    }
+  };
+
+  const handleGoBack = () => {
+    if (location.pathname === '/admin') {
+      // If we're on dashboard, go to main site
+      navigate('/');
+    } else {
+      // Otherwise go back to dashboard
+      navigate('/admin');
     }
   };
 
@@ -63,6 +74,14 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <header className="fixed top-0 right-0 left-0 z-50 h-14 flex items-center justify-between bg-background border-b px-4">
           <div className="flex items-center gap-4">
             <SidebarTrigger />
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleGoBack}
+              className="p-1"
+            >
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
             <h2 className="text-lg font-semibold text-foreground">
               {getPageTitle(location.pathname)}
             </h2>
