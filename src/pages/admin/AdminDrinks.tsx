@@ -368,7 +368,7 @@ const AdminDrinks = () => {
         ) : drinks.map((drink) => (
           <Card key={drink.id} className="pub-card-shadow border-0 overflow-hidden">
             {/* Drink Image */}
-            <div className="aspect-video w-full bg-muted/10">
+            <div className="h-48 w-full bg-muted/10">
               <img 
                 src={drink.image_url || getImageForDrink(drink.name)} 
                 alt={drink.name}
