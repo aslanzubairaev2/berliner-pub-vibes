@@ -234,11 +234,11 @@ const Menu = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Product Image - Left Side */}
                 <div className="w-full">
-                  <div className="aspect-[3/4] rounded-lg overflow-hidden flex justify-start">
+                  <div className="aspect-[3/4] rounded-lg overflow-hidden flex justify-start md:justify-start">
                     <img 
                       src={selectedDrink.image} 
                       alt={selectedDrink.name}
-                      className="h-full object-contain rounded-lg"
+                      className="w-full md:h-full md:w-auto object-contain rounded-lg"
                     />
                   </div>
                 </div>
