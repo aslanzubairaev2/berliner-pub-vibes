@@ -9,19 +9,11 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useMenu, type Drink } from "@/hooks/useMenu";
 
 // Import all drink images for fallbacks
-import berlinerWeisseGlassImg from "@/assets/berliner-weisse-new-glass.png";
-import augustinerGlassImg from "@/assets/augustiner-new-glass.png";
-import erdingerGlassImg from "@/assets/erdinger-new-glass.png";
-import schwarzbieerGlassImg from "@/assets/schwarzbier-new-glass.png";
-import craftBeerGlassImg from "@/assets/craft-beer-new-glass.png";
-
-// Import HD images for modal view
-import berlinerWeisseHdImg from "@/assets/berliner-weisse-hd.png";
-import augustinerHdImg from "@/assets/augustiner-hd.png";
-import erdingerHdImg from "@/assets/erdinger-hd.png";
-import schwarzbieerHdImg from "@/assets/schwarzbier-hd.png";
-import craftBeerHdImg from "@/assets/craft-beer-hd.png";
-
+import berlinerWeisseGlassImg from "@/assets/berliner-weisse-glass.png";
+import augustinerGlassImg from "@/assets/augustiner-glass.png";
+import erdingerGlassImg from "@/assets/erdinger-glass.png";
+import schwarzbieerGlassImg from "@/assets/schwarzbier-glass.png";
+import craftBeerGlassImg from "@/assets/craft-beer-glass.png";
 import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
 import jagermeisterImg from "@/assets/jagermeister-transparent.png";
 import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
@@ -59,27 +51,6 @@ const Menu = () => {
       'Tee Auswahl': teaSelectionImg,
     };
     return imageMap[drinkName] || coffeeImg;
-  };
-
-  // HD Image mapping for modal view
-  const getHDImageForDrink = (drinkName: string) => {
-    const hdImageMap: Record<string, string> = {
-      'Berliner Weisse': berlinerWeisseHdImg,
-      'Augustiner Lagerbier Hell': augustinerHdImg,
-      'Erdinger Weissbier': erdingerHdImg,
-      'Köstritzer Schwarzbier': schwarzbieerHdImg,
-      'Craft Beer Auswahl': craftBeerHdImg,
-      'Schnapps Auswahl': germanSchnappsImg,
-      'Jägermeister': jagermeisterImg,
-      'Riesling': rieslingWineImg,
-      'Glühwein (Winter)': gluhweinImg,
-      'Apfelschorle': apfelschorleImg,
-      'Fassbrause': fassbrauseImg,
-      'Kaffee': coffeeImg,
-      'Heisse Schokolade': hotChocolateImg,
-      'Tee Auswahl': teaSelectionImg,
-    };
-    return hdImageMap[drinkName] || coffeeImg;
   };
 
   const getCategoryName = (category: string) => {
@@ -213,7 +184,7 @@ const Menu = () => {
                 <div className="w-full flex justify-start">
                   <div className="aspect-square rounded-lg overflow-hidden bg-muted/10 w-80">
                     <img 
-                      src={selectedDrink.image_url || getHDImageForDrink(selectedDrink.name)} 
+                      src={selectedDrink.image_url || getImageForDrink(selectedDrink.name)} 
                       alt={selectedDrink.name}
                       className="w-full h-full object-contain rounded-lg"
                       loading="eager"
