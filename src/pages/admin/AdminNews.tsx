@@ -420,7 +420,7 @@ const AdminNews = () => {
                 <p className="text-muted-foreground line-clamp-2">
                   {newsItem.excerpt_de}
                 </p>
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center w-full">
                 <div className="flex justify-between items-center">
                   <div className="flex gap-2">
                     <Button
