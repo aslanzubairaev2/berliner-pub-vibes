@@ -96,7 +96,7 @@ const Home = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature, index) => (
-              <Card key={index} className="text-center pub-card-shadow pub-hover-lift border-0">
+              <Card key={index} className="text-center pub-card-shadow border-0">
                 <CardContent className="p-8">
                   <div className="flex justify-center mb-4">
                     {feature.icon}
