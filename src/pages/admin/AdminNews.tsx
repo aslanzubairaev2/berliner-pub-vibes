@@ -206,9 +206,6 @@ const AdminNews = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-muted-foreground mt-2">
-            Создавайте, редактируйте и публикуйте новости
-          </p>
         </div>
         
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
