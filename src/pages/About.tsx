@@ -120,7 +120,7 @@ const About = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
             {inclusivity.map((item, index) => (
-              <Card key={index} className="text-center pub-card-shadow pub-hover-lift border-0">
+              <Card key={index} className="text-center pub-card-shadow border-0">
                 <CardContent className="p-8">
                   <div className="flex justify-center mb-4">
                     {item.icon}
@@ -164,7 +164,7 @@ const About = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
-              <Card key={index} className="text-center pub-card-shadow pub-hover-lift border-0">
+              <Card key={index} className="text-center pub-card-shadow border-0">
                 <CardContent className="p-8">
                   <div className="flex justify-center mb-4">
                     {value.icon}
@@ -188,7 +188,7 @@ const About = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {team.map((member, index) => (
-              <Card key={index} className="text-center pub-card-shadow pub-hover-lift border-0">
+              <Card key={index} className="text-center pub-card-shadow border-0">
                 <CardContent className="p-8">
                   <div className="w-20 h-20 bg-accent/20 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Users className="h-10 w-10 text-accent" />
