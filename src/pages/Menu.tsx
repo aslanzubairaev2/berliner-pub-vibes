@@ -126,15 +126,26 @@ const Menu = () => {
                       onClick={() => handleDrinkClick(drink)}
                     >
                       <CardContent className="p-6">
-                        <div className="flex justify-between items-start mb-3">
-                          <h3 className="text-xl font-semibold">{drink.name}</h3>
-                          <Badge variant="secondary" className="ml-2 bg-accent text-accent-foreground">
-                            €{drink.price.toFixed(2)}
-                          </Badge>
+                        <div className="flex gap-4">
+                          <div className="w-20 h-20 flex-shrink-0">
+                            <img 
+                              src={drink.image_url || getImageForDrink(drink.name)} 
+                              alt={drink.name}
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex justify-between items-start mb-3">
+                              <h3 className="text-xl font-semibold">{drink.name}</h3>
+                              <Badge variant="secondary" className="ml-2 bg-accent text-accent-foreground">
+                                €{drink.price.toFixed(2)}
+                              </Badge>
+                            </div>
+                            <p className="text-muted-foreground">
+                              {language === 'de' ? drink.description_de : drink.description_en}
+                            </p>
+                          </div>
                         </div>
-                        <p className="text-muted-foreground">
-                          {language === 'de' ? drink.description_de : drink.description_en}
-                        </p>
                       </CardContent>
                     </Card>
                   ))}
