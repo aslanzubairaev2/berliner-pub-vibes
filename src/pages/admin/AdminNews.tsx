@@ -396,7 +396,7 @@ const AdminNews = () => {
             <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-xl">{newsItem.title_de}</CardTitle>
-                <div className="flex items-center gap-2">
+                <div className="flex flex-col items-center gap-2">
                   <Badge variant={newsItem.is_published ? "default" : "secondary"}>
                     {newsItem.is_published ? 'Опубликована' : 'Черновик'}
                   </Badge>
