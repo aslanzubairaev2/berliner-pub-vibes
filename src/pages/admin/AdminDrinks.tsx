@@ -165,9 +165,6 @@ const AdminDrinks = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <div>
-          <p className="text-muted-foreground mt-2">
-            Добавляйте, редактируйте и удаляйте напитки из меню
-          </p>
         </div>
         
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
