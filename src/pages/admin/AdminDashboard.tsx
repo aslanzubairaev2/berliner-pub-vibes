@@ -141,14 +141,14 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
+              <Link to="/admin/drinks" className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
                 <Coffee className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
                 <p className="text-sm font-medium">Add Drink</p>
-              </div>
-              <div className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
+              </Link>
+              <Link to="/admin/news" className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
                 <Newspaper className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
                 <p className="text-sm font-medium">Create News</p>
-              </div>
+              </Link>
             </div>
           </CardContent>
         </Card>
