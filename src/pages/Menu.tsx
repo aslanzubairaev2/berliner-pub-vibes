@@ -6,6 +6,22 @@ import { Button } from "@/components/ui/button";
 import { Beer, Coffee, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Import all drink images
+import berlinerWeisseImg from "@/assets/berliner-weisse.jpg";
+import augustinerBeerImg from "@/assets/augustiner-beer.jpg";
+import erdingerWeissbierImg from "@/assets/erdinger-weissbier.jpg";
+import kostritzerSchwarzbieerImg from "@/assets/kostritzer-schwarzbier.jpg";
+import craftBeerImg from "@/assets/craft-beer.jpg";
+import germanSchnappsImg from "@/assets/german-schnapps.jpg";
+import jagermeisterImg from "@/assets/jagermeister.jpg";
+import rieslingWineImg from "@/assets/riesling-wine.jpg";
+import gluhweinImg from "@/assets/gluhwein.jpg";
+import apfelschorleImg from "@/assets/apfelschorle.jpg";
+import fassbrauseImg from "@/assets/fassbrause.jpg";
+import coffeeImg from "@/assets/coffee.jpg";
+import hotChocolateImg from "@/assets/hot-chocolate.jpg";
+import teaSelectionImg from "@/assets/tea-selection.jpg";
+
 const Menu = () => {
   const { toast } = useToast();
   const [selectedDrink, setSelectedDrink] = useState(null);
@@ -19,7 +35,7 @@ const Menu = () => {
           name: "Berliner Weisse",
           description: "Traditionelles Berliner Weizenbier mit Sirup",
           price: "€4.50",
-          image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=300&fit=crop",
+          image: berlinerWeisseImg,
           alcohol: "2.8-3.8%",
           fullDescription: "Die Berliner Weisse ist ein traditionelles obergäriges Weizenbier mit niedrigem Alkoholgehalt, das seinen Ursprung in Berlin hat. Charakteristisch für dieses Bier ist sein säuerlicher Geschmack, der durch Milchsäuregärung entsteht. Traditionell wird es mit grünem Waldmeister- oder rotem Himbeersirup serviert, was dem Bier seine typische Farbe verleiht. Das Bier wurde erstmals im 17. Jahrhundert gebraut und galt als 'Champagner des Nordens'."
         },
@@ -27,7 +43,7 @@ const Menu = () => {
           name: "Augustiner Lagerbier Hell",
           description: "Klassisches Münchner Lager",
           price: "€5.00",
-          image: "https://images.unsplash.com/photo-1608270586620-248524c67de9?w=400&h=300&fit=crop",
+          image: augustinerBeerImg,
           alcohol: "5.2%",
           fullDescription: "Augustiner Lagerbier Hell ist ein klassisches Münchner Vollbier aus der ältesten Brauerei Münchens, gegründet 1328. Das helle Lagerbier zeichnet sich durch seinen vollmundigen, ausgewogenen Geschmack aus. Gebraut wird es nach traditionellem bayerischem Reinheitsgebot ausschließlich aus Hopfen, Malz, Hefe und Wasser. Der Hopfen verleiht dem Bier eine feine, elegante Bittere, während das Malz für den runden, harmonischen Körper sorgt."
         },
@@ -35,7 +51,7 @@ const Menu = () => {
           name: "Erdinger Weissbier",
           description: "Bayerisches Weizenbier",
           price: "€5.50",
-          image: "https://images.unsplash.com/photo-1571613316887-6f8d5cbf7ef7?w=400&h=300&fit=crop",
+          image: erdingerWeissbierImg,
           alcohol: "5.3%",
           fullDescription: "Erdinger Weissbier ist ein traditionelles bayerisches Weizenbier aus Erding bei München. Die Brauerei wurde 1886 gegründet und ist heute eine der führenden Weizenbierbrauereien der Welt. Das Bier wird mit mindestens 50% Weizenmalz gebraut und besticht durch seinen fruchtig-frischen Geschmack mit Noten von Banane und Gewürznelke. Die typische Hefe verleiht dem Bier seinen charakteristischen Geschmack und die natürliche Trübung."
         },
@@ -43,7 +59,7 @@ const Menu = () => {
           name: "Köstritzer Schwarzbier",
           description: "Dunkles Bier aus Thüringen",
           price: "€5.20",
-          image: "https://images.unsplash.com/photo-1535958636474-b021ee887b13?w=400&h=300&fit=crop",
+          image: kostritzerSchwarzbieerImg,
           alcohol: "4.8%",
           fullDescription: "Das Köstritzer Schwarzbier ist ein traditionelles Schwarzbier aus Bad Köstritz in Thüringen. Die Brauerei blickt auf über 500 Jahre Brauereigeschichte zurück. Das Schwarzbier zeichnet sich durch seine dunkle Farbe und den malzig-süßlichen Geschmack aus, der durch die Verwendung von dunklem Röstmalz entsteht. Trotz seiner dunklen Farbe ist es überraschend mild und erfrischend, mit Noten von Schokolade und Kaffee."
         },
@@ -51,7 +67,7 @@ const Menu = () => {
           name: "Craft Beer Auswahl",
           description: "Wechselnde Craft-Biere von lokalen Brauereien",
           price: "€6.50",
-          image: "https://images.unsplash.com/photo-1513005953832-781512e4e6ce?w=400&h=300&fit=crop",
+          image: craftBeerImg,
           alcohol: "4.5-7.2%",
           fullDescription: "Unsere wechselnde Auswahl an Craft-Bieren stammt von ausgewählten Berliner und deutschen Mikrobrauereien. Diese handwerklich gebrauten Biere zeichnen sich durch innovative Rezepturen, hochwertige Zutaten und außergewöhnliche Geschmacksprofile aus. Von hopfenbetonten IPAs über fruchtige Sauerbiere bis hin zu kräftigen Stouts - entdecken Sie jeden Monat neue Geschmackswelten von leidenschaftlichen Braumeistern."
         }
@@ -64,7 +80,7 @@ const Menu = () => {
           name: "Schnapps Auswahl",
           description: "Auswahl traditioneller deutscher Schnäpse",
           price: "€4.00",
-          image: "https://images.unsplash.com/photo-1569529465841-dfecdab7503b?w=400&h=300&fit=crop",
+          image: germanSchnappsImg,
           alcohol: "38-42%",
           fullDescription: "Unsere Schnapps-Auswahl umfasst traditionelle deutsche Obstbrände und Kräuterschnäpse. Dazu gehören Zwetschgenwasser, Kirschwasser, Birnenbrand und Apfelkorn. Jeder Schnaps wird nach traditionellen Rezepturen destilliert und zeichnet sich durch seinen reinen, intensiven Frucht- oder Kräutergeschmack aus. Perfekt als Digestif nach dem Essen oder als traditioneller Begleiter zu herzhaften Speisen."
         },
@@ -72,7 +88,7 @@ const Menu = () => {
           name: "Jägermeister",
           description: "Klassischer Kräuterlikör",
           price: "€4.50",
-          image: "https://images.unsplash.com/photo-1527281400430-d0c8f0171018?w=400&h=300&fit=crop",
+          image: jagermeisterImg,
           alcohol: "35%",
           fullDescription: "Jägermeister ist ein deutscher Kräuterlikör aus Wolfenbüttel, der seit 1935 nach einem geheimen Rezept mit 56 verschiedenen Kräutern, Früchten, Gewürzen und Wurzeln hergestellt wird. Die Mischung wird ein ganzes Jahr lang in Eichenfässern gelagert, bevor sie gefiltert und abgefüllt wird. Der komplexe Geschmack vereint süße und bittere Noten mit einem charakteristischen Kräuteraroma."
         },
@@ -80,7 +96,7 @@ const Menu = () => {
           name: "Riesling",
           description: "Deutscher Weißwein aus dem Rheintal",
           price: "€6.00",
-          image: "https://images.unsplash.com/photo-1574829205756-2cbac3cbcf77?w=400&h=300&fit=crop",
+          image: rieslingWineImg,
           alcohol: "11.5%",
           fullDescription: "Unser Riesling stammt aus den renommierten Weinlagen des Rheintals und repräsentiert die hohe Kunst deutschen Weinbaus. Diese edle Rebsorte zeichnet sich durch ihre lebendige Säure und ihr komplexes Aromaprofil aus, das von grünem Apfel und Zitrus bis hin zu mineralischen Noten reicht. Der Wein wird in traditionellen deutschen Kellereien vinifiziert und verkörpert die typische Eleganz und Frische deutscher Rieslingweine."
         },
@@ -88,7 +104,7 @@ const Menu = () => {
           name: "Glühwein (Winter)",
           description: "Heißer Glühwein mit Gewürzen",
           price: "€5.50",
-          image: "https://images.unsplash.com/photo-1512568400610-62da28bc8e13?w=400&h=300&fit=crop",
+          image: gluhweinImg,
           alcohol: "7-14%",
           fullDescription: "Unser hausgemachter Glühwein wird aus ausgewählten deutschen Rotweinen zubereitet und mit einer traditionellen Gewürzmischung aus Zimt, Nelken, Sternanis und Orangenschale verfeinert. Das jahrhundertealte Rezept stammt aus der deutschen Weihnachtstradition und wird bei uns von November bis März serviert. Der Glühwein wird schonend erhitzt, um die Aromen zu bewahren und ein warmes, wohltuendes Getränk zu schaffen."
         }
@@ -101,7 +117,7 @@ const Menu = () => {
           name: "Apfelschorle",
           description: "Apfelsaft mit Mineralwasser",
           price: "€3.50",
-          image: "https://images.unsplash.com/photo-1560781290-7dc94c0f8f4d?w=400&h=300&fit=crop",
+          image: apfelschorleImg,
           alcohol: "0%",
           fullDescription: "Die Apfelschorle ist ein klassisches deutsches Erfrischungsgetränk, das aus naturtrübem Apfelsaft und kohlensäurehaltigem Mineralwasser hergestellt wird. Wir verwenden ausschließlich Direktsaft von deutschen Äpfeln aus kontrolliert biologischem Anbau. Das Mischungsverhältnis von 60% Apfelsaft zu 40% Mineralwasser sorgt für den perfekten Geschmack - fruchtig, erfrischend und nicht zu süß."
         },
@@ -109,7 +125,7 @@ const Menu = () => {
           name: "Fassbrause",
           description: "Traditionelle deutsche Limonade",
           price: "€3.80",
-          image: "https://images.unsplash.com/photo-1541544181051-e46607bc22dc?w=400&h=300&fit=crop",
+          image: fassbrauseImg,
           alcohol: "0%",
           fullDescription: "Fassbrause ist eine traditionelle deutsche Limonade, die ursprünglich als alkoholfreie Alternative zu Bier entwickelt wurde. Die erste Fassbrause wurde 1908 vom Chemiker Carl Rehm erfunden. Unser Getränk basiert auf natürlichen Fruchtextrakten und Malzauszug, was ihm einen charakteristisch malzig-fruchtigen Geschmack verleiht. Die leichte Süße wird durch eine erfrischende Säure ausbalanciert."
         },
@@ -117,7 +133,7 @@ const Menu = () => {
           name: "Kaffee",
           description: "Frisch gebrühter Kaffee",
           price: "€2.50",
-          image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=400&h=300&fit=crop",
+          image: coffeeImg,
           alcohol: "0%",
           fullDescription: "Unser Kaffee wird aus einer sorgfältig ausgewählten Mischung hochwertiger Arabica-Bohnen zubereitet, die von nachhaltigen Plantagen in Mittel- und Südamerika stammen. Die Bohnen werden täglich frisch geröstet und in unserer italienischen Espressomaschine zubereitet. Jede Tasse wird individuell aufgebrüht, um das volle Aroma und die perfekte Crema zu gewährleisten."
         },
@@ -125,7 +141,7 @@ const Menu = () => {
           name: "Heisse Schokolade",
           description: "Heiße Schokolade mit Sahne",
           price: "€4.20",
-          image: "https://images.unsplash.com/photo-1517373116369-cd277221df29?w=400&h=300&fit=crop",
+          image: hotChocolateImg,
           alcohol: "0%",
           fullDescription: "Unsere hausgemachte heiße Schokolade wird aus echter belgischer Schokolade mit 70% Kakaoanteil zubereitet. Die Schokolade wird langsam in warmer Vollmilch aufgelöst und mit einem Hauch Vanille verfeinert. Serviert wird sie mit frisch geschlagener Sahne und optional mit Marshmallows oder Zimt. Ein wahres Verwöhnerlebnis für Schokoladenliebhaber in der kalten Jahreszeit."
         },
@@ -133,7 +149,7 @@ const Menu = () => {
           name: "Tee Auswahl",
           description: "Verschiedene hochwertige Tees",
           price: "€3.20",
-          image: "https://images.unsplash.com/photo-1556881286-12c5d827d084?w=400&h=300&fit=crop",
+          image: teaSelectionImg,
           alcohol: "0%",
           fullDescription: "Unsere sorgfältig kuratierte Teeauswahl umfasst klassischen schwarzen Tee, grünen Tee, Kamillentee, Pfefferminztee und Früchtetee. Jeder Tee wird aus hochwertigen, lose Blättern zubereitet und für die optimale Ziehzeit aufgebrüht. Die Tees stammen aus nachhaltigen Anbaugebieten und werden ohne künstliche Zusätze serviert. Auf Wunsch mit Honig, Zitrone oder Milch verfügbar."
         }
