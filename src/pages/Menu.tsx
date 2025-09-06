@@ -128,6 +128,14 @@ const Menu = () => {
           image: "https://images.unsplash.com/photo-1517373116369-cd277221df29?w=400&h=300&fit=crop",
           alcohol: "0%",
           fullDescription: "Unsere hausgemachte heiße Schokolade wird aus echter belgischer Schokolade mit 70% Kakaoanteil zubereitet. Die Schokolade wird langsam in warmer Vollmilch aufgelöst und mit einem Hauch Vanille verfeinert. Serviert wird sie mit frisch geschlagener Sahne und optional mit Marshmallows oder Zimt. Ein wahres Verwöhnerlebnis für Schokoladenliebhaber in der kalten Jahreszeit."
+        },
+        {
+          name: "Tee Auswahl",
+          description: "Verschiedene hochwertige Tees",
+          price: "€3.20",
+          image: "https://images.unsplash.com/photo-1556881286-12c5d827d084?w=400&h=300&fit=crop",
+          alcohol: "0%",
+          fullDescription: "Unsere sorgfältig kuratierte Teeauswahl umfasst klassischen schwarzen Tee, grünen Tee, Kamillentee, Pfefferminztee und Früchtetee. Jeder Tee wird aus hochwertigen, lose Blättern zubereitet und für die optimale Ziehzeit aufgebrüht. Die Tees stammen aus nachhaltigen Anbaugebieten und werden ohne künstliche Zusätze serviert. Auf Wunsch mit Honig, Zitrone oder Milch verfügbar."
         }
       ]
     }
