@@ -12,8 +12,10 @@ import {
   MessageSquare
 } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Contact = () => {
+  const { language, t } = useLanguage();
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -28,13 +30,13 @@ const Contact = () => {
   };
 
   const openingHours = [
-    { day: "Montag", hours: "12:00 - 02:00" },
-    { day: "Dienstag", hours: "12:00 - 02:00" },
-    { day: "Mittwoch", hours: "12:00 - 02:00" },
-    { day: "Donnerstag", hours: "12:00 - 02:00" },
-    { day: "Freitag", hours: "12:00 - 02:00" },
-    { day: "Samstag", hours: "12:00 - 06:00" },
-    { day: "Sonntag", hours: "12:00 - 06:00" }
+    { dayKey: "contact.monday", hours: "12:00 - 02:00" },
+    { dayKey: "contact.tuesday", hours: "12:00 - 02:00" },
+    { dayKey: "contact.wednesday", hours: "12:00 - 02:00" },
+    { dayKey: "contact.thursday", hours: "12:00 - 02:00" },
+    { dayKey: "contact.friday", hours: "12:00 - 02:00" },
+    { dayKey: "contact.saturday", hours: "12:00 - 06:00" },
+    { dayKey: "contact.sunday", hours: "12:00 - 06:00" }
   ];
 
   return (
@@ -42,10 +44,10 @@ const Contact = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Kontakt</Badge>
-          <h1 className="text-5xl font-bold mb-6">Kontaktieren Sie uns</h1>
+          <Badge variant="outline" className="mb-4">{t('contact.badge')}</Badge>
+          <h1 className="text-5xl font-bold mb-6">{t('contact.title')}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Wir freuen uns über Ihre Fragen und Anregungen. Schreiben Sie uns einfach!
+            {t('contact.subtitle')}
           </p>
         </div>
 
@@ -59,7 +61,7 @@ const Contact = () => {
                     <MapPin className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Adresse</h3>
+                    <h3 className="text-lg font-semibold">{t('contact.address')}</h3>
                     <p className="text-muted-foreground">Ansbacher Straße 29</p>
                     <p className="text-muted-foreground">10789 Berlin, Germany</p>
                   </div>
@@ -68,7 +70,7 @@ const Contact = () => {
                   window.open('https://maps.google.com/?q=Ansbacher+Straße+29,+10789+Berlin', '_blank')
                 }>
                   <Navigation className="h-4 w-4 mr-2" />
-                  Auf Karte anzeigen
+                  {t('contact.showOnMap')}
                 </Button>
               </CardContent>
             </Card>
@@ -114,7 +116,7 @@ const Contact = () => {
                 <div className="space-y-2">
                   {openingHours.map((schedule, index) => (
                     <div key={index} className="flex justify-between items-center">
-                      <span className="text-foreground">{schedule.day}</span>
+                      <span className="text-foreground">{t(schedule.dayKey)}</span>
                       <span className="text-muted-foreground font-medium">{schedule.hours}</span>
                     </div>
                   ))}
