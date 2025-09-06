@@ -195,12 +195,14 @@ export const AddDrinkDialog = ({ open, onOpenChange, onSuccess }: AddDrinkDialog
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <ImageUpload
-              currentImageUrl={formData.image_url}
-              onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
-            />
+          <div className="grid grid-cols-2 gap-4 items-start">
             <div>
+              <ImageUpload
+                currentImageUrl={formData.image_url}
+                onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
+              />
+            </div>
+            <div className="space-y-2">
               <Label htmlFor="sort_order">Порядок сортировки</Label>
               <Input
                 id="sort_order"
