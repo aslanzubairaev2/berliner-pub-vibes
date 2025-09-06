@@ -14,7 +14,144 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      drinks: {
+        Row: {
+          alcohol_content: string | null
+          category: Database["public"]["Enums"]["drink_category"]
+          created_at: string | null
+          description_de: string
+          description_en: string
+          full_description_de: string | null
+          full_description_en: string | null
+          id: string
+          image_url: string | null
+          is_available: boolean | null
+          name: string
+          price: number
+          sort_order: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          alcohol_content?: string | null
+          category: Database["public"]["Enums"]["drink_category"]
+          created_at?: string | null
+          description_de: string
+          description_en: string
+          full_description_de?: string | null
+          full_description_en?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean | null
+          name: string
+          price: number
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          alcohol_content?: string | null
+          category?: Database["public"]["Enums"]["drink_category"]
+          created_at?: string | null
+          description_de?: string
+          description_en?: string
+          full_description_de?: string | null
+          full_description_en?: string | null
+          id?: string
+          image_url?: string | null
+          is_available?: boolean | null
+          name?: string
+          price?: number
+          sort_order?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      news: {
+        Row: {
+          author_name: string | null
+          category: Database["public"]["Enums"]["news_category"] | null
+          content_de: string
+          content_en: string
+          created_at: string | null
+          excerpt_de: string
+          excerpt_en: string
+          id: string
+          image_url: string | null
+          is_published: boolean | null
+          published_at: string | null
+          read_time: number | null
+          slug: string
+          title_de: string
+          title_en: string
+          updated_at: string | null
+        }
+        Insert: {
+          author_name?: string | null
+          category?: Database["public"]["Enums"]["news_category"] | null
+          content_de: string
+          content_en: string
+          created_at?: string | null
+          excerpt_de: string
+          excerpt_en: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          published_at?: string | null
+          read_time?: number | null
+          slug: string
+          title_de: string
+          title_en: string
+          updated_at?: string | null
+        }
+        Update: {
+          author_name?: string | null
+          category?: Database["public"]["Enums"]["news_category"] | null
+          content_de?: string
+          content_en?: string
+          created_at?: string | null
+          excerpt_de?: string
+          excerpt_en?: string
+          id?: string
+          image_url?: string | null
+          is_published?: boolean | null
+          published_at?: string | null
+          read_time?: number | null
+          slug?: string
+          title_de?: string
+          title_en?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      site_settings: {
+        Row: {
+          description: string | null
+          id: string
+          key: string
+          setting_type: string | null
+          updated_at: string | null
+          value_de: string | null
+          value_en: string | null
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          key: string
+          setting_type?: string | null
+          updated_at?: string | null
+          value_de?: string | null
+          value_en?: string | null
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          key?: string
+          setting_type?: string | null
+          updated_at?: string | null
+          value_de?: string | null
+          value_en?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +160,8 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      drink_category: "beer" | "alcoholic" | "non_alcoholic"
+      news_category: "events" | "menu" | "general"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +288,9 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      drink_category: ["beer", "alcoholic", "non_alcoholic"],
+      news_category: ["events", "menu", "general"],
+    },
   },
 } as const
