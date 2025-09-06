@@ -4,6 +4,8 @@ import { Badge } from "@/components/ui/badge";
 import { Coffee, Newspaper, Settings, Users, TrendingUp, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
+import { AddDrinkDialog } from "@/components/admin/AddDrinkDialog";
+import { AddNewsDialog } from "@/components/admin/AddNewsDialog";
 
 interface DashboardStats {
   totalDrinks: number;
@@ -20,6 +22,8 @@ const AdminDashboard = () => {
     siteSettings: 0
   });
   const [loading, setLoading] = useState(true);
+  const [showAddDrinkDialog, setShowAddDrinkDialog] = useState(false);
+  const [showAddNewsDialog, setShowAddNewsDialog] = useState(false);
 
   useEffect(() => {
     fetchDashboardStats();
@@ -141,14 +145,20 @@ const AdminDashboard = () => {
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
-              <Link to="/admin/drinks" className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
+              <div 
+                className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors"
+                onClick={() => setShowAddDrinkDialog(true)}
+              >
                 <Coffee className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
                 <p className="text-sm font-medium">Add Drink</p>
-              </Link>
-              <Link to="/admin/news" className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors">
+              </div>
+              <div 
+                className="p-4 border border-border rounded-lg text-center hover:bg-muted/50 cursor-pointer transition-colors"
+                onClick={() => setShowAddNewsDialog(true)}
+              >
                 <Newspaper className="h-6 w-6 mx-auto mb-2 text-muted-foreground" />
                 <p className="text-sm font-medium">Create News</p>
-              </Link>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -225,6 +235,18 @@ const AdminDashboard = () => {
           </div>
         </CardContent>
       </Card>
+
+      {/* Add Dialogs */}
+      <AddDrinkDialog 
+        open={showAddDrinkDialog} 
+        onOpenChange={setShowAddDrinkDialog}
+        onSuccess={fetchDashboardStats}
+      />
+      <AddNewsDialog 
+        open={showAddNewsDialog} 
+        onOpenChange={setShowAddNewsDialog}
+        onSuccess={fetchDashboardStats}
+      />
     </div>
   );
 };
