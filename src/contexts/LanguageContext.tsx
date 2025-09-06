@@ -75,7 +75,22 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       // Reviews data
       'review.michael': 'Beste Kneipe in Berlin! Tolles Bier und unglaubliche Atmosphäre.',
       'review.anna': 'Ich liebe diesen Ort! Hervorragende Getränkeauswahl und gemütliche Einrichtung.',
-      'review.thomas': 'Toller Ort für einen Abend mit Freunden. Komme auf jeden Fall wieder!'
+      'review.thomas': 'Toller Ort für einen Abend mit Freunden. Komme auf jeden Fall wieder!',
+
+      // News translations
+      'news.title': 'Berliner Pub News',
+      'news.subtitle': 'Neueste Nachrichten, Veranstaltungen und Geschichten aus dem Leben unserer Kneipe',
+      'news.minRead': 'Min Lesezeit',
+      'news.readMore': 'Weiterlesen',
+      'news.newsletter': 'Newsletter abonnieren',
+      'news.newsletterDesc': 'Erhalten Sie Benachrichtigungen über neue Veranstaltungen, Sonderangebote und interessante Geschichten aus dem Leben unserer Kneipe',
+      'news.subscribe': 'Abonnieren',
+      'news.emailPlaceholder': 'Ihre E-Mail',
+      'news.notFound': 'Artikel nicht gefunden',
+      'news.notFoundDesc': 'Der gesuchte Artikel konnte nicht gefunden werden.',
+      'news.backToNews': 'Zurück zu News',
+      'news.visitUs': 'Besuchen Sie uns',
+      'news.visitUsDesc': 'Kommen Sie vorbei und erleben Sie selbst, was unser Pub so besonders macht!',
     },
     en: {
       // Navigation
@@ -127,7 +142,22 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       // Reviews data
       'review.michael': 'Best pub in Berlin! Great beer and incredible atmosphere.',
       'review.anna': 'I love this place! Excellent drink selection and cozy interior.',
-      'review.thomas': 'Great place for an evening with friends. Will definitely come back!'
+      'review.thomas': 'Great place for an evening with friends. Will definitely come back!',
+
+      // News translations
+      'news.title': 'Berliner Pub News',
+      'news.subtitle': 'Latest news, events and stories from the life of our pub',
+      'news.minRead': 'min read',
+      'news.readMore': 'Read More',
+      'news.newsletter': 'Subscribe to Newsletter',
+      'news.newsletterDesc': 'Receive notifications about new events, special offers and interesting stories from our pub\'s life',
+      'news.subscribe': 'Subscribe',
+      'news.emailPlaceholder': 'Your email',
+      'news.notFound': 'Article not found',
+      'news.notFoundDesc': 'The requested article could not be found.',
+      'news.backToNews': 'Back to News',
+      'news.visitUs': 'Visit Us', 
+      'news.visitUsDesc': 'Come by and experience what makes our pub so special!',
     }
   };
 
