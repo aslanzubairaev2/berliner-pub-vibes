@@ -185,7 +185,7 @@ const Menu = () => {
                     <img 
                       src={selectedDrink.image_url || getImageForDrink(selectedDrink.name)} 
                       alt={selectedDrink.name}
-                      className="w-full h-full object-contain rounded-lg hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-contain rounded-lg shadow-lg"
                       loading="eager"
                     />
                   </div>
