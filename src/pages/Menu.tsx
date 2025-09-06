@@ -180,12 +180,12 @@ const Menu = () => {
             {selectedDrink && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Product Image - Left Side */}
-                <div className="w-full">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-muted/10">
+                <div className="w-full flex justify-start">
+                  <div className="aspect-square rounded-lg overflow-hidden bg-muted/10 w-80">
                     <img 
                       src={selectedDrink.image_url || getImageForDrink(selectedDrink.name)} 
                       alt={selectedDrink.name}
-                      className="w-full h-full object-contain rounded-lg shadow-lg"
+                      className="w-full h-full object-contain rounded-lg"
                       loading="eager"
                     />
                   </div>
