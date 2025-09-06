@@ -47,7 +47,6 @@ export function AdminLayout({ children }: AdminLayoutProps) {
         <header className="fixed top-0 right-0 left-0 z-50 h-14 flex items-center justify-between bg-background border-b px-4">
           <div className="flex items-center gap-4">
             <SidebarTrigger />
-            <h3 className="text-lg font-semibold">Admin Panel - Berliner Pub</h3>
           </div>
           
           <div className="flex items-center gap-2">
