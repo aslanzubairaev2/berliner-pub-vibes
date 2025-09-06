@@ -405,7 +405,14 @@ const AdminNews = () => {
               </div>
               <div className="flex items-center justify-between text-sm text-muted-foreground">
                 <span>Автор: {newsItem.author_name}</span>
-                <span>Время чтения: {newsItem.read_time} мин</span>
+                <div className="flex items-center gap-2">
+                  <span>Время чтения: {newsItem.read_time} мин</span>
+                  {newsItem.published_at && (
+                    <span className="text-xs">
+                      • {new Date(newsItem.published_at).toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
               </div>
             </CardHeader>
             <CardContent>
@@ -414,36 +421,31 @@ const AdminNews = () => {
                   {newsItem.excerpt_de}
                 </p>
                 <div className="flex justify-between items-center">
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleEdit(newsItem)}
-                    >
-                      <Edit className="h-4 w-4" />
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => togglePublished(newsItem.id, newsItem.is_published)}
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      {newsItem.is_published ? 'Снять' : 'Опубликовать'}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(newsItem.id)}
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Удалить
-                    </Button>
-                  </div>
-                  {newsItem.published_at && (
-                    <span className="text-xs text-muted-foreground">
-                      Опубликовано: {new Date(newsItem.published_at).toLocaleDateString()}
-                    </span>
-                  )}
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleEdit(newsItem)}
+                  >
+                    <Edit className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => togglePublished(newsItem.id, newsItem.is_published)}
+                  >
+                    <Eye className="h-4 w-4 mr-2" />
+                    {newsItem.is_published ? 'Снять' : 'Опубликовать'}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => handleDelete(newsItem.id)}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Удалить
+                  </Button>
+                </div>
                 </div>
               </div>
             </CardContent>
