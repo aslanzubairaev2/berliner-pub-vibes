@@ -9,9 +9,9 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useMenu, type Drink } from "@/hooks/useMenu";
 
 // Import all drink images for fallbacks
-import berlinerWeisseImg from "@/assets/berliner-weisse-transparent.png";
-import augustinerBeerImg from "@/assets/augustiner-beer-transparent.png";
-import erdingerWeissbierImg from "@/assets/erdinger-weissbier-transparent.png";
+import berlinerWeisseImg from "@/assets/berliner-weisse-new.jpg";
+import augustinerBeerImg from "@/assets/augustiner-beer-new.jpg";
+import erdingerWeissbierImg from "@/assets/erdinger-weissbier-new.jpg";
 import kostritzerSchwarzbieerImg from "@/assets/kostritzer-schwarzbier-transparent.png";
 import craftBeerImg from "@/assets/craft-beer-transparent.png";
 import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
