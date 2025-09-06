@@ -13,6 +13,22 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { ImageUpload } from "@/components/admin/ImageUpload";
 
+// Import drink images for fallbacks
+import berlinerWeisseGlassImg from "@/assets/berliner-weisse-glass.png";
+import augustinerGlassImg from "@/assets/augustiner-glass.png";
+import erdingerGlassImg from "@/assets/erdinger-glass.png";
+import schwarzbieerGlassImg from "@/assets/schwarzbier-glass.png";
+import craftBeerGlassImg from "@/assets/craft-beer-glass.png";
+import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
+import jagermeisterImg from "@/assets/jagermeister-transparent.png";
+import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
+import gluhweinImg from "@/assets/gluhwein-transparent.png";
+import apfelschorleImg from "@/assets/apfelschorle-transparent.png";
+import fassbrauseImg from "@/assets/fassbrause-transparent.png";
+import coffeeImg from "@/assets/coffee-transparent.png";
+import hotChocolateImg from "@/assets/hot-chocolate-transparent.png";
+import teaSelectionImg from "@/assets/tea-selection-transparent.png";
+
 interface Drink {
   id: string;
   name: string;
@@ -45,6 +61,27 @@ const AdminDrinks = () => {
     is_available: true,
     sort_order: 0
   });
+
+  // Image mapping for fallbacks
+  const getImageForDrink = (drinkName: string) => {
+    const imageMap: Record<string, string> = {
+      'Berliner Weisse': berlinerWeisseGlassImg,
+      'Augustiner Lagerbier Hell': augustinerGlassImg,
+      'Erdinger Weissbier': erdingerGlassImg,
+      'Köstritzer Schwarzbier': schwarzbieerGlassImg,
+      'Craft Beer Auswahl': craftBeerGlassImg,
+      'Schnapps Auswahl': germanSchnappsImg,
+      'Jägermeister': jagermeisterImg,
+      'Riesling': rieslingWineImg,
+      'Glühwein (Winter)': gluhweinImg,
+      'Apfelschorle': apfelschorleImg,
+      'Fassbrause': fassbrauseImg,
+      'Kaffee': coffeeImg,
+      'Heisse Schokolade': hotChocolateImg,
+      'Tee Auswahl': teaSelectionImg,
+    };
+    return imageMap[drinkName] || coffeeImg;
+  };
 
   useEffect(() => {
     fetchDrinks();
@@ -329,7 +366,16 @@ const AdminDrinks = () => {
             </Card>
           ))
         ) : drinks.map((drink) => (
-          <Card key={drink.id} className="pub-card-shadow border-0">
+          <Card key={drink.id} className="pub-card-shadow border-0 overflow-hidden">
+            {/* Drink Image */}
+            <div className="aspect-video w-full bg-muted/10">
+              <img 
+                src={drink.image_url || getImageForDrink(drink.name)} 
+                alt={drink.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+            
             <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg">{drink.name}</CardTitle>
