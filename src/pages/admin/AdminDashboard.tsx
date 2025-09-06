@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Coffee, Newspaper, Settings, Users, TrendingUp, Clock } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { Link } from "react-router-dom";
 
 interface DashboardStats {
   totalDrinks: number;
@@ -95,24 +96,38 @@ const AdminDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {dashboardCards.map((card, index) => (
-          <Card key={index} className="pub-card-shadow border-0">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
-              <div className={`w-8 h-8 ${card.bgColor} rounded-full flex items-center justify-center`}>
-                <card.icon className={`h-4 w-4 ${card.color}`} />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">
-                {loading ? "..." : card.value}
-              </div>
-              <p className="text-xs text-muted-foreground">
-                {card.description}
-              </p>
-            </CardContent>
-          </Card>
-        ))}
+        {dashboardCards.map((card, index) => {
+          const getCardLink = (title: string) => {
+            switch (title) {
+              case "Total Drinks": return "/admin/drinks";
+              case "Published News": return "/admin/news";
+              case "Draft News": return "/admin/news";
+              case "Site Settings": return "/admin/settings";
+              default: return "#";
+            }
+          };
+
+          return (
+            <Link key={index} to={getCardLink(card.title)}>
+              <Card className="pub-card-shadow border-0 hover:bg-muted/50 transition-colors cursor-pointer">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">{card.title}</CardTitle>
+                  <div className={`w-8 h-8 ${card.bgColor} rounded-full flex items-center justify-center`}>
+                    <card.icon className={`h-4 w-4 ${card.color}`} />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">
+                    {loading ? "..." : card.value}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    {card.description}
+                  </p>
+                </CardContent>
+              </Card>
+            </Link>
+          );
+        })}
       </div>
 
       {/* Quick Actions */}

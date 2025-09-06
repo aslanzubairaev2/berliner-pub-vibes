@@ -17,6 +17,8 @@ import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 import AdminLogin from "./pages/admin/AdminLogin";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDrinks from "./pages/admin/AdminDrinks";
+import AdminNews from "./pages/admin/AdminNews";
 import { useAdminAuth } from "./contexts/AdminAuthContext";
 
 const queryClient = new QueryClient();
@@ -65,6 +67,16 @@ const App = () => (
             <Route path="/admin" element={
               <ProtectedAdminRoute>
                 <AdminDashboard />
+              </ProtectedAdminRoute>
+            } />
+            <Route path="/admin/drinks" element={
+              <ProtectedAdminRoute>
+                <AdminDrinks />
+              </ProtectedAdminRoute>
+            } />
+            <Route path="/admin/news" element={
+              <ProtectedAdminRoute>
+                <AdminNews />
               </ProtectedAdminRoute>
             } />
             
