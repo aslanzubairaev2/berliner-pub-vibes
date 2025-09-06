@@ -421,8 +421,8 @@ const AdminNews = () => {
                   {newsItem.excerpt_de}
                 </p>
                 <div className="flex justify-between items-center">
-                <div className="flex items-center">
-                  <div className="flex gap-2 flex-1">
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-2">
                     <Button
                       variant="outline"
                       size="sm"
@@ -440,7 +440,7 @@ const AdminNews = () => {
                     </Button>
                   </div>
                   <Trash2 
-                    className="h-5 w-5 text-red-500 hover:text-red-700 cursor-pointer transition-colors ml-auto" 
+                    className="h-5 w-5 text-red-500 hover:text-red-700 cursor-pointer transition-colors" 
                     onClick={() => handleDelete(newsItem.id)}
                   />
                 </div>
