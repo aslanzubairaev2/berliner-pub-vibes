@@ -207,7 +207,7 @@ const Menu = () => {
 
         {/* Product Modal */}
         <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="text-2xl font-bold">
                 {selectedDrink?.name}
@@ -215,45 +215,50 @@ const Menu = () => {
             </DialogHeader>
             
             {selectedDrink && (
-              <div className="space-y-6">
-                {/* Product Image */}
-                <div className="w-full h-64 rounded-lg overflow-hidden">
-                  <img 
-                    src={selectedDrink.image} 
-                    alt={selectedDrink.name}
-                    className="w-full h-full object-cover"
-                  />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Product Image - Left Side */}
+                <div className="w-full">
+                  <div className="aspect-[3/4] rounded-lg overflow-hidden">
+                    <img 
+                      src={selectedDrink.image} 
+                      alt={selectedDrink.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </div>
 
-                {/* Product Info */}
-                <div className="flex justify-between items-center">
-                  <Badge variant="secondary" className="text-lg px-4 py-2 bg-accent text-accent-foreground">
-                    {selectedDrink.price}
-                  </Badge>
-                  <Badge variant="outline" className="text-sm">
-                    Alkohol: {selectedDrink.alcohol}
-                  </Badge>
-                </div>
+                {/* Product Info - Right Side */}
+                <div className="space-y-6">
+                  {/* Price and Alcohol Info */}
+                  <div className="flex justify-between items-center">
+                    <Badge variant="secondary" className="text-lg px-4 py-2 bg-accent text-accent-foreground">
+                      {selectedDrink.price}
+                    </Badge>
+                    <Badge variant="outline" className="text-sm">
+                      Alkohol: {selectedDrink.alcohol}
+                    </Badge>
+                  </div>
 
-                {/* Short Description */}
-                <div>
-                  <h4 className="font-semibold mb-2">Kurzbeschreibung</h4>
-                  <p className="text-muted-foreground">{selectedDrink.description}</p>
-                </div>
+                  {/* Short Description */}
+                  <div>
+                    <h4 className="font-semibold mb-2">Kurzbeschreibung</h4>
+                    <p className="text-muted-foreground">{selectedDrink.description}</p>
+                  </div>
 
-                {/* Full Description */}
-                <div>
-                  <h4 className="font-semibold mb-2">Detaillierte Beschreibung</h4>
-                  <p className="text-muted-foreground leading-relaxed">
-                    {selectedDrink.fullDescription}
-                  </p>
-                </div>
+                  {/* Full Description */}
+                  <div>
+                    <h4 className="font-semibold mb-2">Detaillierte Beschreibung</h4>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {selectedDrink.fullDescription}
+                    </p>
+                  </div>
 
-                {/* Close Button */}
-                <div className="flex justify-center pt-4">
-                  <Button onClick={closeModal} className="w-full md:w-auto">
-                    Schließen
-                  </Button>
+                  {/* Close Button */}
+                  <div className="flex justify-center pt-4">
+                    <Button onClick={closeModal} className="w-full md:w-auto">
+                      Schließen
+                    </Button>
+                  </div>
                 </div>
               </div>
             )}
