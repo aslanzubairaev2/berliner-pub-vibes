@@ -82,6 +82,103 @@ export type Database = {
         }
         Relationships: []
       }
+      api_keys: {
+        Row: {
+          api_key: string
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          is_active: boolean
+          key_name: string
+          last_used: string | null
+          permissions: string[] | null
+          rate_limit: number | null
+          updated_at: string
+        }
+        Insert: {
+          api_key: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_name: string
+          last_used?: string | null
+          permissions?: string[] | null
+          rate_limit?: number | null
+          updated_at?: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          is_active?: boolean
+          key_name?: string
+          last_used?: string | null
+          permissions?: string[] | null
+          rate_limit?: number | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_keys_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "admin_users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      api_logs: {
+        Row: {
+          api_key_id: string | null
+          created_at: string
+          endpoint: string
+          id: string
+          ip_address: string | null
+          method: string
+          request_data: Json | null
+          response_data: Json | null
+          response_status: number | null
+          user_agent: string | null
+        }
+        Insert: {
+          api_key_id?: string | null
+          created_at?: string
+          endpoint: string
+          id?: string
+          ip_address?: string | null
+          method: string
+          request_data?: Json | null
+          response_data?: Json | null
+          response_status?: number | null
+          user_agent?: string | null
+        }
+        Update: {
+          api_key_id?: string | null
+          created_at?: string
+          endpoint?: string
+          id?: string
+          ip_address?: string | null
+          method?: string
+          request_data?: Json | null
+          response_data?: Json | null
+          response_status?: number | null
+          user_agent?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "api_logs_api_key_id_fkey"
+            columns: ["api_key_id"]
+            isOneToOne: false
+            referencedRelation: "api_keys"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       drinks: {
         Row: {
           alcohol_content: string | null
@@ -232,6 +329,10 @@ export type Database = {
           user_id: string
           user_name: string
         }[]
+      }
+      generate_api_key: {
+        Args: Record<PropertyKey, never>
+        Returns: string
       }
       generate_session_token: {
         Args: Record<PropertyKey, never>
