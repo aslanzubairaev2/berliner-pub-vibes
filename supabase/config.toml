@@ -1,1 +1,7 @@
 project_id = "hizfxcxcegckhswmsaui"
+
+[functions.news-api]
+verify_jwt = false
+
+[functions.generate-beer-image]
+verify_jwt = false

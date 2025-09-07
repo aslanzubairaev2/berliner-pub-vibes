@@ -8,7 +8,8 @@ import {
   BarChart3, 
   LogOut,
   Menu,
-  X
+  X,
+  Key
 } from "lucide-react";
 import {
   Sidebar,
@@ -29,6 +30,7 @@ const adminMenuItems = [
   { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
   { title: "Drinks Management", url: "/admin/drinks", icon: Coffee },
   { title: "News Management", url: "/admin/news", icon: Newspaper },
+  { title: "API Keys", url: "/admin/api-keys", icon: Key },
   { title: "Site Settings", url: "/admin/settings", icon: Settings },
   { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
