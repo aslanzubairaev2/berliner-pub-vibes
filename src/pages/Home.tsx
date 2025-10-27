@@ -13,9 +13,23 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import pubHero from "@/assets/pub-hero.jpg";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
+import { GallerySection } from "@/components/home/GallerySection";
 
 const Home = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { getSetting } = useSiteSettings();
+  
+  const heroImage = getSetting('hero_image_url', language) || pubHero;
+  const galleryEnabled = getSetting('gallery_enabled', language) === 'true';
+  const galleryImages = (() => {
+    try {
+      const value = getSetting('gallery_images', language);
+      return value ? JSON.parse(value) : [];
+    } catch {
+      return [];
+    }
+  })();
 
   const features = [
     {
@@ -64,7 +78,7 @@ const Home = () => {
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${pubHero})` }}
+          style={{ backgroundImage: `url(${heroImage})` }}
         >
           <div className="absolute inset-0 bg-black/50"></div>
         </div>
@@ -86,6 +100,9 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+      {/* Gallery Section */}
+      {galleryEnabled && <GallerySection images={galleryImages} />}
 
       {/* Features Section */}
       <section className="py-20 bg-muted/30">

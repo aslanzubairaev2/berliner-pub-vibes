@@ -3,27 +3,10 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Beer, Coffee, X, Loader2 } from "lucide-react";
+import { Coffee, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useMenu, type Drink } from "@/hooks/useMenu";
-
-// Import all drink images for fallbacks
-import berlinerWeisseGlassImg from "@/assets/berliner-weisse-glass.png";
-import augustinerGlassImg from "@/assets/augustiner-glass.png";
-import erdingerGlassImg from "@/assets/erdinger-glass.png";
-import schwarzbieerGlassImg from "@/assets/schwarzbier-glass.png";
-import craftBeerGlassImg from "@/assets/craft-beer-glass.png";
-import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
-import jagermeisterImg from "@/assets/jagermeister-transparent.png";
-import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
-import gluhweinImg from "@/assets/gluhwein-transparent.png";
-import apfelschorleImg from "@/assets/apfelschorle-transparent.png";
-import fassbrauseImg from "@/assets/fassbrause-transparent.png";
-import coffeeImg from "@/assets/coffee-transparent.png";
-import hotChocolateImg from "@/assets/hot-chocolate-transparent.png";
-import teaSelectionImg from "@/assets/tea-selection-transparent.png";
-import beerGlassUserImg from "@/assets/beer-glass-user.png";
 
 const Menu = () => {
   const { toast } = useToast();
@@ -31,27 +14,6 @@ const Menu = () => {
   const { drinks, loading, error, getDrinksByCategory } = useMenu();
   const [selectedDrink, setSelectedDrink] = useState<Drink | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // Image mapping for fallbacks
-  const getImageForDrink = (drinkName: string) => {
-    const imageMap: Record<string, string> = {
-      'Berliner Weisse': berlinerWeisseGlassImg,
-      'Augustiner Lagerbier Hell': augustinerGlassImg,
-      'Erdinger Weissbier': erdingerGlassImg,
-      'Köstritzer Schwarzbier': schwarzbieerGlassImg,
-      'Craft Beer Auswahl': craftBeerGlassImg,
-      'Schnapps Auswahl': germanSchnappsImg,
-      'Jägermeister': jagermeisterImg,
-      'Riesling': rieslingWineImg,
-      'Glühwein (Winter)': gluhweinImg,
-      'Apfelschorle': apfelschorleImg,
-      'Fassbrause': fassbrauseImg,
-      'Kaffee': coffeeImg,
-      'Heisse Schokolade': hotChocolateImg,
-      'Tee Auswahl': teaSelectionImg,
-    };
-    return imageMap[drinkName] || coffeeImg;
-  };
 
   const getCategoryName = (category: string) => {
     const categoryMap: Record<string, { de: string; en: string }> = {
@@ -127,26 +89,15 @@ const Menu = () => {
                       onClick={() => handleDrinkClick(drink)}
                     >
                       <CardContent className="p-6">
-                        <div className="flex gap-4">
-                          <div className="w-20 h-20 flex-shrink-0">
-                            <img 
-                              src={drink.image_url || getImageForDrink(drink.name)} 
-                              alt={drink.name}
-                              className="w-full h-full object-cover rounded-lg"
-                            />
-                          </div>
-                          <div className="flex-1">
-                            <div className="flex justify-between items-start mb-3">
-                              <h3 className="text-xl font-semibold">{drink.name}</h3>
-                              <Badge variant="secondary" className="ml-2 bg-accent text-accent-foreground">
-                                €{drink.price.toFixed(2)}
-                              </Badge>
-                            </div>
-                            <p className="text-muted-foreground">
-                              {language === 'de' ? drink.description_de : drink.description_en}
-                            </p>
-                          </div>
+                        <div className="flex justify-between items-start mb-3">
+                          <h3 className="text-xl font-semibold">{drink.name}</h3>
+                          <Badge variant="secondary" className="ml-2 bg-accent text-accent-foreground">
+                            €{drink.price.toFixed(2)}
+                          </Badge>
                         </div>
+                        <p className="text-muted-foreground">
+                          {language === 'de' ? drink.description_de : drink.description_en}
+                        </p>
                       </CardContent>
                     </Card>
                   ))}
@@ -179,59 +130,44 @@ const Menu = () => {
             </DialogHeader>
             
             {selectedDrink && (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Product Image - Left Side */}
-                <div className="w-full flex justify-start">
-                  <div className="aspect-square rounded-lg overflow-hidden bg-muted/10 w-80">
-                    <img 
-                      src={selectedDrink.image_url || getImageForDrink(selectedDrink.name)} 
-                      alt={selectedDrink.name}
-                      className="w-full h-full object-contain rounded-lg"
-                      loading="eager"
-                    />
-                  </div>
+              <div className="space-y-6">
+                {/* Price and Alcohol Info */}
+                <div className="flex justify-between items-center">
+                  <Badge variant="secondary" className="text-lg px-4 py-2 bg-accent text-accent-foreground">
+                    €{selectedDrink.price.toFixed(2)}
+                  </Badge>
+                  {selectedDrink.alcohol_content && (
+                    <Badge variant="outline" className="text-sm">
+                      {t('menu.alcohol')}: {selectedDrink.alcohol_content}
+                    </Badge>
+                  )}
                 </div>
 
-                {/* Product Info - Right Side */}
-                <div className="space-y-6">
-                  {/* Price and Alcohol Info */}
-                  <div className="flex justify-between items-center">
-                    <Badge variant="secondary" className="text-lg px-4 py-2 bg-accent text-accent-foreground">
-                      €{selectedDrink.price.toFixed(2)}
-                    </Badge>
-                    {selectedDrink.alcohol_content && (
-                      <Badge variant="outline" className="text-sm">
-                        {t('menu.alcohol')}: {selectedDrink.alcohol_content}
-                      </Badge>
-                    )}
-                  </div>
+                {/* Short Description */}
+                <div>
+                  <h4 className="font-semibold mb-2">{t('menu.shortDescription')}</h4>
+                  <p className="text-muted-foreground">
+                    {language === 'de' ? selectedDrink.description_de : selectedDrink.description_en}
+                  </p>
+                </div>
 
-                  {/* Short Description */}
+                {/* Full Description */}
+                {(selectedDrink.full_description_de || selectedDrink.full_description_en) && (
                   <div>
-                    <h4 className="font-semibold mb-2">{t('menu.shortDescription')}</h4>
-                    <p className="text-muted-foreground">
-                      {language === 'de' ? selectedDrink.description_de : selectedDrink.description_en}
+                    <h4 className="font-semibold mb-2">{t('menu.detailedDescription')}</h4>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {language === 'de' 
+                        ? selectedDrink.full_description_de || selectedDrink.full_description_en
+                        : selectedDrink.full_description_en || selectedDrink.full_description_de}
                     </p>
                   </div>
+                )}
 
-                  {/* Full Description */}
-                  {(selectedDrink.full_description_de || selectedDrink.full_description_en) && (
-                    <div>
-                      <h4 className="font-semibold mb-2">{t('menu.detailedDescription')}</h4>
-                      <p className="text-muted-foreground leading-relaxed">
-                        {language === 'de' 
-                          ? selectedDrink.full_description_de || selectedDrink.full_description_en
-                          : selectedDrink.full_description_en || selectedDrink.full_description_de}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Close Button */}
-                  <div className="flex justify-center pt-4">
-                    <Button onClick={closeModal} className="w-full md:w-auto">
-                      {t('menu.close')}
-                    </Button>
-                  </div>
+                {/* Close Button */}
+                <div className="flex justify-center pt-4">
+                  <Button onClick={closeModal} className="w-full md:w-auto">
+                    {t('menu.close')}
+                  </Button>
                 </div>
               </div>
             )}

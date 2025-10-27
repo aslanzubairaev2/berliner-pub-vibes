@@ -22,6 +22,7 @@ import AdminNews from "./pages/admin/AdminNews";
 import AdminSettings from "./pages/admin/AdminSettings";
 import AdminAnalytics from "./pages/admin/AdminAnalytics";
 import AdminApiKeys from "./pages/admin/AdminApiKeys";
+import AdminAppearance from "./pages/admin/AdminAppearance";
 import { useAdminAuth } from "./contexts/AdminAuthContext";
 
 const queryClient = new QueryClient();
@@ -90,6 +91,11 @@ const App = () => (
             <Route path="/admin/settings" element={
               <ProtectedAdminRoute>
                 <AdminSettings />
+              </ProtectedAdminRoute>
+            } />
+            <Route path="/admin/appearance" element={
+              <ProtectedAdminRoute>
+                <AdminAppearance />
               </ProtectedAdminRoute>
             } />
             <Route path="/admin/analytics" element={

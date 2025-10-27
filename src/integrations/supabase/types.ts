@@ -330,18 +330,9 @@ export type Database = {
           user_name: string
         }[]
       }
-      generate_api_key: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      generate_session_token: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      simple_hash: {
-        Args: { password: string }
-        Returns: string
-      }
+      generate_api_key: { Args: never; Returns: string }
+      generate_session_token: { Args: never; Returns: string }
+      simple_hash: { Args: { password: string }; Returns: string }
       verify_admin_session: {
         Args: { token: string }
         Returns: {

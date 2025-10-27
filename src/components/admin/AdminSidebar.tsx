@@ -9,7 +9,8 @@ import {
   LogOut,
   Menu,
   X,
-  Key
+  Key,
+  Palette
 } from "lucide-react";
 import {
   Sidebar,
@@ -31,6 +32,7 @@ const adminMenuItems = [
   { title: "Drinks Management", url: "/admin/drinks", icon: Coffee },
   { title: "News Management", url: "/admin/news", icon: Newspaper },
   { title: "API Keys", url: "/admin/api-keys", icon: Key },
+  { title: "Appearance", url: "/admin/appearance", icon: Palette },
   { title: "Site Settings", url: "/admin/settings", icon: Settings },
   { title: "Analytics", url: "/admin/analytics", icon: BarChart3 },
 ];
