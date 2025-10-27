@@ -79,11 +79,12 @@ const AdminAppearance = () => {
   };
 
   const handleAddGalleryImage = (url: string) => {
-    setGalleryImages([...galleryImages, url]);
+    setGalleryImages(prev => [...prev, url]);
+    toast.success('Изображение добавлено в галерею');
   };
 
   const handleRemoveGalleryImage = (index: number) => {
-    setGalleryImages(galleryImages.filter((_, i) => i !== index));
+    setGalleryImages(prev => prev.filter((_, i) => i !== index));
   };
 
   if (loading) {

@@ -113,24 +113,26 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
 
   return (
     <div className="space-y-2">
-      <Label>Image</Label>
-      <div className="flex items-center gap-2">
-        <Input
-          value={currentImageUrl || ''}
-          onChange={(e) => onImageUploaded(e.target.value)}
-          placeholder="Image URL"
-          className="flex-1"
-        />
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-          <DialogTrigger asChild>
-            <Button variant="outline" size="sm" disabled={isUploading}>
-              {isUploading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Upload className="h-4 w-4" />
-              )}
-            </Button>
-          </DialogTrigger>
+      {currentImageUrl !== undefined && (
+        <>
+          <Label>Image</Label>
+          <div className="flex items-center gap-2">
+            <Input
+              value={currentImageUrl || ''}
+              onChange={(e) => onImageUploaded(e.target.value)}
+              placeholder="Image URL"
+              className="flex-1"
+            />
+            <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+              <DialogTrigger asChild>
+                <Button variant="outline" size="sm" disabled={isUploading}>
+                  {isUploading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Upload className="h-4 w-4" />
+                  )}
+                </Button>
+              </DialogTrigger>
           <DialogContent className="max-w-md">
             <DialogHeader>
               <DialogTitle>Upload Image</DialogTitle>
@@ -236,6 +238,113 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
             }}
           />
         </div>
+      )}
+        </>
+      )}
+      
+      {currentImageUrl === undefined && (
+        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+          <DialogTrigger asChild>
+            <Button variant="outline" disabled={isUploading} className="w-full">
+              {isUploading ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-2" />
+              ) : (
+                <Upload className="h-4 w-4 mr-2" />
+              )}
+              {isUploading ? 'Загрузка...' : 'Загрузить изображение'}
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-md">
+            <DialogHeader>
+              <DialogTitle>Upload Image</DialogTitle>
+            </DialogHeader>
+            
+            <Tabs defaultValue="local" className="w-full">
+              <TabsList className="grid w-full grid-cols-3">
+                <TabsTrigger value="local">From Disk</TabsTrigger>
+                <TabsTrigger value="url">By URL</TabsTrigger>
+                <TabsTrigger value="gdrive">Google Drive</TabsTrigger>
+              </TabsList>
+              
+              <TabsContent value="local" className="space-y-4">
+                <div>
+                  <Label>Select image file</Label>
+                  <div className="mt-2">
+                    <input
+                      ref={fileInputRef}
+                      type="file"
+                      accept="image/*"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                    />
+                    <Button
+                      onClick={() => fileInputRef.current?.click()}
+                      variant="outline"
+                      className="w-full"
+                      disabled={isUploading}
+                    >
+                      {isUploading ? (
+                        <>
+                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                          Uploading...
+                        </>
+                      ) : (
+                        <>
+                          <Image className="h-4 w-4 mr-2" />
+                          Choose File
+                        </>
+                      )}
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2">
+                    Supported: JPG, PNG, WebP (max 5MB)
+                  </p>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="url" className="space-y-4">
+                <div>
+                  <Label htmlFor="url-input">Image URL</Label>
+                  <Input
+                    id="url-input"
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="https://example.com/image.jpg"
+                  />
+                </div>
+                <Button onClick={handleUrlSubmit} className="w-full">
+                  <Link className="h-4 w-4 mr-2" />
+                  Add by URL
+                </Button>
+              </TabsContent>
+              
+              <TabsContent value="gdrive" className="space-y-4">
+                <div>
+                  <Label htmlFor="gdrive-input">Google Drive Link</Label>
+                  <Input
+                    id="gdrive-input"
+                    value={urlInput}
+                    onChange={(e) => setUrlInput(e.target.value)}
+                    placeholder="https://drive.google.com/file/d/..."
+                  />
+                </div>
+                <Button onClick={handleGoogleDriveLink} className="w-full">
+                  <Image className="h-4 w-4 mr-2" />
+                  Add from Google Drive
+                </Button>
+                <div className="text-xs text-muted-foreground space-y-2">
+                  <p><strong>Instructions:</strong></p>
+                  <ol className="list-decimal list-inside space-y-1 text-xs">
+                    <li>Open file in Google Drive</li>
+                    <li>Click "Share" → "Change access"</li>
+                    <li>Select "Anyone with the link"</li>
+                    <li>Copy link and paste here</li>
+                  </ol>
+                </div>
+              </TabsContent>
+            </Tabs>
+          </DialogContent>
+        </Dialog>
       )}
     </div>
   );
