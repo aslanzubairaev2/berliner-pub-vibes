@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -12,20 +12,27 @@ import { ImageUpload } from "@/components/admin/ImageUpload";
 const AdminAppearance = () => {
   const { settings, loading, fetchSettings, getSetting } = useSiteSettings();
   const [saving, setSaving] = useState(false);
-  const [galleryEnabled, setGalleryEnabled] = useState<boolean>(
-    getSetting('gallery_enabled') === 'true'
-  );
-  const [heroImageUrl, setHeroImageUrl] = useState<string>(
-    getSetting('hero_image_url') || ''
-  );
-  const [galleryImages, setGalleryImages] = useState<string[]>(() => {
-    try {
-      const value = getSetting('gallery_images');
-      return value ? JSON.parse(value) : [];
-    } catch {
-      return [];
+  const [galleryEnabled, setGalleryEnabled] = useState<boolean>(false);
+  const [heroImageUrl, setHeroImageUrl] = useState<string>('');
+  const [galleryImages, setGalleryImages] = useState<string[]>([]);
+
+  // Update state when settings are loaded
+  useEffect(() => {
+    if (!loading && settings) {
+      const galleryValue = getSetting('gallery_enabled');
+      setGalleryEnabled(galleryValue === 'true');
+      
+      const heroValue = getSetting('hero_image_url');
+      setHeroImageUrl(heroValue || '');
+      
+      try {
+        const imagesValue = getSetting('gallery_images');
+        setGalleryImages(imagesValue ? JSON.parse(imagesValue) : []);
+      } catch {
+        setGalleryImages([]);
+      }
     }
-  });
+  }, [loading, settings, getSetting]);
 
   const updateSetting = async (key: string, valueDe: string, valueEn: string) => {
     const { error } = await supabase
