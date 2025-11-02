@@ -3,8 +3,10 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, Quote, MapPin, Calendar } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const Reviews = () => {
+  const { t } = useLanguage();
   const [newReview, setNewReview] = useState({
     name: "",
     email: "",
@@ -115,10 +117,10 @@ const Reviews = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">Bewertungen</Badge>
-          <h1 className="text-5xl font-bold mb-6">Bewertungen unserer Gäste</h1>
+          <Badge variant="outline" className="mb-4">{t('reviews.badge')}</Badge>
+          <h1 className="text-5xl font-bold mb-6">{t('reviews.title')}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Lesen Sie, was unsere Besucher über uns sagen und teilen Sie Ihre Erfahrungen
+            {t('reviews.subtitle')}
           </p>
         </div>
 
@@ -132,7 +134,7 @@ const Reviews = () => {
               <div className="flex justify-center mb-2">
                 {renderStars(Math.round(averageRating))}
               </div>
-              <p className="text-muted-foreground">Durchschnittsbewertung</p>
+              <p className="text-muted-foreground">{t('reviews.averageRating')}</p>
             </CardContent>
           </Card>
           
@@ -141,7 +143,7 @@ const Reviews = () => {
               <div className="text-4xl font-bold text-accent mb-2">
                 {reviews.length}
               </div>
-              <p className="text-muted-foreground">Gesamtbewertungen</p>
+              <p className="text-muted-foreground">{t('reviews.totalReviews')}</p>
             </CardContent>
           </Card>
           
@@ -150,7 +152,7 @@ const Reviews = () => {
               <div className="text-4xl font-bold text-accent mb-2">
                 {Math.round((reviews.filter(r => r.rating >= 4).length / reviews.length) * 100)}%
               </div>
-              <p className="text-muted-foreground">Zufriedene Gäste</p>
+              <p className="text-muted-foreground">{t('reviews.satisfiedGuests')}</p>
             </CardContent>
           </Card>
         </div>
@@ -158,7 +160,7 @@ const Reviews = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Reviews List */}
           <div className="lg:col-span-2">
-            <h2 className="text-3xl font-bold mb-8">Gästebewertungen</h2>
+            <h2 className="text-3xl font-bold mb-8">{t('reviews.guestReviews')}</h2>
             <div className="space-y-6">
               {reviews.map((review) => (
                 <Card key={review.id} className="pub-card-shadow border-0">
@@ -169,7 +171,7 @@ const Reviews = () => {
                           <h3 className="font-semibold text-lg">{review.name}</h3>
                           {review.verified && (
                             <Badge variant="secondary" className="text-xs">
-                              Verifiziert
+                              {t('reviews.verified')}
                             </Badge>
                           )}
                         </div>
@@ -209,11 +211,11 @@ const Reviews = () => {
           <div>
             <Card className="sticky top-24 pub-card-shadow border-0">
               <CardContent className="p-6">
-                <h3 className="text-2xl font-bold mb-6">Bewertung hinterlassen</h3>
+                <h3 className="text-2xl font-bold mb-6">{t('reviews.leaveReview')}</h3>
                 <form onSubmit={handleSubmitReview} className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Ihr Name *
+                      {t('reviews.yourName')} *
                     </label>
                     <input
                       type="text"
@@ -239,7 +241,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Bewertung *
+                      {t('reviews.rating')} *
                     </label>
                     {renderStars(newReview.rating, true, (rating) => 
                       setNewReview({ ...newReview, rating }))}
@@ -247,7 +249,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Titel der Bewertung *
+                      {t('reviews.reviewTitle')} *
                     </label>
                     <input
                       type="text"
@@ -260,7 +262,7 @@ const Reviews = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Ihre Bewertung *
+                      {t('reviews.yourReview')} *
                     </label>
                     <textarea
                       required
@@ -272,7 +274,7 @@ const Reviews = () => {
                   </div>
                   
                   <Button type="submit" className="w-full">
-                    Bewertung senden
+                    {t('reviews.sendReview')}
                   </Button>
                 </form>
               </CardContent>
