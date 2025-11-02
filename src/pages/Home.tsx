@@ -212,8 +212,11 @@ const Home = () => {
         <div className="container mx-auto px-4 text-center">
           <MapPin className="h-12 w-12 text-accent mx-auto mb-6" />
           <h2 className="text-4xl font-bold mb-4">{t('home.locationTitle')}</h2>
-          <p className="text-xl mb-8 opacity-90">
+          <p className="text-xl mb-2 opacity-90">
             {t('home.address')}
+          </p>
+          <p className="text-lg mb-8 opacity-80">
+            {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
           </p>
           <Button size="lg" variant="secondary" asChild>
             <NavLink to="/contact">{t('home.directions')}</NavLink>
