@@ -78,6 +78,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       'review.thomas': 'Toller Ort für einen Abend mit Freunden. Komme auf jeden Fall wieder!',
 
       // News translations
+      'news.badge': 'Nachrichten',
       'news.title': 'Berliner Pub News',
       'news.subtitle': 'Neueste Nachrichten, Veranstaltungen und Geschichten aus dem Leben unserer Kneipe',
       'news.minRead': 'Min Lesezeit',
@@ -243,6 +244,7 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
       'review.thomas': 'Great place for an evening with friends. Will definitely come back!',
 
       // News translations
+      'news.badge': 'News',
       'news.title': 'Berliner Pub News',
       'news.subtitle': 'Latest news, events and stories from the life of our pub',
       'news.minRead': 'min read',

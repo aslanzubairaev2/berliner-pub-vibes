@@ -70,7 +70,7 @@ const News = () => {
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-16">
-          <Badge variant="outline" className="mb-4">News</Badge>
+          <Badge variant="outline" className="mb-4">{t('news.badge')}</Badge>
           <h1 className="text-5xl font-bold mb-6">{t('news.title')}</h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('news.subtitle')}
