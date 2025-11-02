@@ -64,6 +64,9 @@ const Contact = () => {
                     <h3 className="text-lg font-semibold">{t('contact.address')}</h3>
                     <p className="text-muted-foreground">Ansbacher Straße 29</p>
                     <p className="text-muted-foreground">10789 Berlin, Germany</p>
+                    <p className="text-muted-foreground text-sm mt-1">
+                      {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
+                    </p>
                   </div>
                 </div>
                 <Button variant="outline" className="w-full" onClick={() => 
@@ -205,9 +208,14 @@ const Contact = () => {
             <div className="h-96 bg-muted/30 rounded-lg flex items-center justify-center">
               <div className="text-center">
                 <MapPin className="h-12 w-12 text-accent mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">Hier finden Sie uns</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  {language === 'de' ? 'Hier finden Sie uns' : 'Find us here'}
+                </h3>
                 <p className="text-muted-foreground">Ansbacher Straße 29, 10789 Berlin</p>
-                <Button 
+                <p className="text-muted-foreground text-sm">
+                  {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
+                </p>
+                <Button
                   variant="outline" 
                   className="mt-4"
                   onClick={() => window.open('https://maps.google.com/?q=Ansbacher+Straße+29,+10789+Berlin', '_blank')}
