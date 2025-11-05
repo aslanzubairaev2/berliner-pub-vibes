@@ -44,10 +44,10 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
 
       onImageUploaded(data.publicUrl);
       setIsModalOpen(false);
-      toast.success('Изображение загружено успешно!');
+      toast.success('Image uploaded successfully!');
     } catch (error) {
       console.error('Upload error:', error);
-      toast.error('Ошибка загрузки изображения');
+      toast.error('Image upload error');
     } finally {
       setIsUploading(false);
     }
@@ -58,13 +58,13 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
     if (file) {
       // Validate file type
       if (!file.type.startsWith('image/')) {
-        toast.error('Пожалуйста, выберите файл изображения');
+        toast.error('Please select an image file');
         return;
       }
       
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        toast.error('Размер файла должен быть не более 5MB');
+        toast.error('File size must not exceed 5MB');
         return;
       }
 
@@ -74,7 +74,7 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
 
   const handleUrlSubmit = () => {
     if (!urlInput.trim()) {
-      toast.error('Введите URL изображения');
+      toast.error('Enter image URL');
       return;
     }
 
@@ -84,16 +84,16 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
       onImageUploaded(urlInput);
       setUrlInput('');
       setIsModalOpen(false);
-      toast.success('URL изображения добавлен');
+      toast.success('Image URL added');
     } catch {
-      toast.error('Неверный формат URL');
+      toast.error('Invalid URL format');
     }
   };
 
   const handleGoogleDriveLink = () => {
     const driveUrl = urlInput.trim();
     if (!driveUrl.includes('drive.google.com')) {
-      toast.error('Пожалуйста, введите корректную ссылку Google Drive');
+      toast.error('Please enter a valid Google Drive link');
       return;
     }
 
@@ -251,7 +251,7 @@ export const ImageUpload = ({ currentImageUrl, onImageUploaded, bucket = 'drink-
               ) : (
                 <Upload className="h-4 w-4 mr-2" />
               )}
-              {isUploading ? 'Загрузка...' : 'Загрузить изображение'}
+              {isUploading ? 'Uploading...' : 'Upload Image'}
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-md">

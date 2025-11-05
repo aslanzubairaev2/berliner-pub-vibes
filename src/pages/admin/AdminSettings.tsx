@@ -25,6 +25,12 @@ const AdminSettings = () => {
   const [loading, setLoading] = useState(true);
   const [editingSetting, setEditingSetting] = useState<SiteSetting | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPasswordModalOpen, setIsPasswordModalOpen] = useState(false);
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
+  });
   const [formData, setFormData] = useState<Partial<SiteSetting>>({
     key: '',
     value_de: '',
@@ -137,6 +143,91 @@ const AdminSettings = () => {
     setIsModalOpen(true);
   };
 
+  const handlePasswordChange = async () => {
+    try {
+      if (!passwordForm.currentPassword || !passwordForm.newPassword || !passwordForm.confirmPassword) {
+        toast.error('Please fill in all password fields');
+        return;
+      }
+
+      if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+        toast.error('New passwords do not match');
+        return;
+      }
+
+      if (passwordForm.newPassword.length < 8) {
+        toast.error('Password must be at least 8 characters long');
+        return;
+      }
+
+      const token = localStorage.getItem('admin_session_token');
+      if (!token) {
+        toast.error('Session expired. Please login again.');
+        return;
+      }
+
+      // Verify current session
+      const { data: sessionData, error: sessionError } = await supabase.rpc('verify_admin_session', { token });
+      
+      if (sessionError || !sessionData || sessionData.length === 0) {
+        toast.error('Session expired. Please login again.');
+        return;
+      }
+
+      const adminUserId = sessionData[0].user_id;
+
+      // Get admin email to verify current password
+      const { data: adminData, error: adminError } = await supabase
+        .from('admin_users')
+        .select('email')
+        .eq('id', adminUserId)
+        .single();
+
+      if (adminError || !adminData) {
+        toast.error('Error fetching admin data');
+        return;
+      }
+
+      // Verify current password
+      const { data: authData, error: authError } = await supabase.rpc('authenticate_admin', {
+        admin_email: adminData.email,
+        admin_password: passwordForm.currentPassword
+      });
+
+      if (authError || !authData || authData.length === 0) {
+        toast.error('Current password is incorrect');
+        return;
+      }
+
+      // Update password using direct query with simple_hash function
+      const { error: updateError } = await supabase
+        .from('admin_users')
+        .update({ 
+          password_hash: await hashPassword(passwordForm.newPassword)
+        })
+        .eq('id', adminUserId);
+
+      if (updateError) throw updateError;
+
+      toast.success('Password updated successfully');
+      setIsPasswordModalOpen(false);
+      setPasswordForm({
+        currentPassword: '',
+        newPassword: '',
+        confirmPassword: ''
+      });
+    } catch (error) {
+      console.error('Error changing password:', error);
+      toast.error('Error changing password');
+    }
+  };
+
+  const hashPassword = async (password: string) => {
+    const { data, error } = await supabase.rpc('simple_hash', { password });
+    if (error) throw error;
+    return data;
+  };
+
   return (
     <div className="space-y-8">
       {/* Header */}
@@ -148,7 +239,12 @@ const AdminSettings = () => {
           </p>
         </div>
         
-        <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
+        <div className="flex gap-2">
+          <Button variant="outline" onClick={() => setIsPasswordModalOpen(true)}>
+            <Settings className="h-4 w-4 mr-2" />
+            Change Password
+          </Button>
+          <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
           <DialogTrigger asChild>
             <Button onClick={handleAddNew}>
               <Plus className="h-4 w-4 mr-2" />
@@ -264,7 +360,61 @@ const AdminSettings = () => {
             </div>
           </DialogContent>
         </Dialog>
+        </div>
       </div>
+
+      {/* Password Change Dialog */}
+      <Dialog open={isPasswordModalOpen} onOpenChange={setIsPasswordModalOpen}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Change Admin Password</DialogTitle>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div>
+              <Label htmlFor="currentPassword">Current Password</Label>
+              <Input
+                id="currentPassword"
+                type="password"
+                value={passwordForm.currentPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                placeholder="Enter current password"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="newPassword">New Password</Label>
+              <Input
+                id="newPassword"
+                type="password"
+                value={passwordForm.newPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                placeholder="Enter new password (min. 8 characters)"
+              />
+            </div>
+            
+            <div>
+              <Label htmlFor="confirmPassword">Confirm New Password</Label>
+              <Input
+                id="confirmPassword"
+                type="password"
+                value={passwordForm.confirmPassword}
+                onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                placeholder="Confirm new password"
+              />
+            </div>
+
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button variant="outline" onClick={() => setIsPasswordModalOpen(false)}>
+                Cancel
+              </Button>
+              <Button onClick={handlePasswordChange}>
+                Update Password
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Settings List */}
       <div className="space-y-4">

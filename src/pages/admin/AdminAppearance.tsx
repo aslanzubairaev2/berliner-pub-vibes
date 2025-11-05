@@ -80,7 +80,7 @@ const AdminAppearance = () => {
 
   const handleAddGalleryImage = (url: string) => {
     setGalleryImages(prev => [...prev, url]);
-    toast.success('Изображение добавлено в галерею');
+    toast.success('Image added to gallery');
   };
 
   const handleRemoveGalleryImage = (index: number) => {

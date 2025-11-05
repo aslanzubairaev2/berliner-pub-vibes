@@ -222,16 +222,16 @@ const AdminDrinks = () => {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="name">Название</Label>
+                  <Label htmlFor="name">Name</Label>
                   <Input
                     id="name"
                     value={formData.name || ''}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    placeholder="Название напитка"
+                    placeholder="Drink name"
                   />
                 </div>
                 <div>
-                  <Label htmlFor="price">Цена (€)</Label>
+                  <Label htmlFor="price">Price (€)</Label>
                   <Input
                     id="price"
                     type="number"
@@ -244,69 +244,69 @@ const AdminDrinks = () => {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="category">Категория</Label>
+                  <Label htmlFor="category">Category</Label>
                   <Select 
                     value={formData.category} 
                     onValueChange={(value: 'beer' | 'alcoholic' | 'non_alcoholic') => setFormData({ ...formData, category: value })}
                   >
                     <SelectTrigger>
-                      <SelectValue placeholder="Выберите категорию" />
+                      <SelectValue placeholder="Select category" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="beer">Пиво</SelectItem>
-                      <SelectItem value="alcoholic">Алкогольные</SelectItem>
-                      <SelectItem value="non_alcoholic">Безалкогольные</SelectItem>
+                      <SelectItem value="beer">Beer</SelectItem>
+                      <SelectItem value="alcoholic">Alcoholic</SelectItem>
+                      <SelectItem value="non_alcoholic">Non-Alcoholic</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="alcohol_content">Содержание алкоголя</Label>
+                  <Label htmlFor="alcohol_content">Alcohol Content</Label>
                   <Input
                     id="alcohol_content"
                     value={formData.alcohol_content || ''}
                     onChange={(e) => setFormData({ ...formData, alcohol_content: e.target.value })}
-                    placeholder="например: 5.2%"
+                    placeholder="e.g., 5.2%"
                   />
                 </div>
               </div>
 
               <div>
-                <Label htmlFor="description_de">Описание (DE)</Label>
+                <Label htmlFor="description_de">Description (DE)</Label>
                 <Textarea
                   id="description_de"
                   value={formData.description_de || ''}
                   onChange={(e) => setFormData({ ...formData, description_de: e.target.value })}
-                  placeholder="Краткое описание на немецком"
+                  placeholder="Short description in German"
                 />
               </div>
 
               <div>
-                <Label htmlFor="description_en">Описание (EN)</Label>
+                <Label htmlFor="description_en">Description (EN)</Label>
                 <Textarea
                   id="description_en"
                   value={formData.description_en || ''}
                   onChange={(e) => setFormData({ ...formData, description_en: e.target.value })}
-                  placeholder="Краткое описание на английском"
+                  placeholder="Short description in English"
                 />
               </div>
 
               <div>
-                <Label htmlFor="full_description_de">Полное описание (DE)</Label>
+                <Label htmlFor="full_description_de">Full Description (DE)</Label>
                 <Textarea
                   id="full_description_de"
                   value={formData.full_description_de || ''}
                   onChange={(e) => setFormData({ ...formData, full_description_de: e.target.value })}
-                  placeholder="Подробное описание на немецком"
+                  placeholder="Detailed description in German"
                 />
               </div>
 
               <div>
-                <Label htmlFor="full_description_en">Полное описание (EN)</Label>
+                <Label htmlFor="full_description_en">Full Description (EN)</Label>
                 <Textarea
                   id="full_description_en"
                   value={formData.full_description_en || ''}
                   onChange={(e) => setFormData({ ...formData, full_description_en: e.target.value })}
-                  placeholder="Подробное описание на английском"
+                  placeholder="Detailed description in English"
                 />
               </div>
 
@@ -316,7 +316,7 @@ const AdminDrinks = () => {
                 onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
               />
                 <div>
-                  <Label htmlFor="sort_order">Порядок сортировки</Label>
+                  <Label htmlFor="sort_order">Sort Order</Label>
                   <Input
                     id="sort_order"
                     type="number"
@@ -332,15 +332,15 @@ const AdminDrinks = () => {
                   checked={formData.is_available}
                   onCheckedChange={(checked) => setFormData({ ...formData, is_available: checked })}
                 />
-                <Label htmlFor="is_available">Доступен для заказа</Label>
+                <Label htmlFor="is_available">Available for order</Label>
               </div>
 
               <div className="flex justify-end space-x-2 pt-4">
                 <Button variant="outline" onClick={() => setIsModalOpen(false)}>
-                  Отмена
+                  Cancel
                 </Button>
                 <Button onClick={handleSave}>
-                  {editingDrink ? 'Обновить' : 'Добавить'}
+                  {editingDrink ? 'Update' : 'Add'}
                 </Button>
               </div>
             </div>

@@ -677,9 +677,20 @@ VALUES (
    - Getränke-Verwaltung
    - News-Verwaltung
    - API Keys
-   - Website-Einstellungen
+   - Website-Einstellungen (inkl. Passwort ändern)
    - Erscheinungsbild-Anpassungen
    - Analytics
+
+### Passwort ändern (empfohlen nach erstem Login)
+
+1. Gehen Sie zu **Settings** im Admin-Bereich
+2. Klicken Sie auf **"Change Password"**
+3. Geben Sie das aktuelle Passwort ein
+4. Geben Sie das neue Passwort ein (mindestens 8 Zeichen)
+5. Bestätigen Sie das neue Passwort
+6. Klicken Sie auf **"Update Password"**
+
+Das neue Passwort wird sicher in der Datenbank gespeichert.
 
 ---
 
