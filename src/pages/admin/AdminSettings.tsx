@@ -166,48 +166,24 @@ const AdminSettings = () => {
         return;
       }
 
-      // Verify current session
-      const { data: sessionData, error: sessionError } = await supabase.rpc('verify_admin_session', { token });
-      
-      if (sessionError || !sessionData || sessionData.length === 0) {
-        toast.error('Session expired. Please login again.');
-        return;
-      }
-
-      const adminUserId = sessionData[0].user_id;
-
-      // Get admin email to verify current password
-      const { data: adminData, error: adminError } = await supabase
-        .from('admin_users')
-        .select('email')
-        .eq('id', adminUserId)
-        .single();
-
-      if (adminError || !adminData) {
-        toast.error('Error fetching admin data');
-        return;
-      }
-
-      // Verify current password
-      const { data: authData, error: authError } = await supabase.rpc('authenticate_admin', {
-        admin_email: adminData.email,
-        admin_password: passwordForm.currentPassword
+      // Use the secure server-side function to change password
+      const { data, error } = await supabase.rpc('change_admin_password', {
+        token: token,
+        current_password: passwordForm.currentPassword,
+        new_password: passwordForm.newPassword
       });
 
-      if (authError || !authData || authData.length === 0) {
-        toast.error('Current password is incorrect');
+      if (error) {
+        toast.error('Error changing password');
         return;
       }
 
-      // Update password using direct query with simple_hash function
-      const { error: updateError } = await supabase
-        .from('admin_users')
-        .update({ 
-          password_hash: await hashPassword(passwordForm.newPassword)
-        })
-        .eq('id', adminUserId);
-
-      if (updateError) throw updateError;
+      // Check the response from the function
+      const result = data as { success: boolean; error?: string };
+      if (!result.success) {
+        toast.error(result.error || 'Error changing password');
+        return;
+      }
 
       toast.success('Password updated successfully');
       setIsPasswordModalOpen(false);
@@ -220,12 +196,6 @@ const AdminSettings = () => {
       console.error('Error changing password:', error);
       toast.error('Error changing password');
     }
-  };
-
-  const hashPassword = async (password: string) => {
-    const { data, error } = await supabase.rpc('simple_hash', { password });
-    if (error) throw error;
-    return data;
   };
 
   return (

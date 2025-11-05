@@ -330,6 +330,10 @@ export type Database = {
           user_name: string
         }[]
       }
+      change_admin_password: {
+        Args: { current_password: string; new_password: string; token: string }
+        Returns: Json
+      }
       generate_api_key: { Args: never; Returns: string }
       generate_session_token: { Args: never; Returns: string }
       simple_hash: { Args: { password: string }; Returns: string }
