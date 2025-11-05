@@ -282,6 +282,61 @@ BEGIN
 END;
 $$;
 
+-- Funktion zum Ändern des Admin-Passworts
+CREATE OR REPLACE FUNCTION public.change_admin_password(
+  token TEXT,
+  current_password TEXT,
+  new_password TEXT
+)
+RETURNS JSONB
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+DECLARE
+  admin_record public.admin_users%ROWTYPE;
+  session_user_id UUID;
+BEGIN
+  -- Session verifizieren und user_id abrufen
+  SELECT user_id INTO session_user_id
+  FROM public.verify_admin_session(token)
+  LIMIT 1;
+
+  -- Wenn Session ungültig ist
+  IF session_user_id IS NULL THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Session expired. Please login again.'
+    );
+  END IF;
+
+  -- Admin-Benutzer abrufen
+  SELECT * INTO admin_record
+  FROM public.admin_users
+  WHERE id = session_user_id
+    AND password_hash = public.simple_hash(current_password)
+    AND is_active = true;
+
+  -- Wenn aktuelles Passwort falsch ist
+  IF admin_record.id IS NULL THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Current password is incorrect'
+    );
+  END IF;
+
+  -- Passwort aktualisieren
+  UPDATE public.admin_users
+  SET password_hash = public.simple_hash(new_password),
+      updated_at = now()
+  WHERE id = session_user_id;
+
+  RETURN jsonb_build_object(
+    'success', true
+  );
+END;
+$$;
+
 -- Funktion für updated_at Trigger
 CREATE OR REPLACE FUNCTION public.handle_updated_at()
 RETURNS TRIGGER
@@ -403,40 +458,56 @@ CREATE POLICY "Authenticated users can manage settings"
   WITH CHECK (true);
 ```
 
-### Schritt 5: Policies für Admin-Tabellen
+### Schritt 5: Policies für Admin-Tabellen (WICHTIG: Sicherheitspolicies!)
+
+**WICHTIG:** Admin-Tabellen dürfen NICHT direkt vom Client aus zugegriffen werden. Der Zugriff erfolgt ausschließlich über SECURITY DEFINER Funktionen.
 
 ```sql
--- Admin Users Policies
-CREATE POLICY "Only authenticated admins can access admin_users"
+-- Admin Users - Kein direkter Client-Zugriff erlaubt
+CREATE POLICY "No direct client access to admin_users"
   ON public.admin_users
   FOR ALL
-  USING (true)
-  WITH CHECK (true);
+  AS RESTRICTIVE
+  USING (false)
+  WITH CHECK (false);
 
--- Admin Sessions Policies
-CREATE POLICY "Admins can manage their own sessions"
+-- Admin Sessions - Kein direkter Client-Zugriff erlaubt
+CREATE POLICY "No direct client access to admin_sessions"
   ON public.admin_sessions
   FOR ALL
-  USING (true)
-  WITH CHECK (true);
+  AS RESTRICTIVE
+  USING (false)
+  WITH CHECK (false);
 ```
+
+**Hinweis:** Diese restriktiven Policies stellen sicher, dass:
+- Passwort-Hashes niemals direkt abgefragt werden können
+- Session-Tokens nur über die `authenticate_admin` Funktion erstellt werden
+- Passwort-Änderungen nur über die `change_admin_password` Funktion möglich sind
+- Alle Admin-Operationen server-seitig validiert werden
 
 ### Schritt 6: Policies für API Management
 
+**WICHTIG:** API-Management-Tabellen dürfen ebenfalls NICHT direkt vom Client aus zugegriffen werden.
+
 ```sql
--- API Keys Policies
-CREATE POLICY "Authenticated users can manage API keys"
+-- API Keys - Kein direkter Client-Zugriff erlaubt
+CREATE POLICY "No direct client access to api_keys"
   ON public.api_keys
   FOR ALL
-  USING (true)
-  WITH CHECK (true);
+  AS RESTRICTIVE
+  USING (false)
+  WITH CHECK (false);
 
--- API Logs Policies (nur Lesen und Einfügen)
-CREATE POLICY "Authenticated users can view API logs"
+-- API Logs - Kein direkter Client-Zugriff erlaubt
+CREATE POLICY "No direct client access to api_logs"
   ON public.api_logs
-  FOR SELECT
-  USING (true);
+  FOR ALL
+  AS RESTRICTIVE
+  USING (false)
+  WITH CHECK (false);
 
+-- API Logs - System kann Logs einfügen (für Edge Functions)
 CREATE POLICY "System can insert API logs"
   ON public.api_logs
   FOR INSERT
