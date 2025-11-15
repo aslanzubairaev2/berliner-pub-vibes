@@ -334,9 +334,90 @@ export type Database = {
         Args: { current_password: string; new_password: string; token: string }
         Returns: Json
       }
+      create_api_key: {
+        Args: {
+          admin_token: string
+          p_expires_at?: string
+          p_key_name: string
+          p_permissions?: string[]
+          p_rate_limit?: number
+        }
+        Returns: {
+          api_key: string
+          created_at: string
+          created_by: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          key_name: string
+          last_used: string
+          permissions: string[]
+          rate_limit: number
+          updated_at: string
+        }[]
+      }
+      delete_api_key: {
+        Args: { admin_token: string; p_key_id: string }
+        Returns: boolean
+      }
       generate_api_key: { Args: never; Returns: string }
       generate_session_token: { Args: never; Returns: string }
+      get_api_keys: {
+        Args: { admin_token: string }
+        Returns: {
+          api_key: string
+          created_at: string
+          created_by: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          key_name: string
+          last_used: string
+          permissions: string[]
+          rate_limit: number
+          updated_at: string
+        }[]
+      }
+      get_api_logs: {
+        Args: { admin_token: string; filter_api_key_id?: string }
+        Returns: {
+          api_key_id: string
+          created_at: string
+          endpoint: string
+          id: string
+          ip_address: string
+          method: string
+          request_data: Json
+          response_data: Json
+          response_status: number
+          user_agent: string
+        }[]
+      }
       simple_hash: { Args: { password: string }; Returns: string }
+      update_api_key: {
+        Args: {
+          admin_token: string
+          p_expires_at?: string
+          p_is_active?: boolean
+          p_key_id: string
+          p_key_name?: string
+          p_permissions?: string[]
+          p_rate_limit?: number
+        }
+        Returns: {
+          api_key: string
+          created_at: string
+          created_by: string
+          expires_at: string
+          id: string
+          is_active: boolean
+          key_name: string
+          last_used: string
+          permissions: string[]
+          rate_limit: number
+          updated_at: string
+        }[]
+      }
       verify_admin_session: {
         Args: { token: string }
         Returns: {
