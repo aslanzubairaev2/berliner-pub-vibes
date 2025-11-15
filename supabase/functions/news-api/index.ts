@@ -1,6 +1,7 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.39.3';
+import { z } from 'https://deno.land/x/zod@v3.22.4/mod.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -8,20 +9,21 @@ const corsHeaders = {
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
-interface NewsCreateRequest {
-  title_de: string;
-  title_en: string;
-  excerpt_de: string;
-  excerpt_en: string;
-  content_de: string;
-  content_en: string;
-  category?: 'events' | 'menu' | 'general';
-  image_url?: string;
-  read_time?: number;
-  slug?: string;
-  author_name?: string;
-  is_published?: boolean;
-}
+// Validation schema for news creation
+const NewsCreateSchema = z.object({
+  title_de: z.string().trim().min(1, 'German title is required').max(200, 'German title must be less than 200 characters'),
+  title_en: z.string().trim().min(1, 'English title is required').max(200, 'English title must be less than 200 characters'),
+  excerpt_de: z.string().trim().min(1, 'German excerpt is required').max(500, 'German excerpt must be less than 500 characters'),
+  excerpt_en: z.string().trim().min(1, 'English excerpt is required').max(500, 'English excerpt must be less than 500 characters'),
+  content_de: z.string().trim().min(1, 'German content is required').max(50000, 'German content must be less than 50000 characters'),
+  content_en: z.string().trim().min(1, 'English content is required').max(50000, 'English content must be less than 50000 characters'),
+  category: z.enum(['events', 'menu', 'general']).optional().default('general'),
+  slug: z.string().regex(/^[a-z0-9-]+$/, 'Slug must contain only lowercase letters, numbers and hyphens').max(200, 'Slug must be less than 200 characters').optional(),
+  read_time: z.number().int().positive('Read time must be positive').max(999, 'Read time must be less than 999 minutes').optional().default(5),
+  image_url: z.string().url('Invalid image URL').max(2048, 'Image URL must be less than 2048 characters').optional(),
+  author_name: z.string().trim().max(100, 'Author name must be less than 100 characters').optional().default('Berliner Pub'),
+  is_published: z.boolean().optional().default(false)
+});
 
 serve(async (req) => {
   // Handle CORS preflight requests
@@ -52,35 +54,77 @@ serve(async (req) => {
     const realIp = req.headers.get('x-real-ip');
     const ipAddress = forwarded?.split(',')[0] || realIp || 'unknown';
 
-    let requestData: NewsCreateRequest;
+    // Parse request body
+    let requestData: any;
     try {
       requestData = await req.json();
-    } catch (error) {
-      console.error('Invalid JSON:', error);
+    } catch (parseError) {
+      console.error('JSON parse error:', parseError);
+      
+      // Log request with error
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: null,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: null,
+        response_status: 400,
+        response_data: { error: 'Invalid JSON in request body' }
+      }]);
+      
       return new Response(
         JSON.stringify({ error: 'Invalid JSON in request body' }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
       );
     }
 
-    // Log the request (we'll log regardless of API key validity)
-    const logData = {
-      endpoint: '/api/v1/news',
-      method: 'POST',
-      request_data: requestData,
-      ip_address: ipAddress,
-      user_agent: userAgent,
-      api_key_id: null as string | null,
-      response_status: 401,
-      response_data: null as any
-    };
+    // Validate request data with Zod schema
+    const validation = NewsCreateSchema.safeParse(requestData);
+    if (!validation.success) {
+      console.error('Validation error:', validation.error.issues);
+      
+      // Log validation failure
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: requestData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: null,
+        response_status: 400,
+        response_data: { 
+          error: 'Validation failed', 
+          details: validation.error.issues 
+        }
+      }]);
+      
+      return new Response(
+        JSON.stringify({ 
+          error: 'Validation failed', 
+          details: validation.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message
+          }))
+        }),
+        { headers: { ...corsHeaders, 'Content-Type': 'application/json' }, status: 400 }
+      );
+    }
+
+    // Use validated data
+    const validatedData = validation.data;
 
     if (!apiKey) {
-      logData.response_data = { error: 'API key is required' };
-      await supabase.from('api_logs').insert([logData]);
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: null,
+        response_status: 401,
+        response_data: { error: 'API key is required' }
+      }]);
       
       return new Response(
         JSON.stringify({ error: 'API key is required. Please provide x-api-key header.' }),
@@ -100,8 +144,16 @@ serve(async (req) => {
       .single();
 
     if (keyError || !keyData) {
-      logData.response_data = { error: 'Invalid or inactive API key' };
-      await supabase.from('api_logs').insert([logData]);
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: null,
+        response_status: 401,
+        response_data: { error: 'Invalid or inactive API key' }
+      }]);
       
       return new Response(
         JSON.stringify({ error: 'Invalid or inactive API key' }),
@@ -112,11 +164,18 @@ serve(async (req) => {
       );
     }
 
-    // Check if key has expired
+    // Check if API key has expired
     if (keyData.expires_at && new Date(keyData.expires_at) < new Date()) {
-      logData.response_data = { error: 'API key has expired' };
-      logData.api_key_id = keyData.id;
-      await supabase.from('api_logs').insert([logData]);
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: keyData.id,
+        response_status: 401,
+        response_data: { error: 'API key has expired' }
+      }]);
       
       return new Response(
         JSON.stringify({ error: 'API key has expired' }),
@@ -128,10 +187,17 @@ serve(async (req) => {
     }
 
     // Check permissions
-    if (!keyData.permissions.includes('news:create')) {
-      logData.response_data = { error: 'Insufficient permissions' };
-      logData.api_key_id = keyData.id;
-      await supabase.from('api_logs').insert([logData]);
+    if (!keyData.permissions || !keyData.permissions.includes('news:create')) {
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: keyData.id,
+        response_status: 403,
+        response_data: { error: 'API key does not have permission to create news' }
+      }]);
       
       return new Response(
         JSON.stringify({ error: 'API key does not have permission to create news' }),
@@ -142,28 +208,41 @@ serve(async (req) => {
       );
     }
 
-    // Rate limiting check (simplified - check last hour)
-    const oneHourAgo = new Date();
-    oneHourAgo.setHours(oneHourAgo.getHours() - 1);
-    
-    const { data: recentLogs, error: logsError } = await supabase
+    // Check rate limit
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { data: recentRequests, error: countError } = await supabase
       .from('api_logs')
-      .select('id')
+      .select('id', { count: 'exact', head: true })
       .eq('api_key_id', keyData.id)
-      .gte('created_at', oneHourAgo.toISOString())
-      .eq('response_status', 201); // Only count successful requests
+      .eq('response_status', 201)
+      .gte('created_at', oneHourAgo);
 
-    if (logsError) {
-      console.error('Error checking rate limit:', logsError);
-    } else if (recentLogs && recentLogs.length >= keyData.rate_limit) {
-      logData.response_data = { error: 'Rate limit exceeded' };
-      logData.api_key_id = keyData.id;
-      logData.response_status = 429;
-      await supabase.from('api_logs').insert([logData]);
+    if (countError) {
+      console.error('Error checking rate limit:', countError);
+    }
+
+    const requestCount = recentRequests?.length || 0;
+    if (keyData.rate_limit && requestCount >= keyData.rate_limit) {
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: keyData.id,
+        response_status: 429,
+        response_data: { 
+          error: 'Rate limit exceeded',
+          limit: keyData.rate_limit,
+          reset_in_seconds: 3600
+        }
+      }]);
       
       return new Response(
         JSON.stringify({ 
-          error: `Rate limit exceeded. Maximum ${keyData.rate_limit} requests per hour allowed.` 
+          error: 'Rate limit exceeded. Please try again later.',
+          limit: keyData.rate_limit,
+          reset_in_seconds: 3600
         }),
         { 
           status: 429, 
@@ -172,33 +251,14 @@ serve(async (req) => {
       );
     }
 
-    // Validate required fields
-    const requiredFields = ['title_de', 'title_en', 'excerpt_de', 'excerpt_en', 'content_de', 'content_en'];
-    const missingFields = requiredFields.filter(field => !requestData[field as keyof NewsCreateRequest]);
-    
-    if (missingFields.length > 0) {
-      logData.response_data = { error: `Missing required fields: ${missingFields.join(', ')}` };
-      logData.api_key_id = keyData.id;
-      logData.response_status = 400;
-      await supabase.from('api_logs').insert([logData]);
-      
-      return new Response(
-        JSON.stringify({ 
-          error: `Missing required fields: ${missingFields.join(', ')}` 
-        }),
-        { 
-          status: 400, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
-    }
-
     // Generate slug if not provided
-    const slug = requestData.slug || requestData.title_en
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/(^-|-$)/g, '')
-      .substring(0, 100);
+    let slug = validatedData.slug;
+    if (!slug) {
+      slug = validatedData.title_en
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    }
 
     // Check if slug already exists
     const { data: existingNews } = await supabase
@@ -208,55 +268,49 @@ serve(async (req) => {
       .single();
 
     if (existingNews) {
-      logData.response_data = { error: 'Slug already exists' };
-      logData.api_key_id = keyData.id;
-      logData.response_status = 409;
-      await supabase.from('api_logs').insert([logData]);
-      
-      return new Response(
-        JSON.stringify({ 
-          error: 'A news article with this slug already exists' 
-        }),
-        { 
-          status: 409, 
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-        }
-      );
+      // Append timestamp to make slug unique
+      slug = `${slug}-${Date.now()}`;
     }
 
-    // Prepare news data
+    // Insert news data (using validated data)
     const newsData = {
-      title_de: requestData.title_de,
-      title_en: requestData.title_en,
-      excerpt_de: requestData.excerpt_de,
-      excerpt_en: requestData.excerpt_en,
-      content_de: requestData.content_de,
-      content_en: requestData.content_en,
-      category: requestData.category || 'general',
-      image_url: requestData.image_url || null,
-      read_time: requestData.read_time || 5,
+      title_de: validatedData.title_de,
+      title_en: validatedData.title_en,
+      excerpt_de: validatedData.excerpt_de,
+      excerpt_en: validatedData.excerpt_en,
+      content_de: validatedData.content_de,
+      content_en: validatedData.content_en,
+      category: validatedData.category,
+      image_url: validatedData.image_url || null,
+      read_time: validatedData.read_time,
       slug: slug,
-      author_name: requestData.author_name || 'API User',
-      is_published: requestData.is_published || false,
-      published_at: requestData.is_published ? new Date().toISOString() : null
+      author_name: validatedData.author_name,
+      is_published: validatedData.is_published,
+      published_at: validatedData.is_published ? new Date().toISOString() : null,
     };
 
-    // Create the news article
-    const { data: newsResult, error: newsError } = await supabase
+    const { data: insertedNews, error: insertError } = await supabase
       .from('news')
       .insert([newsData])
       .select()
       .single();
 
-    if (newsError) {
-      console.error('Error creating news:', newsError);
-      logData.response_data = { error: newsError.message };
-      logData.api_key_id = keyData.id;
-      logData.response_status = 500;
-      await supabase.from('api_logs').insert([logData]);
+    if (insertError) {
+      console.error('Error inserting news:', insertError);
+      
+      await supabase.from('api_logs').insert([{
+        endpoint: '/api/v1/news',
+        method: 'POST',
+        request_data: validatedData,
+        ip_address: ipAddress,
+        user_agent: userAgent,
+        api_key_id: keyData.id,
+        response_status: 500,
+        response_data: { error: 'Failed to create news article', details: insertError.message }
+      }]);
       
       return new Response(
-        JSON.stringify({ error: 'Failed to create news article' }),
+        JSON.stringify({ error: 'Failed to create news article', details: insertError.message }),
         { 
           status: 500, 
           headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
@@ -264,27 +318,31 @@ serve(async (req) => {
       );
     }
 
-    // Update API key last_used timestamp
+    // Update last_used timestamp for API key
     await supabase
       .from('api_keys')
       .update({ last_used: new Date().toISOString() })
       .eq('id', keyData.id);
 
     // Log successful request
-    logData.response_status = 201;
-    logData.response_data = { id: newsResult.id, slug: newsResult.slug };
-    logData.api_key_id = keyData.id;
-    await supabase.from('api_logs').insert([logData]);
+    await supabase.from('api_logs').insert([{
+      endpoint: '/api/v1/news',
+      method: 'POST',
+      request_data: validatedData,
+      ip_address: ipAddress,
+      user_agent: userAgent,
+      api_key_id: keyData.id,
+      response_status: 201,
+      response_data: { id: insertedNews.id, slug: insertedNews.slug }
+    }]);
 
     return new Response(
-      JSON.stringify({
+      JSON.stringify({ 
         success: true,
+        message: 'News article created successfully',
         data: {
-          id: newsResult.id,
-          slug: newsResult.slug,
-          title: newsResult.title_en,
-          is_published: newsResult.is_published,
-          created_at: newsResult.created_at
+          id: insertedNews.id,
+          slug: insertedNews.slug
         }
       }),
       { 
@@ -295,9 +353,11 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Unexpected error:', error);
-    
     return new Response(
-      JSON.stringify({ error: 'Internal server error' }),
+      JSON.stringify({ 
+        error: 'Internal server error',
+        message: error instanceof Error ? error.message : 'Unknown error'
+      }),
       { 
         status: 500, 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
