@@ -38,7 +38,7 @@ const News = () => {
       <div className="min-h-screen py-20 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading news...</p>
+          <p className="text-muted-foreground">{t('message.loadingNews')}</p>
         </div>
       </div>
     );
@@ -48,8 +48,8 @@ const News = () => {
     return (
       <div className="min-h-screen py-20 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500 mb-4">Error loading news: {error}</p>
-          <Button onClick={() => window.location.reload()}>Retry</Button>
+          <p className="text-red-500 mb-4">{t('common.error')}: {error}</p>
+          <Button onClick={() => window.location.reload()}>{t('common.retry')}</Button>
         </div>
       </div>
     );
@@ -59,7 +59,7 @@ const News = () => {
     return (
       <div className="min-h-screen py-20 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-muted-foreground">No published articles found.</p>
+          <p className="text-muted-foreground">{t('error.noPublishedArticles')}</p>
         </div>
       </div>
     );

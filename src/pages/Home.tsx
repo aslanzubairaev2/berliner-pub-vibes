@@ -154,9 +154,9 @@ const Home = () => {
               </Button>
             </div>
             <div className="relative">
-              <img 
-                src={pubHero} 
-                alt="Atmosphäre im Berliner Pub" 
+              <img
+                src={pubHero}
+                alt={t('common.atmosphereAlt')}
                 className="rounded-2xl shadow-2xl"
               />
               <div className="absolute -bottom-6 -left-6 bg-accent text-accent-foreground p-6 rounded-xl shadow-lg">
@@ -216,7 +216,7 @@ const Home = () => {
             {t('home.address')}
           </p>
           <p className="text-lg mb-8 opacity-80">
-            {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
+            {t('common.nearKaDeWe')}
           </p>
           <Button size="lg" variant="secondary" asChild>
             <NavLink to="/contact">{t('home.directions')}</NavLink>

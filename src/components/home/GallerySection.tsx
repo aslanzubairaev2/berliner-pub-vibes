@@ -2,12 +2,14 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface GallerySectionProps {
   images: string[];
 }
 
 export const GallerySection = ({ images }: GallerySectionProps) => {
+  const { t } = useLanguage();
   const [currentIndex, setCurrentIndex] = useState(0);
 
   if (!images || images.length === 0) return null;
@@ -24,8 +26,8 @@ export const GallerySection = ({ images }: GallerySectionProps) => {
     <section className="py-20 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Unsere Bar</h2>
-          <p className="text-xl text-muted-foreground">Erleben Sie die Atmosphäre</p>
+          <h2 className="text-4xl font-bold mb-4">{t('gallery.title')}</h2>
+          <p className="text-xl text-muted-foreground">{t('gallery.subtitle')}</p>
         </div>
         
         <div className="max-w-5xl mx-auto">

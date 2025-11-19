@@ -11,23 +11,6 @@ import { Switch } from "@/components/ui/switch";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { ImageUpload } from "@/components/admin/ImageUpload";
-
-// Import drink images for fallbacks
-import berlinerWeisseGlassImg from "@/assets/berliner-weisse-glass.png";
-import augustinerGlassImg from "@/assets/augustiner-glass.png";
-import erdingerGlassImg from "@/assets/erdinger-glass.png";
-import schwarzbieerGlassImg from "@/assets/schwarzbier-glass.png";
-import craftBeerGlassImg from "@/assets/craft-beer-glass.png";
-import germanSchnappsImg from "@/assets/german-schnapps-transparent.png";
-import jagermeisterImg from "@/assets/jagermeister-transparent.png";
-import rieslingWineImg from "@/assets/riesling-wine-transparent.png";
-import gluhweinImg from "@/assets/gluhwein-transparent.png";
-import apfelschorleImg from "@/assets/apfelschorle-transparent.png";
-import fassbrauseImg from "@/assets/fassbrause-transparent.png";
-import coffeeImg from "@/assets/coffee-transparent.png";
-import hotChocolateImg from "@/assets/hot-chocolate-transparent.png";
-import teaSelectionImg from "@/assets/tea-selection-transparent.png";
 
 interface Drink {
   id: string;
@@ -39,7 +22,6 @@ interface Drink {
   price: number;
   category: 'beer' | 'alcoholic' | 'non_alcoholic';
   alcohol_content?: string;
-  image_url?: string;
   is_available: boolean;
   sort_order?: number;
 }
@@ -61,27 +43,6 @@ const AdminDrinks = () => {
     is_available: true,
     sort_order: 0
   });
-
-  // Image mapping for fallbacks
-  const getImageForDrink = (drinkName: string) => {
-    const imageMap: Record<string, string> = {
-      'Berliner Weisse': berlinerWeisseGlassImg,
-      'Augustiner Lagerbier Hell': augustinerGlassImg,
-      'Erdinger Weissbier': erdingerGlassImg,
-      'Köstritzer Schwarzbier': schwarzbieerGlassImg,
-      'Craft Beer Auswahl': craftBeerGlassImg,
-      'Schnapps Auswahl': germanSchnappsImg,
-      'Jägermeister': jagermeisterImg,
-      'Riesling': rieslingWineImg,
-      'Glühwein (Winter)': gluhweinImg,
-      'Apfelschorle': apfelschorleImg,
-      'Fassbrause': fassbrauseImg,
-      'Kaffee': coffeeImg,
-      'Heisse Schokolade': hotChocolateImg,
-      'Tee Auswahl': teaSelectionImg,
-    };
-    return imageMap[drinkName] || coffeeImg;
-  };
 
   useEffect(() => {
     fetchDrinks();
@@ -121,7 +82,6 @@ const AdminDrinks = () => {
         price: formData.price,
         category: formData.category as 'beer' | 'alcoholic' | 'non_alcoholic',
         alcohol_content: formData.alcohol_content || null,
-        image_url: formData.image_url || null,
         is_available: formData.is_available ?? true,
         sort_order: formData.sort_order || 0
       };
@@ -310,20 +270,14 @@ const AdminDrinks = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-              <ImageUpload
-                currentImageUrl={formData.image_url}
-                onImageUploaded={(url) => setFormData({ ...formData, image_url: url })}
-              />
-                <div>
-                  <Label htmlFor="sort_order">Sort Order</Label>
-                  <Input
-                    id="sort_order"
-                    type="number"
-                    value={formData.sort_order || 0}
-                    onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
-                  />
-                </div>
+              <div>
+                <Label htmlFor="sort_order">Sort Order</Label>
+                <Input
+                  id="sort_order"
+                  type="number"
+                  value={formData.sort_order || 0}
+                  onChange={(e) => setFormData({ ...formData, sort_order: parseInt(e.target.value) })}
+                />
               </div>
 
               <div className="flex items-center space-x-2">
@@ -367,15 +321,6 @@ const AdminDrinks = () => {
           ))
         ) : drinks.map((drink) => (
           <Card key={drink.id} className="pub-card-shadow border-0 overflow-hidden">
-            {/* Drink Image */}
-            <div className="h-64 w-full bg-muted/10 flex items-center justify-center">
-              <img 
-                src={drink.image_url || getImageForDrink(drink.name)} 
-                alt={drink.name}
-                className="h-full w-auto object-contain"
-              />
-            </div>
-            
             <CardHeader>
               <div className="flex justify-between items-start">
                 <CardTitle className="text-lg">{drink.name}</CardTitle>

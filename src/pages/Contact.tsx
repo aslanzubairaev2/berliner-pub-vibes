@@ -65,7 +65,7 @@ const Contact = () => {
                     <p className="text-muted-foreground">Ansbacher Straße 29</p>
                     <p className="text-muted-foreground">10789 Berlin, Germany</p>
                     <p className="text-muted-foreground text-sm mt-1">
-                      {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
+                      {t('common.nearKaDeWe')}
                     </p>
                   </div>
                 </div>
@@ -85,7 +85,7 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Telefon</h3>
+                    <h3 className="text-lg font-semibold">{t('contact.phone')}</h3>
                     <p className="text-muted-foreground">+49 30 123 456 789</p>
                   </div>
                 </div>
@@ -99,7 +99,7 @@ const Contact = () => {
                     <Mail className="h-6 w-6 text-accent" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold">Email</h3>
+                    <h3 className="text-lg font-semibold">{t('contact.email')}</h3>
                     <p className="text-muted-foreground">info@berlinerpub.de</p>
                     <p className="text-muted-foreground text-sm">reservations@berlinerpub.de</p>
                   </div>
@@ -112,7 +112,7 @@ const Contact = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Clock className="h-5 w-5 text-accent" />
-                  <span>Öffnungszeiten</span>
+                  <span>{t('contact.openingHours')}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -135,7 +135,7 @@ const Contact = () => {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <MessageSquare className="h-5 w-5 text-accent" />
-                  <span>Kontakt</span>
+                  <span>{t('contact.contactForm')}</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -143,7 +143,7 @@ const Contact = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        Name *
+                        {t('contact.name')} *
                       </label>
                       <input
                         type="text"
@@ -155,7 +155,7 @@ const Contact = () => {
                     </div>
                     <div>
                       <label className="block text-sm font-medium mb-2">
-                        E-Mail *
+                        {t('contact.email')} *
                       </label>
                       <input
                         type="email"
@@ -169,7 +169,7 @@ const Contact = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Betreff *
+                      {t('contact.subject')} *
                     </label>
                     <input
                       type="text"
@@ -182,7 +182,7 @@ const Contact = () => {
                   
                   <div>
                     <label className="block text-sm font-medium mb-2">
-                      Nachricht *
+                      {t('contact.message')} *
                     </label>
                     <textarea
                       required
@@ -194,7 +194,7 @@ const Contact = () => {
                   </div>
                   
                   <Button type="submit" className="w-full">
-                    Nachricht senden
+                    {t('contact.sendMessage')}
                   </Button>
                 </form>
               </CardContent>
@@ -209,18 +209,18 @@ const Contact = () => {
               <div className="text-center">
                 <MapPin className="h-12 w-12 text-accent mx-auto mb-4" />
                 <h3 className="text-xl font-semibold mb-2">
-                  {language === 'de' ? 'Hier finden Sie uns' : 'Find us here'}
+                  {t('contact.findUs')}
                 </h3>
                 <p className="text-muted-foreground">Ansbacher Straße 29, 10789 Berlin</p>
                 <p className="text-muted-foreground text-sm">
-                  {language === 'de' ? 'In der Nähe vom KaDeWe' : 'Near KaDeWe'}
+                  {t('common.nearKaDeWe')}
                 </p>
                 <Button
-                  variant="outline" 
+                  variant="outline"
                   className="mt-4"
                   onClick={() => window.open('https://maps.google.com/?q=Ansbacher+Straße+29,+10789+Berlin', '_blank')}
                 >
-                  In Google Maps öffnen
+                  {t('contact.openInGoogleMaps')}
                 </Button>
               </div>
             </div>

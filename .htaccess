@@ -1,0 +1,117 @@
+# ============================================
+# REACT ROUTER - КРИТИЧЕСКИ ВАЖНО!
+# ============================================
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  # Если запрашиваемый файл существует, отдаем его
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_FILENAME} !-l
+
+  # Иначе перенаправляем на index.html
+  RewriteRule ^ index.html [QSA,L]
+</IfModule>
+
+# ============================================
+# ПРИНУДИТЕЛЬНЫЙ HTTPS
+# ============================================
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ============================================
+# КЭШИРОВАНИЕ (Cache Control)
+# ============================================
+<IfModule mod_headers.c>
+  # HTML файлы - НЕ кэшировать (всегда проверять на сервере)
+  <FilesMatch "\.(html|htm)$">
+    Header set Cache-Control "no-cache, no-store, must-revalidate"
+    Header set Pragma "no-cache"
+    Header set Expires "0"
+  </FilesMatch>
+
+  # JS и CSS с хешами - кэшировать на 1 год (они имеют уникальные имена)
+  <FilesMatch "\.(js|css)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Изображения - кэшировать на 1 год
+  <FilesMatch "\.(jpg|jpeg|png|gif|ico|svg|webp|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  # Шрифты - кэшировать на 1 год
+  <FilesMatch "\.(woff|woff2|ttf|eot)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+</IfModule>
+
+# ============================================
+# АЛЬТЕРНАТИВНЫЙ СПОСОБ (если mod_headers не работает)
+# ============================================
+<IfModule mod_expires.c>
+  ExpiresActive On
+
+  # HTML - не кэшировать
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # JS и CSS - 1 год
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType text/css "access plus 1 year"
+
+  # Изображения - 1 год
+  ExpiresByType image/jpg "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/gif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # Шрифты - 1 год
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType application/font-woff "access plus 1 year"
+  ExpiresByType application/font-woff2 "access plus 1 year"
+</IfModule>
+
+# ============================================
+# СЖАТИЕ (Gzip/Deflate)
+# ============================================
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# ============================================
+# БЕЗОПАСНОСТЬ
+# ============================================
+<IfModule mod_headers.c>
+  # Предотвращает MIME type sniffing
+  Header set X-Content-Type-Options "nosniff"
+
+  # Защита от clickjacking
+  Header set X-Frame-Options "SAMEORIGIN"
+
+  # XSS защита
+  Header set X-XSS-Protection "1; mode=block"
+
+  # Referrer Policy
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+</IfModule>
+
+# ============================================
+# БЛОКИРОВКА СЛУЖЕБНЫХ ФАЙЛОВ
+# ============================================
+<FilesMatch "^\.">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+
+# Блокировать доступ к .env, .git и другим файлам
+<FilesMatch "\.(env|git|gitignore|htaccess|htpasswd)$">
+  Order allow,deny
+  Deny from all
+</FilesMatch>

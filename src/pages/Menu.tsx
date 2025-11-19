@@ -41,7 +41,7 @@ const Menu = () => {
       <div className="min-h-screen py-20 flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="h-8 w-8 animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground">Loading menu...</p>
+          <p className="text-muted-foreground">{t('message.loadingMenu')}</p>
         </div>
       </div>
     );
@@ -51,8 +51,8 @@ const Menu = () => {
     return (
       <div className="min-h-screen py-20 flex items-center justify-center">
         <div className="text-center">
-          <p className="text-red-500 mb-4">Error loading menu: {error}</p>
-          <Button onClick={() => window.location.reload()}>Retry</Button>
+          <p className="text-red-500 mb-4">{t('error.loadingMenu')}: {error}</p>
+          <Button onClick={() => window.location.reload()}>{t('common.retry')}</Button>
         </div>
       </div>
     );
