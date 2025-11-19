@@ -39,20 +39,46 @@
 ## 2. Применение миграций базы данных
 
 ### 2.1 Установка Supabase CLI (если еще не установлен)
+
+**Важно**: Установка через `npm install -g supabase` больше не поддерживается!
+
+Выберите один из способов установки:
+
+**Вариант 1: Использовать npx (рекомендуется - не требует установки)**
 ```bash
-npm install -g supabase
+# Используйте команды через npx
+npx supabase login
+npx supabase link --project-ref [your-project-ref]
+npx supabase db push
 ```
+
+**Вариант 2: Установка через Scoop (Windows)**
+```powershell
+# В PowerShell установите Scoop (если еще не установлен)
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
+
+# Установите Supabase CLI
+scoop bucket add supabase https://github.com/supabase/scoop-bucket.git
+scoop install supabase
+```
+
+**Вариант 3: Скачать бинарный файл**
+Скачайте готовый .exe файл с [GitHub Releases](https://github.com/supabase/cli/releases)
 
 ### 2.2 Инициализация проекта
 ```bash
 # Перейдите в директорию проекта
 cd d:\DEV\berliner-pub-vibes
 
-# Войдите в Supabase CLI
-supabase login
+# Войдите в Supabase CLI (используйте npx если не устанавливали CLI)
+npx supabase login
+# или если установили через Scoop:
+# supabase login
 
 # Свяжите проект с удаленным Supabase проектом
-supabase link --project-ref [your-project-ref]
+npx supabase link --project-ref [your-project-ref]
+# или: supabase link --project-ref [your-project-ref]
 ```
 
 ### 2.3 Применение миграций
@@ -60,7 +86,8 @@ supabase link --project-ref [your-project-ref]
 
 ```bash
 # Применить все миграции на production базу
-supabase db push
+npx supabase db push
+# или: supabase db push
 ```
 
 **Важно**: Миграции будут применены в алфавитном порядке по timestamp в имени файла.
@@ -181,19 +208,19 @@ USING (bucket_id = 'pub-images');
 ### 5.1 Деплой News API функции
 ```bash
 # Деплой функции news-api
-supabase functions deploy news-api
+npx supabase functions deploy news-api
 
 # Установите секреты для API ключа новостей (если используется)
-supabase secrets set NEWS_API_KEY=your_news_api_key_here
+npx supabase secrets set NEWS_API_KEY=your_news_api_key_here
 ```
 
 ### 5.2 Деплой Generate Beer Image функции
 ```bash
 # Деплой функции generate-beer-image
-supabase functions deploy generate-beer-image
+npx supabase functions deploy generate-beer-image
 
 # Установите OpenAI API ключ
-supabase secrets set OPENAI_API_KEY=your_openai_api_key_here
+npx supabase secrets set OPENAI_API_KEY=your_openai_api_key_here
 ```
 
 ### 5.3 Проверка функций
@@ -308,7 +335,7 @@ VALUES
 # Загрузите их в новый Storage bucket
 
 # Или используйте Supabase CLI:
-supabase storage cp supabase://old-project/pub-images/* supabase://new-project/pub-images/
+npx supabase storage cp supabase://old-project/pub-images/* supabase://new-project/pub-images/
 ```
 
 ---
@@ -482,16 +509,16 @@ Authenticated requests: 1000 per minute
 ### Полезные команды CLI
 ```bash
 # Проверка статуса проекта
-supabase status
+npx supabase status
 
 # Просмотр логов Edge Functions
-supabase functions logs news-api
+npx supabase functions logs news-api
 
 # Сброс базы данных (ОСТОРОЖНО!)
-supabase db reset
+npx supabase db reset
 
 # Создание новой миграции
-supabase migration new migration_name
+npx supabase migration new migration_name
 ```
 
 ---

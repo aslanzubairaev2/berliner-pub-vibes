@@ -2,7 +2,18 @@
   "permissions": {
     "allow": [
       "Bash(git rm:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(scoop:*)",
+      "Bash(npx supabase login --token -)",
+      "Bash(npx supabase@latest login:*)",
+      "Bash(npx supabase:*)",
+      "Bash(for migration in 20250906213644 20250906225141 20250906225208 20250906225448 20250907013207 20250907013231 20250907014054 20250907014200 20251027225919 20251027233340 20251103023136 20251105215717 20251115154304 20251119000000)",
+      "Bash(do npx supabase migration repair --status applied $migration)",
+      "Bash(done)",
+      "Bash(cat:*)",
+      "Bash(/d/DEV/berliner-pub-vibes/combined_migrations_part1.sql)",
+      "Bash(/d/DEV/berliner-pub-vibes/combined_migrations.sql)"
     ],
     "deny": [],
     "ask": []
