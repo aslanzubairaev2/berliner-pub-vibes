@@ -115,3 +115,16 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
   Order allow,deny
   Deny from all
 </FilesMatch>
+
+# Дополнительная защита для .env файлов
+<Files ".env">
+  Require all denied
+</Files>
+
+<Files ".env.local">
+  Require all denied
+</Files>
+
+<Files ".env.production">
+  Require all denied
+</Files>
