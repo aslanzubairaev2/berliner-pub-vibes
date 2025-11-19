@@ -81,40 +81,59 @@ const AdminNews = () => {
   const handleSave = async () => {
     try {
       // Validate required fields
-      if (!formData.title_de || !formData.title_en || !formData.excerpt_de || !formData.excerpt_en || 
+      if (!formData.title_de || !formData.title_en || !formData.excerpt_de || !formData.excerpt_en ||
           !formData.content_de || !formData.content_en) {
         toast.error('Please fill in all required fields');
         return;
       }
 
+      const adminToken = localStorage.getItem('admin_session_token');
+      if (!adminToken) {
+        toast.error('Admin session not found. Please login again.');
+        return;
+      }
+
       const slug = formData.slug || generateSlug(formData.title_en || formData.title_de || '');
-      const dataToSave = {
-        title_de: formData.title_de,
-        title_en: formData.title_en,
-        excerpt_de: formData.excerpt_de,
-        excerpt_en: formData.excerpt_en,
-        content_de: formData.content_de,
-        content_en: formData.content_en,
-        category: formData.category as 'menu' | 'events' | 'general',
-        image_url: formData.image_url || null,
-        is_published: formData.is_published ?? false,
-        read_time: formData.read_time || 5,
-        slug,
-        published_at: formData.is_published && !editingNews?.is_published ? new Date().toISOString() : editingNews?.published_at
-      };
+      const published_at = formData.is_published && !editingNews?.is_published
+        ? new Date().toISOString()
+        : editingNews?.published_at || null;
 
       if (editingNews) {
-        const { error } = await supabase
-          .from('news')
-          .update(dataToSave)
-          .eq('id', editingNews.id);
+        const { error } = await supabase.rpc('update_news', {
+          admin_token: adminToken,
+          p_news_id: editingNews.id,
+          p_title_de: formData.title_de,
+          p_title_en: formData.title_en,
+          p_excerpt_de: formData.excerpt_de,
+          p_excerpt_en: formData.excerpt_en,
+          p_content_de: formData.content_de,
+          p_content_en: formData.content_en,
+          p_category: formData.category,
+          p_image_url: formData.image_url || null,
+          p_is_published: formData.is_published ?? false,
+          p_read_time: formData.read_time || 5,
+          p_slug: slug,
+          p_published_at: published_at
+        });
 
         if (error) throw error;
         toast.success('News updated');
       } else {
-        const { error } = await supabase
-          .from('news')
-          .insert([dataToSave]);
+        const { error } = await supabase.rpc('create_news', {
+          admin_token: adminToken,
+          p_title_de: formData.title_de,
+          p_title_en: formData.title_en,
+          p_excerpt_de: formData.excerpt_de,
+          p_excerpt_en: formData.excerpt_en,
+          p_content_de: formData.content_de,
+          p_content_en: formData.content_en,
+          p_category: formData.category,
+          p_image_url: formData.image_url || null,
+          p_is_published: formData.is_published ?? false,
+          p_read_time: formData.read_time || 5,
+          p_slug: slug,
+          p_published_at: published_at
+        });
 
         if (error) throw error;
         toast.success('News added');
@@ -140,10 +159,16 @@ const AdminNews = () => {
     if (!confirm('Are you sure you want to delete this news?')) return;
 
     try {
-      const { error } = await supabase
-        .from('news')
-        .delete()
-        .eq('id', id);
+      const adminToken = localStorage.getItem('admin_session_token');
+      if (!adminToken) {
+        toast.error('Admin session not found. Please login again.');
+        return;
+      }
+
+      const { error } = await supabase.rpc('delete_news', {
+        admin_token: adminToken,
+        p_news_id: id
+      });
 
       if (error) throw error;
       toast.success('News deleted');
@@ -156,18 +181,38 @@ const AdminNews = () => {
 
   const togglePublished = async (id: string, isPublished: boolean) => {
     try {
-      const updateData: any = { 
-        is_published: !isPublished 
-      };
-      
-      if (!isPublished) {
-        updateData.published_at = new Date().toISOString();
+      const adminToken = localStorage.getItem('admin_session_token');
+      if (!adminToken) {
+        toast.error('Admin session not found. Please login again.');
+        return;
       }
 
-      const { error } = await supabase
-        .from('news')
-        .update(updateData)
-        .eq('id', id);
+      // Find the news item to get all required fields
+      const newsItem = news.find(n => n.id === id);
+      if (!newsItem) {
+        toast.error('News item not found');
+        return;
+      }
+
+      const newPublishedState = !isPublished;
+      const published_at = newPublishedState ? new Date().toISOString() : newsItem.published_at;
+
+      const { error } = await supabase.rpc('update_news', {
+        admin_token: adminToken,
+        p_news_id: id,
+        p_title_de: newsItem.title_de,
+        p_title_en: newsItem.title_en,
+        p_excerpt_de: newsItem.excerpt_de,
+        p_excerpt_en: newsItem.excerpt_en,
+        p_content_de: newsItem.content_de,
+        p_content_en: newsItem.content_en,
+        p_category: newsItem.category,
+        p_image_url: newsItem.image_url,
+        p_is_published: newPublishedState,
+        p_read_time: newsItem.read_time || 5,
+        p_slug: newsItem.slug,
+        p_published_at: published_at
+      });
 
       if (error) throw error;
       toast.success(isPublished ? 'News unpublished' : 'News published');
