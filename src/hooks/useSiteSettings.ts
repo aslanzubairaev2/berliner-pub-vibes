@@ -23,13 +23,13 @@ export const useSiteSettings = () => {
         .select('*');
 
       if (error) throw error;
-      
+
       // Convert array to object with key as index
       const settingsObj = (data || []).reduce((acc, setting) => {
         acc[setting.key] = setting;
         return acc;
       }, {} as Record<string, SiteSetting>);
-      
+
       setSettings(settingsObj);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Error fetching settings');
@@ -40,6 +40,29 @@ export const useSiteSettings = () => {
 
   useEffect(() => {
     fetchSettings();
+
+    // Subscribe to realtime changes
+    const channel = supabase
+      .channel('site_settings_changes')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'site_settings'
+        },
+        (payload) => {
+          console.log('Site settings changed:', payload);
+          // Refetch all settings when any change occurs
+          fetchSettings();
+        }
+      )
+      .subscribe();
+
+    // Cleanup subscription on unmount
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, []);
 
   const getSetting = (key: string, language: 'de' | 'en' = 'de') => {

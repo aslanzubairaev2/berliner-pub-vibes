@@ -68,28 +68,60 @@ const AdminSettings = () => {
         return;
       }
 
-      const dataToSave = {
-        key: formData.key,
-        value_de: formData.value_de || '',
-        value_en: formData.value_en || '',
-        setting_type: formData.setting_type || 'text',
-        description: formData.description || ''
-      };
+      const token = localStorage.getItem('admin_session_token');
+      if (!token) {
+        toast.error('Session expired. Please login again.');
+        return;
+      }
 
       if (editingSetting) {
-        const { error } = await supabase
-          .from('site_settings')
-          .update(dataToSave)
-          .eq('id', editingSetting.id);
+        // Update existing setting using RPC
+        const { data, error } = await supabase.rpc('update_site_setting', {
+          token: token,
+          setting_id: editingSetting.id,
+          new_key: formData.key,
+          new_value_de: formData.value_de || '',
+          new_value_en: formData.value_en || '',
+          new_setting_type: formData.setting_type || 'text',
+          new_description: formData.description || ''
+        });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error updating setting:', error);
+          toast.error('Error updating setting');
+          return;
+        }
+
+        const result = data as { success: boolean; error?: string };
+        if (!result.success) {
+          toast.error(result.error || 'Error updating setting');
+          return;
+        }
+
         toast.success('Setting updated');
       } else {
-        const { error } = await supabase
-          .from('site_settings')
-          .insert([dataToSave]);
+        // Insert new setting using RPC
+        const { data, error } = await supabase.rpc('insert_site_setting', {
+          token: token,
+          new_key: formData.key,
+          new_value_de: formData.value_de || '',
+          new_value_en: formData.value_en || '',
+          new_setting_type: formData.setting_type || 'text',
+          new_description: formData.description || ''
+        });
 
-        if (error) throw error;
+        if (error) {
+          console.error('Error adding setting:', error);
+          toast.error('Error adding setting');
+          return;
+        }
+
+        const result = data as { success: boolean; error?: string };
+        if (!result.success) {
+          toast.error(result.error || 'Error adding setting');
+          return;
+        }
+
         toast.success('Setting added');
       }
 
@@ -113,12 +145,29 @@ const AdminSettings = () => {
     if (!confirm('Are you sure you want to delete this setting?')) return;
 
     try {
-      const { error } = await supabase
-        .from('site_settings')
-        .delete()
-        .eq('id', id);
+      const token = localStorage.getItem('admin_session_token');
+      if (!token) {
+        toast.error('Session expired. Please login again.');
+        return;
+      }
 
-      if (error) throw error;
+      const { data, error } = await supabase.rpc('delete_site_setting', {
+        token: token,
+        setting_id: id
+      });
+
+      if (error) {
+        console.error('Error deleting setting:', error);
+        toast.error('Error deleting setting');
+        return;
+      }
+
+      const result = data as { success: boolean; error?: string };
+      if (!result.success) {
+        toast.error(result.error || 'Error deleting setting');
+        return;
+      }
+
       toast.success('Setting deleted');
       fetchSettings();
     } catch (error) {

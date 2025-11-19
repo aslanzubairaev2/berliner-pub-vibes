@@ -1,11 +1,11 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { 
-  MapPin, 
-  Phone, 
-  Mail, 
-  Clock, 
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
   Navigation,
   Calendar,
   Users,
@@ -13,9 +13,11 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useSiteSettings } from "@/hooks/useSiteSettings";
 
 const Contact = () => {
   const { language, t } = useLanguage();
+  const { getSetting, loading } = useSiteSettings();
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
@@ -29,15 +31,46 @@ const Contact = () => {
     // Here would be the logic to submit the contact form
   };
 
-  const openingHours = [
-    { dayKey: "contact.monday", hours: "12:00 - 02:00" },
-    { dayKey: "contact.tuesday", hours: "12:00 - 02:00" },
-    { dayKey: "contact.wednesday", hours: "12:00 - 02:00" },
-    { dayKey: "contact.thursday", hours: "12:00 - 02:00" },
-    { dayKey: "contact.friday", hours: "12:00 - 02:00" },
-    { dayKey: "contact.saturday", hours: "12:00 - 06:00" },
-    { dayKey: "contact.sunday", hours: "12:00 - 06:00" }
-  ];
+  // Get settings from database (no fallback values)
+  const address = getSetting('address', language);
+  const phone = getSetting('phone', language);
+  const email = getSetting('email', language);
+  const emailReservations = getSetting('email_reservations', language);
+
+  // Get opening hours settings
+  const mondayFriday = getSetting('hours_monday_friday', language);
+  const saturdaySunday = getSetting('hours_saturday_sunday', language);
+
+  const openingHours = mondayFriday && saturdaySunday ? [
+    { dayKey: "contact.monday", hours: mondayFriday },
+    { dayKey: "contact.tuesday", hours: mondayFriday },
+    { dayKey: "contact.wednesday", hours: mondayFriday },
+    { dayKey: "contact.thursday", hours: mondayFriday },
+    { dayKey: "contact.friday", hours: mondayFriday },
+    { dayKey: "contact.saturday", hours: saturdaySunday },
+    { dayKey: "contact.sunday", hours: saturdaySunday }
+  ] : null;
+
+  // Show loading state while data is being fetched
+  if (loading) {
+    return (
+      <div className="min-h-screen py-20">
+        <div className="container mx-auto px-4">
+          <div className="animate-pulse space-y-8">
+            <div className="h-32 bg-muted rounded"></div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+              <div className="space-y-6">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="h-24 bg-muted rounded"></div>
+                ))}
+              </div>
+              <div className="h-96 bg-muted rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen py-20">
@@ -62,11 +95,16 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{t('contact.address')}</h3>
-                    <p className="text-muted-foreground">Ansbacher Straße 29</p>
-                    <p className="text-muted-foreground">10789 Berlin, Germany</p>
-                    <p className="text-muted-foreground text-sm mt-1">
-                      {t('common.nearKaDeWe')}
-                    </p>
+                    {address ? (
+                      <>
+                        <p className="text-muted-foreground">{address}</p>
+                        <p className="text-muted-foreground text-sm mt-1">
+                          {t('common.nearKaDeWe')}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="text-muted-foreground italic">No address available</p>
+                    )}
                   </div>
                 </div>
                 <Button variant="outline" className="w-full" onClick={() => 
@@ -86,7 +124,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{t('contact.phone')}</h3>
-                    <p className="text-muted-foreground">+49 30 123 456 789</p>
+                    <p className="text-muted-foreground">{phone || <span className="italic">No phone available</span>}</p>
                   </div>
                 </div>
               </CardContent>
@@ -100,8 +138,10 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold">{t('contact.email')}</h3>
-                    <p className="text-muted-foreground">info@berlinerpub.de</p>
-                    <p className="text-muted-foreground text-sm">reservations@berlinerpub.de</p>
+                    <p className="text-muted-foreground">{email || <span className="italic">No email available</span>}</p>
+                    {emailReservations && (
+                      <p className="text-muted-foreground text-sm">{emailReservations}</p>
+                    )}
                   </div>
                 </div>
               </CardContent>
@@ -116,14 +156,18 @@ const Contact = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-2">
-                  {openingHours.map((schedule, index) => (
-                    <div key={index} className="flex justify-between items-center">
-                      <span className="text-foreground">{t(schedule.dayKey)}</span>
-                      <span className="text-muted-foreground font-medium">{schedule.hours}</span>
-                    </div>
-                  ))}
-                </div>
+                {openingHours ? (
+                  <div className="space-y-2">
+                    {openingHours.map((schedule, index) => (
+                      <div key={index} className="flex justify-between items-center">
+                        <span className="text-foreground">{t(schedule.dayKey)}</span>
+                        <span className="text-muted-foreground font-medium">{schedule.hours}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-muted-foreground italic">No opening hours available</p>
+                )}
               </CardContent>
             </Card>
           </div>
@@ -211,10 +255,16 @@ const Contact = () => {
                 <h3 className="text-xl font-semibold mb-2">
                   {t('contact.findUs')}
                 </h3>
-                <p className="text-muted-foreground">Ansbacher Straße 29, 10789 Berlin</p>
-                <p className="text-muted-foreground text-sm">
-                  {t('common.nearKaDeWe')}
-                </p>
+                {address ? (
+                  <>
+                    <p className="text-muted-foreground">{address}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {t('common.nearKaDeWe')}
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-muted-foreground italic">No address available</p>
+                )}
                 <Button
                   variant="outline"
                   className="mt-4"
